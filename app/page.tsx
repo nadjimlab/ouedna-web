@@ -3,7 +3,6 @@ import { ArrowLeft, ArrowUpLeft, CalendarDays, Compass, Download, Heart, MapPinn
 import Image from "next/image";
 import Link from "next/link";
 import PlatformFrame from "@/components/platform/PlatformFrame";
-import HeroSection from "@/components/HeroSection";
 import PwaInstallButton from "@/components/platform/PwaInstallButton";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 
@@ -28,7 +27,23 @@ export default async function HomePage() {
   return (
     <PlatformFrame active="/">
       <main className="radical-home">
-        <HeroSection />
+        <section className="radical-hero">
+          <Image className="radical-hero__image" src="/ouedna/ouedna-hero-new.jpg" alt="واحة وادي سوف بين الكثبان والنخيل" fill priority sizes="100vw" />
+          <div className="radical-hero__veil" />
+          <div className="radical-hero__grid" />
+          <div className="radical-hero__content">
+            <div className="radical-hero__kicker"><span>01</span><i /> الدليل الرسمي لوادي سوف</div>
+            <h1>اكتشف المكان<br /><em>بطريقتك.</em></h1>
+            <p>وادنا ليس مجرد خريطة. إنه رفيق رحلتك بين الواحات، القباب، الأسواق، والقصص التي لا تظهر في الدليل التقليدي.</p>
+            <div className="radical-hero__actions">
+              <Link className="radical-button radical-button--gold" href="/explore"><Compass size={18} /> ابدأ الاستكشاف <ArrowLeft size={16} /></Link>
+              <Link className="radical-button radical-button--glass" href="/map"><MapPinned size={17} /> افتح الخريطة</Link>
+            </div>
+            <div className="radical-hero__meta"><span><i /> بيانات حية من وادنا</span><span>تطبيق Android متاح</span></div>
+          </div>
+          <div className="radical-hero__side-note"><span>WADI SOUF</span><b>قلب الصحراء<br />ينبض هنا.</b></div>
+          <div className="radical-hero__scroll"><span>مرر لاكتشاف المزيد</span><i /></div>
+        </section>
 
         <section className="radical-intro radical-wrap">
           <div className="radical-intro__index">02 <span>عن وادنا</span></div>
