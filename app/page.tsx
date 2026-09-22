@@ -1,6 +1,5 @@
-// Ouedna app home: the web counterpart of the Flutter HomePage, not a marketing-only landing page.
 import { createClient } from "@supabase/supabase-js";
-import { ArrowLeft, CalendarDays, Compass, Download, Heart, Info, MapPinned, Navigation, Plus, ShieldAlert, Sparkles, Star, Users } from "lucide-react";
+import { ArrowLeft, ArrowUpLeft, CalendarDays, Compass, Download, Heart, MapPinned, Navigation, Plus, Sparkles, Star, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import PlatformFrame from "@/components/platform/PlatformFrame";
@@ -25,5 +24,51 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const places = await getHomePlaces();
-  return <PlatformFrame active="/"><div className="app-home"><div className="app-home__container"><section className="app-home__top"><div><span className="platform-eyebrow"><i />الدليل السياحي لوادي سوف</span><h1>ابدأ رحلتك<br /><em>من هنا.</em></h1></div><p>كل ما تحتاجه لاكتشاف المعالم، تخطيط المسار، وحفظ حكايات المكان في تجربة واحدة تشبه تطبيق Ouedna.</p></section><section className="app-home__hero"><Image src="/ouedna/ouedna-hero-new.jpg" alt="واحة وادي سوف بين الكثبان والنخيل" fill priority sizes="(max-width: 900px) 100vw, 1180px" /><div className="app-home__hero-stamp"><strong>360°</strong>واحة، قبة<br />وذاكرة</div><div className="app-home__hero-content"><span className="platform-eyebrow platform-eyebrow--light"><i />مرحباً بك في وادنا</span><h2>اكتشف الوادي<br />على إيقاعك.</h2><p>استكشف المعالم القريبة، احفظ ما يعجبك، ثم افتح الخريطة لبدء طريقك.</p><div className="app-home__hero-actions"><Link className="platform-button platform-button--amber" href="/explore"><Compass size={17} /> استكشف المعالم</Link><Link className="platform-button platform-button--outline" href="/map"><MapPinned size={17} /> افتح الخريطة</Link><Link className="platform-button platform-button--outline" href="/download"><Download size={17} /> تنزيل Android</Link><PwaInstallButton compact={false} /></div></div></section><section className="app-action-grid" aria-label="اختصارات التطبيق"><Link className="app-action-card" href="/explore"><span className="app-action-card__icon"><Compass size={20} /></span><span><h3>استكشف الأماكن</h3><p>معالم قريبة وصور حقيقية.</p></span></Link><Link className="app-action-card" href="/map"><span className="app-action-card__icon"><MapPinned size={20} /></span><span><h3>الخريطة والمسار</h3><p>خطط الطريق وتتبع موقعك.</p></span></Link><Link className="app-action-card" href="/itinerary"><span className="app-action-card__icon"><CalendarDays size={20} /></span><span><h3>بوصلة الرحلة</h3><p>برنامج سريع أو يوم كامل.</p></span></Link><Link className="app-action-card" href="/guide"><span className="app-action-card__icon"><Sparkles size={20} /></span><span><h3>المساعد السياحي</h3><p>اسأل عن المكان والرحلة.</p></span></Link><Link className="app-action-card" href="/suggest-place"><span className="app-action-card__icon"><Plus size={20} /></span><span><h3>اقترح معلماً</h3><p>أضف مكاناً للمراجعة.</p></span></Link><Link className="app-action-card" href="/favorites"><span className="app-action-card__icon"><Heart size={20} /></span><span><h3>مفضلتي</h3><p>أماكن تحفظها للرحلة.</p></span></Link></section><section><div className="app-section-head"><div><span className="platform-eyebrow"><i />اختيارات من الدليل</span><h2>أماكن تستحق<br />أن تراها.</h2></div><p>المعالم المنشورة من قاعدة Ouedna الحية. افتح التفاصيل لمعرفة الموقع والصور وبدء الرحلة.</p></div>{places.length ? <div className="app-places-grid">{places.slice(0, 3).map((place) => <article className="app-place-card" key={place.id}><Link href={`/place/${place.id}`} className="app-place-card__image"><Image src={place.image} alt={place.name} fill sizes="(max-width: 520px) 100vw, 33vw" /><span className="app-place-card__tag">{place.category || "معلم سياحي"}</span></Link><div className="app-place-card__body"><h3>{place.name}</h3><p>{place.description || "تفاصيل محلية من ولاية الوادي."}</p><div className="app-place-card__meta"><span><Star size={13} fill="currentColor" /> {place.rating ? place.rating.toFixed(1) : "جديد"} · {place.municipality || "الوادي"}</span><Link href={`/place/${place.id}`}>التفاصيل <ArrowLeft size={13} /></Link></div></div></article>)}</div> : <div className="platform-empty-panel"><Compass size={28} /><h2>المعالم قيد التحميل</h2><p>افتح الاستكشاف لإعادة المحاولة عند توفر الاتصال.</p></div>}</section><div className="app-live-note"><Info size={22} /><p><strong>بيانات حية من Ouedna:</strong> المعالم والصور والتحديثات تأتي من Supabase وتظهر بعد اعتمادها من الإدارة، لتبقى تجربة الكمبيوتر والهاتف متزامنة.</p></div><section className="app-utility-grid"><article className="app-utility-card"><div><h3>خطّط يومك في سوف</h3><p>اجمع الأماكن المفضلة وافتح الخريطة لتبدأ المسار.</p></div><div className="app-utility-card__actions"><Link className="app-link-button" href="/itinerary"><Navigation size={15} /> مخطط الرحلة</Link><Link className="app-link-button" href="/community"><Users size={15} /> صوت الزوار</Link></div></article><article className="app-utility-card app-utility-card--sand"><div><h3><ShieldAlert size={17} /> أرقام النجدة</h3><p>الوصول السريع عند الحاجة.</p></div><div className="app-utility-card__actions"><a className="app-call-link" href="tel:1055">شرطة 1055</a><a className="app-call-link" href="tel:1548">درك 1548</a></div></article></section><section className="app-utility-grid"><Link className="app-utility-card app-utility-card--sand" href="/archive"><div><h3><Sparkles size={17} /> ذاكرة الوادي</h3><p>صور قديمة وحكايات من المكان.</p></div><ArrowLeft size={19} /></Link><Link className="app-utility-card" href="/community"><div><h3><Users size={17} /> شارك تجربتك</h3><p>صورة، ملاحظة، اقتراح أو سؤال.</p></div><ArrowLeft size={19} /></Link></section></div></div></PlatformFrame>;
+  return (
+    <PlatformFrame active="/">
+      <main className="radical-home">
+        <section className="radical-hero">
+          <Image className="radical-hero__image" src="/ouedna/ouedna-hero-new.jpg" alt="واحة وادي سوف بين الكثبان والنخيل" fill priority sizes="100vw" />
+          <div className="radical-hero__veil" />
+          <div className="radical-hero__grid" />
+          <div className="radical-hero__content">
+            <div className="radical-hero__kicker"><span>01</span><i /> الدليل الرسمي لوادي سوف</div>
+            <h1>اكتشف المكان<br /><em>بطريقتك.</em></h1>
+            <p>وادنا ليس مجرد خريطة. إنه رفيق رحلتك بين الواحات، القباب، الأسواق، والقصص التي لا تظهر في الدليل التقليدي.</p>
+            <div className="radical-hero__actions">
+              <Link className="radical-button radical-button--gold" href="/explore"><Compass size={18} /> ابدأ الاستكشاف <ArrowLeft size={16} /></Link>
+              <Link className="radical-button radical-button--glass" href="/map"><MapPinned size={17} /> افتح الخريطة</Link>
+            </div>
+            <div className="radical-hero__meta"><span><i /> بيانات حية من وادنا</span><span>تطبيق Android متاح</span></div>
+          </div>
+          <div className="radical-hero__side-note"><span>WADI SOUF</span><b>قلب الصحراء<br />ينبض هنا.</b></div>
+          <div className="radical-hero__scroll"><span>مرر لاكتشاف المزيد</span><i /></div>
+        </section>
+
+        <section className="radical-intro radical-wrap">
+          <div className="radical-intro__index">02 <span>عن وادنا</span></div>
+          <div className="radical-intro__statement"><span className="radical-label">رحلة تبدأ من هنا</span><h2>كل زاوية في سوف<br /><em>لها حكاية.</em></h2></div>
+          <div className="radical-intro__copy"><p>من أول خطوة على الرمل إلى آخر ضوء فوق النخيل، نرتب لك تجربة محلية حقيقية: أماكن موثوقة، مسارات واضحة، وذاكرة يحفظها أهل الوادي.</p><Link href="/about" className="radical-arrow-link">تعرف على وادنا <ArrowLeft size={15} /></Link></div>
+        </section>
+
+        <section className="radical-tools radical-wrap">
+          <div className="radical-section-head"><div><span className="radical-label">أدوات الرحلة</span><h2>خطّطها.<br /><em>عشها.</em></h2></div><p>كل ما تحتاجه لتنتقل من الفضول إلى الطريق في أقل من ثلاث خطوات.</p></div>
+          <div className="radical-tool-grid">
+            <Link href="/explore" className="radical-tool radical-tool--dark"><span className="radical-tool__number">01</span><Compass size={25} /><h3>اكتشف المعالم</h3><p>أماكن منشورة وصور حقيقية من ولاية الوادي.</p><ArrowUpLeft className="radical-tool__arrow" size={22} /></Link>
+            <Link href="/map" className="radical-tool radical-tool--image"><Image src="/ouedna/palm-oasis.jpg" alt="خريطة واحة وادي سوف" fill sizes="(max-width: 800px) 100vw, 33vw" /><span className="radical-tool__shade" /><span className="radical-tool__number">02</span><MapPinned size={25} /><h3>افتح الطريق</h3><p>خريطة تفاعلية ومسارات تبدأ من موقعك.</p><ArrowUpLeft className="radical-tool__arrow" size={22} /></Link>
+            <Link href="/itinerary" className="radical-tool radical-tool--sand"><span className="radical-tool__number">03</span><CalendarDays size={25} /><h3>ابنِ يومك</h3><p>برنامج سريع أو يوم كامل حسب وقتك واهتماماتك.</p><ArrowUpLeft className="radical-tool__arrow" size={22} /></Link>
+          </div>
+        </section>
+
+        <section className="radical-places radical-wrap">
+          <div className="radical-section-head radical-section-head--places"><div><span className="radical-label">اختيارات وادنا</span><h2>أماكن تستحق<br /><em>التوقف.</em></h2></div><Link href="/explore" className="radical-arrow-link">كل المعالم <ArrowLeft size={15} /></Link></div>
+          {places.length ? <div className="radical-place-grid">{places.slice(0, 3).map((place, index) => <article className={`radical-place-card radical-place-card--${index + 1}`} key={place.id}><Link href={`/place/${place.id}`} className="radical-place-card__media"><Image src={place.image} alt={place.name} fill sizes="(max-width: 800px) 100vw, 33vw" /><span>{place.category || "معلم سياحي"}</span></Link><div className="radical-place-card__body"><span>0{index + 1}</span><div><h3>{place.name}</h3><p>{place.municipality || "ولاية الوادي"} · <Star size={12} fill="currentColor" /> {place.rating ? place.rating.toFixed(1) : "جديد"}</p></div><Link href={`/place/${place.id}`} aria-label={`تفاصيل ${place.name}`}><ArrowLeft size={17} /></Link></div></article>)}</div> : <div className="radical-empty">المعالم قيد التحميل…</div>}
+        </section>
+
+        <section className="radical-cta radical-wrap"><div className="radical-cta__inner"><div><span className="radical-label">خذ وادنا معك</span><h2>رحلتك القادمة<br /><em>تبدأ الآن.</em></h2><p>حمّل التطبيق الرسمي أو ثبّت وادنا على هاتفك لتبقى الخريطة والقصص معك أينما ذهبت.</p><div className="radical-cta__actions"><Link className="radical-button radical-button--gold" href="/download"><Download size={17} /> تنزيل التطبيق</Link><PwaInstallButton compact={false} /></div></div><div className="radical-cta__mark"><Image src="/ouedna/ouedna-mark-new.png" alt="شعار وادنا" width={210} height={210} /><span>Ouedna<br /><b>Wadi Souf</b></span></div></div></section>
+
+        <section className="radical-footer-links radical-wrap"><Link href="/archive"><Sparkles size={18} /><span>ذاكرة الوادي</span><ArrowLeft size={15} /></Link><Link href="/community"><Users size={18} /><span>صوت الزوار</span><ArrowLeft size={15} /></Link><Link href="/suggest-place"><Plus size={18} /><span>أضف معلماً</span><ArrowLeft size={15} /></Link><Link href="/favorites"><Heart size={18} /><span>مفضلتي</span><ArrowLeft size={15} /></Link></section>
+      </main>
+    </PlatformFrame>
+  );
 }
