@@ -1,13 +1,12 @@
-import { MetadataRoute } from "next";
-import { siteConfig } from "./metadata";
+import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/api/", "/admin/", "/favorites", "/maintenance", "/_next/"],
+      userAgent: '*',
+      allow: '/',
+      disallow: ['/api/', '/_next/'], // منع أرشفة الملفات الداخلية والواجهات البرمجية
     },
-    sitemap: `${siteConfig.url}/sitemap.xml`,
-  };
+    sitemap: 'https://ouedna.myeloued.com/sitemap.xml',
+  }
 }
