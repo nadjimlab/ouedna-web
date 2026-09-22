@@ -26,6 +26,10 @@ export const metadata: Metadata = {
   title: siteTitle,
   description: siteDescription,
   applicationName: "Ouedna",
+  icons: {
+    icon: "/ouedna/ouedna-mark-new.png",
+    apple: "/ouedna/ouedna-mark-new.png",
+  },
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",

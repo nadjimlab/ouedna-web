@@ -24,7 +24,7 @@ export default function PlatformHeader({ active }: { active?: string }) {
       <header className="platform-header">
         <div className="platform-header__inner">
           <Link href="/" className="platform-brand">
-            <span className="platform-brand__mark"><img src="/ouedna/mark.svg" alt="" /></span>
+            <span className="platform-brand__mark"><img src="/ouedna/ouedna-mark-new.png" alt="" /></span>
             <span><strong>وادنا</strong><small>Ouedna · Wadi Souf</small></span>
           </Link>
           <nav className="platform-nav" aria-label={t("home")}>

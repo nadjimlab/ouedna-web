@@ -4,7 +4,7 @@ export const siteConfig = {
   description:
     "وادنا منصة سياحية ذكية لاكتشاف معالم ولاية الوادي وواحاتها وأسواقها وتراثها عبر خريطة تفاعلية متكاملة.",
   url: "https://ouedna.myeloued.com",
-  ogImage: "/ouedna/hero-oasis.jpg",
+  ogImage: "/ouedna/ouedna-hero-new.jpg",
   siteName: "وادنا Ouedna",
   locale: "ar_AR",
 };
