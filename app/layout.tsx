@@ -12,19 +12,36 @@ import "./itinerary.css";
 import "./pwa-install.css";
 import "leaflet/dist/leaflet.css";
 import PwaRuntime from "./PwaRuntime";
+import { siteConfig } from "./metadata";
 
 // Ouedna brand metadata: Arabic-first tourism gateway for El Oued, Algeria.
 const siteName = "Ouedna | وادنا";
 const siteTitle = "وادنا Ouedna | اكتشف الوادي على إيقاعك";
 const siteDescription = "وادنا هو الدليل السياحي الذكي لاكتشاف ولاية الوادي: المعالم، الواحات، الأسواق، التراث، والخرائط في تطبيق واحد.";
-const siteUrl = "https://ouedna.vercel.app";
-const panoramicOgImage = "/ouedna/hero-oasis.jpg";
+const siteUrl = siteConfig.url;
+const panoramicOgImage = siteConfig.ogImage;
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: siteTitle,
   description: siteDescription,
   applicationName: "Ouedna",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "ar_DZ",
+    url: siteUrl,
+    siteName,
+    title: siteTitle,
+    description: siteDescription,
+    images: [{ url: panoramicOgImage, width: 1600, height: 900, alt: "واحة وادي سوف - وادنا" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: [panoramicOgImage],
+  },
 };
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#0E4B42" };

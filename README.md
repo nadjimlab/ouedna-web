@@ -2,7 +2,7 @@
 
 منصة وادنا العامة لاكتشاف ولاية الوادي، الجزائر. توحّد المعالم والخرائط ومسارات الرحلات والأرشيف وتجارب الزوار ومركز تنزيل تطبيق Android ضمن تجربة عربية RTL متجاوبة.
 
-**الإنتاج:** [ouedna.vercel.app](https://ouedna.vercel.app/)
+**الإنتاج:** [ouedna.myeloued.com](https://ouedna.myeloued.com/)
 **النطاق القديم:** `souf360.vercel.app` يحوّل دائماً إلى النطاق الأساسي.
 
 ## التقنية والوظائف
@@ -36,4 +36,4 @@ pnpm lint
 NODE_ENV=production pnpm build
 ```
 
-الدفع إلى `main` يشغّل النشر الإنتاجي على Vercel. يعتمد `sitemap.xml` و`robots.txt` وcanonical على نطاق `https://ouedna.vercel.app`.
+الدفع إلى `main` يشغّل النشر الإنتاجي على Vercel. يعتمد `sitemap.xml` و`robots.txt` وcanonical على نطاق `https://ouedna.myeloued.com`.
