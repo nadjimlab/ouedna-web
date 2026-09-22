@@ -26,6 +26,12 @@ export const metadata: Metadata = {
   title: siteTitle,
   description: siteDescription,
   applicationName: "Ouedna",
+  keywords: ["وادنا", "وادي سوف", "ولاية الوادي", "السياحة في الوادي", "معالم الوادي", "Wadi Souf", "El Oued tourism"],
+  authors: [{ name: "Ouedna" }],
+  creator: "Ouedna",
+  publisher: "Ouedna",
+  category: "travel",
+  robots: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   icons: {
     icon: "/ouedna/ouedna-mark-new.png",
     apple: "/ouedna/ouedna-mark-new.png",
@@ -58,6 +64,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Noto+Kufi+Arabic:wght@100..900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" />
+        <link rel="alternate" type="application/rss+xml" title="تحديثات وادنا" href="/feed.xml" />
       </head>
       <body className="min-h-full overflow-x-hidden">
         <PwaRuntime />
