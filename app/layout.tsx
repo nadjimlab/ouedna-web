@@ -10,6 +10,7 @@ import "./archive-enhancements.css";
 import "./guide.css";
 import "./itinerary.css";
 import "./pwa-install.css";
+import "./premium-overhaul.css";
 import "leaflet/dist/leaflet.css";
 import PwaRuntime from "./PwaRuntime";
 import { siteConfig } from "./metadata";
