@@ -76,3 +76,40 @@ body { background: var(--premium-cream); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* Shared inner pages: the same app-like rhythm as the mobile product. */
+.platform-page { padding: 62px 0 100px; }
+.platform-page-hero { display: grid; grid-template-columns: 1fr .72fr; align-items: center; gap: 44px; margin-bottom: 52px; }
+.platform-page-hero h1 { color: var(--premium-ink); }
+.platform-page-hero > div:first-child > p { max-width: 520px; color: #687a73; font-size: 14px; line-height: 2; }
+.platform-page-hero__aside { overflow: hidden; border: 1px solid rgba(255,255,255,.8); border-radius: 26px; box-shadow: var(--premium-shadow); }
+.platform-page-hero__aside--image { min-height: 255px; position: relative; }
+.platform-page-hero__aside--image img { width: 100%; height: 255px; object-fit: cover; }
+.platform-page-hero__aside--image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7,50,43,.7), transparent 70%); pointer-events: none; }
+.platform-page-hero__aside--image > span { position: absolute; right: 20px; bottom: 18px; z-index: 1; color: #fff; font-size: 12px; font-weight: 800; }
+.platform-section-heading { padding-bottom: 18px; border-bottom: 1px solid var(--premium-line); }
+.platform-section-heading h2 { color: var(--premium-ink); }
+.platform-explore-toolbar { padding: 14px; border: 1px solid var(--premium-line); border-radius: 18px; background: rgba(255,255,255,.72); box-shadow: 0 10px 25px rgba(23,59,53,.05); }
+.platform-filter, .platform-explore-toolbar input { border-color: var(--premium-line); border-radius: 12px; background: #fff; }
+.platform-archive-grid, .platform-experience-list { gap: 20px; }
+.platform-archive-card, .platform-experience-card, .platform-community-panel, .platform-community-form { border-color: var(--premium-line); border-radius: 22px; box-shadow: 0 14px 34px rgba(23,59,53,.07); }
+.platform-archive-card:hover, .platform-experience-card:hover { transform: translateY(-5px); box-shadow: 0 24px 44px rgba(23,59,53,.13); }
+.platform-empty-panel, .platform-empty-state, .platform-error-state { border: 1px dashed rgba(23,59,53,.2); border-radius: 22px; background: rgba(255,255,255,.72); }
+.platform-detail-hero { border-radius: 28px; box-shadow: var(--premium-shadow); }
+.platform-detail-info, .platform-detail-location, .platform-detail-lower { border-color: var(--premium-line); border-radius: 22px; box-shadow: 0 12px 28px rgba(23,59,53,.06); }
+.platform-download-hero { border-radius: 30px; box-shadow: var(--premium-shadow); }
+.platform-download-card, .platform-download-release, .platform-install-grid article, .platform-download-safety { border-color: var(--premium-line); border-radius: 22px; box-shadow: 0 13px 30px rgba(23,59,53,.07); }
+.platform-form-section-heading { color: var(--premium-ink); }
+.platform-contribution-form input, .platform-contribution-form textarea, .platform-form-grid input, .platform-form-grid textarea, .platform-form-grid select { border-color: var(--premium-line); border-radius: 13px; background: rgba(255,255,255,.86); }
+.platform-contribution-form input:focus, .platform-contribution-form textarea:focus, .platform-form-grid input:focus, .platform-form-grid textarea:focus, .platform-form-grid select:focus { border-color: var(--premium-gold); box-shadow: 0 0 0 4px rgba(214,166,83,.14); }
+.platform-footer { max-width: 1240px; margin: 0 auto; padding: 30px 0 36px; background: transparent; }
+.platform-footer__brand { color: var(--premium-ink); font-size: 20px; }
+.platform-footer__links a:hover { color: var(--premium-gold); }
+
+@media (max-width: 900px) {
+  .platform-page { padding-top: 38px; }
+  .platform-page-hero { grid-template-columns: 1fr; gap: 26px; }
+  .platform-page-hero__aside--image { min-height: 210px; }
+  .platform-page-hero__aside--image img { height: 210px; }
+  .platform-footer { width: calc(100% - 36px); padding-bottom: 100px; }
+}
