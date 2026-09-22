@@ -113,3 +113,63 @@ body { background: var(--premium-cream); }
   .platform-page-hero__aside--image img { height: 210px; }
   .platform-footer { width: calc(100% - 36px); padding-bottom: 100px; }
 }
+
+/* Cinematic landing treatment inspired by the Ouedna mobile app welcome screen. */
+.app-home__hero { isolation: isolate; }
+.app-home__hero > img { transform: scale(1.02); transition: transform 1.2s cubic-bezier(.2,.8,.2,1); }
+.app-home__hero:hover > img { transform: scale(1.055); }
+.app-home__hero-content > * { animation: ouednaRise .7s var(--ease-out) both; }
+.app-home__hero-content > :nth-child(1) { animation-delay: .08s; }
+.app-home__hero-content > :nth-child(2) { animation-delay: .16s; }
+.app-home__hero-content > :nth-child(3) { animation-delay: .24s; }
+.app-home__hero-content > :nth-child(4) { animation-delay: .32s; }
+.app-home__hero-stamp { animation: ouednaFloat 4.8s ease-in-out infinite; }
+.app-home__hero-actions .platform-button--amber { animation: ouednaGlow 3.2s ease-in-out infinite; }
+@keyframes ouednaRise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ouednaFloat { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(-1deg); } }
+@keyframes ouednaGlow { 0%, 100% { box-shadow: 0 11px 24px rgba(212,155,69,.22); } 50% { box-shadow: 0 14px 32px rgba(212,155,69,.42); } }
+
+@media (max-width: 700px) {
+  .platform-shell:has(.app-home) { background: #201b1a; }
+  .platform-shell:has(.app-home) .platform-header { position: absolute; inset: 0 0 auto; z-index: 20; height: 88px; border: 0; background: transparent; box-shadow: none; }
+  .platform-shell:has(.app-home) .platform-header__inner { width: calc(100% - 36px); height: 88px; }
+  .platform-shell:has(.app-home) .platform-brand { margin-inline-start: auto; }
+  .platform-shell:has(.app-home) .platform-brand > span:last-child { display: none; }
+  .platform-shell:has(.app-home) .platform-brand__mark { width: 52px; height: 52px; border: 1px solid rgba(231, 190, 103, .45); border-radius: 18px; background: rgba(8, 58, 50, .84); box-shadow: 0 10px 28px rgba(0,0,0,.25); }
+  .platform-shell:has(.app-home) .platform-brand__mark img { width: 42px; height: 42px; }
+  .platform-shell:has(.app-home) .platform-header__actions { position: absolute; inset-inline-start: 0; }
+  .platform-shell:has(.app-home) .platform-header__actions .platform-icon-link,
+  .platform-shell:has(.app-home) .platform-header__actions .pwa-install-wrap,
+  .platform-shell:has(.app-home) .platform-header__actions .platform-download-link { display: none; }
+  .platform-shell:has(.app-home) .platform-language { display: inline-flex; height: 46px; padding: 0 15px; color: #fff; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; background: rgba(34, 27, 27, .28); box-shadow: 0 8px 25px rgba(0,0,0,.16); backdrop-filter: blur(12px); }
+  .platform-shell:has(.app-home) .platform-language select { color: #fff; font-size: 13px; }
+  .platform-shell:has(.app-home) .platform-mobile-nav { display: none; }
+  .app-home { min-height: 100svh; padding: 0; background: #201b1a; }
+  .app-home__container { width: 100%; }
+  .app-home__top { position: absolute; z-index: 6; inset: 122px 28px auto; display: block; padding: 0; color: #fff; pointer-events: none; }
+  .app-home__top::before { display: none; }
+  .app-home__top .platform-eyebrow { padding: 9px 17px; color: #f4c05d; border: 1px solid rgba(238, 177, 65, .95); border-radius: 999px; background: rgba(32, 25, 24, .24); font-size: 12px; }
+  .app-home__top .platform-eyebrow i { display: none; }
+  .app-home__top h1 { margin: 60px 0 0; color: #fff; font-size: clamp(42px, 13vw, 68px); line-height: 1.15; text-shadow: 0 5px 24px rgba(0,0,0,.34); }
+  .app-home__top h1 em { color: #e8aa35; font-style: normal; }
+  .app-home__top p { max-width: 355px; margin: 18px 0 0; color: rgba(255,255,255,.88); font-size: 14px; line-height: 2; text-shadow: 0 3px 13px rgba(0,0,0,.35); }
+  .app-home__hero { min-height: 100svh; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
+  .app-home__hero > img { object-position: 52% center; }
+  .app-home__hero::after { background: linear-gradient(180deg, rgba(27,20,20,.58) 0%, rgba(27,20,20,.12) 27%, rgba(27,20,20,.35) 57%, rgba(27,20,20,.94) 100%); }
+  .app-home__hero-content { position: absolute; inset: auto 28px 92px; max-width: none; }
+  .app-home__hero-content .platform-eyebrow { display: none; }
+  .app-home__hero-content h2, .app-home__hero-content p { display: none; }
+  .app-home__hero-actions { display: flex; flex-direction: column; gap: 14px; }
+  .app-home__hero-actions .platform-button, .app-home__hero-actions .pwa-install-wrap { width: 100%; min-height: 58px; }
+  .app-home__hero-actions .platform-button--amber { order: -4; color: #241b13; border-radius: 18px; background: #e8a02d; box-shadow: 0 13px 34px rgba(226, 148, 28, .34); font-size: 16px; }
+  .app-home__hero-actions .platform-button--outline { color: #fff; border-color: rgba(255,255,255,.36); border-radius: 16px; background: rgba(255,255,255,.1); backdrop-filter: blur(10px); }
+  .app-home__hero-actions .platform-button--outline:nth-child(2) { display: none; }
+  .app-home__hero-actions .pwa-install-wrap { display: block; }
+  .app-home__hero-actions .pwa-install-button { width: 100%; min-height: 42px; color: rgba(255,255,255,.86); border: 0; background: transparent; font-size: 13px; }
+  .app-home__hero-stamp { top: 150px; left: 28px; width: 62px; height: 62px; opacity: .78; }
+  .app-action-grid, .app-home > .app-home__container > section:not(.app-home__top):not(.app-home__hero) { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-home__hero > img, .app-home__hero-content > *, .app-home__hero-stamp, .app-home__hero-actions .platform-button--amber { animation: none; transition: none; }
+}
