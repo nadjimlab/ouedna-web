@@ -1,26 +1,34 @@
-import { MetadataRoute } from "next";
-import { siteConfig } from "./metadata";
+import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    { path: "", priority: 1, changeFrequency: "weekly" as const },
-    { path: "/map", priority: 0.9, changeFrequency: "weekly" as const },
-    { path: "/explore", priority: 0.9, changeFrequency: "weekly" as const },
-    { path: "/archive", priority: 0.8, changeFrequency: "weekly" as const },
-    { path: "/community", priority: 0.8, changeFrequency: "daily" as const },
-    { path: "/download", priority: 0.8, changeFrequency: "monthly" as const },
-    { path: "/suggest-place", priority: 0.6, changeFrequency: "monthly" as const },
-    { path: "/guide", priority: 0.7, changeFrequency: "weekly" as const },
-    { path: "/itinerary", priority: 0.7, changeFrequency: "weekly" as const },
-    { path: "/updates", priority: 0.5, changeFrequency: "weekly" as const },
-    { path: "/about", priority: 0.5, changeFrequency: "monthly" as const },
-    { path: "/privacy", priority: 0.3, changeFrequency: "yearly" as const },
-  ];
+  const baseUrl = 'https://ouedna.myeloued.com'
 
-  return routes.map((route) => ({
-    url: `${siteConfig.url}${route.path}`,
-    lastModified: new Date(),
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
-  }));
+  return [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/explore`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/map`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/archive`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    }
+    // ملاحظة: يمكنك لاحقاً جلب بيانات الأماكن من Supabase هنا 
+    // وإرجاع مصفوفة تتضمن روابط كل معلم بشكل ديناميكي (مثل /place/15)
+  ]
 }
