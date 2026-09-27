@@ -62,3 +62,63 @@
   .explore-category-list button{min-height:46px!important;padding-inline:14px!important}
   .explore-place-card>button:first-child>div:first-child{height:255px!important}
 }
+
+/* Active discover implementation: AppExploreClient / explore-sunset-* */
+.explore-sunset-page{position:relative;isolation:isolate;overflow:hidden;background:#faf4e9!important;color:#173f35!important}
+.explore-sunset-hero{min-height:430px!important;padding:0!important;background:#fbf1df!important;color:var(--green)!important}
+.explore-sunset-hero__image,.explore-sunset-hero__veil,.explore-sunset-hero__sun{display:none!important}
+.explore-sunset-hero__content{position:relative!important;z-index:1;display:flex!important;flex-direction:column;align-items:flex-start!important;justify-content:center!important;min-height:430px!important;padding:64px 0 78px!important;text-align:right}
+.explore-sunset-hero__content:before{content:"⌁";display:grid;place-items:center;width:84px;height:84px;margin-bottom:22px;border:1px solid #c8d7c8;border-radius:30px 30px 30px 44px;color:var(--green);background:#e5eee6;font:700 45px/1 Georgia,serif;transform:rotate(-8deg)}
+.explore-sunset-eyebrow{color:#b77a22!important;font-weight:800!important}
+.explore-sunset-eyebrow i{background:#d3932d!important}
+.explore-sunset-hero h1{margin:0 0 18px!important;color:var(--green)!important;font:900 clamp(45px,7vw,84px)/1.12 "Noto Kufi Arabic",sans-serif!important;letter-spacing:-.1em!important;text-shadow:none!important}
+.explore-sunset-hero h1 em{color:#d3932d!important;font-style:normal}
+.explore-sunset-hero p{max-width:570px!important;margin:0!important;color:#6b675e!important;font-size:clamp(15px,2vw,19px)!important;line-height:2!important}
+.explore-sunset-hero__stats{display:flex!important;gap:0!important;margin-top:35px!important;border:1px solid #e3d5bd;border-radius:20px;background:rgba(255,255,255,.86);box-shadow:0 16px 32px rgba(61,75,55,.08);overflow:hidden}
+.explore-sunset-hero__stats span{min-width:125px;padding:14px 22px!important;border-left:1px solid #eadfca;text-align:center}
+.explore-sunset-hero__stats span:last-child{border-left:0}
+.explore-sunset-hero__stats strong{display:block;color:var(--green)!important;font-size:22px!important}
+.explore-sunset-hero__stats small{color:#77746b!important}
+.explore-sunset-hero__scroll{display:none!important}
+.explore-sunset-content{position:relative;z-index:1;padding-top:78px!important;padding-bottom:95px!important}
+.explore-sunset-heading{display:flex!important;align-items:flex-end!important;justify-content:space-between!important;gap:30px;margin-bottom:34px!important}
+.explore-sunset-heading h2{margin:10px 0 12px!important;color:var(--green)!important;font:900 clamp(35px,5vw,58px)/1.2 "Noto Kufi Arabic",sans-serif!important;letter-spacing:-.08em!important}
+.explore-sunset-heading h2 em{color:#d3932d!important;font-style:normal}
+.explore-sunset-heading p{color:#77746b!important;font-size:14px!important}
+.explore-sunset-heading__badge{display:flex!important;align-items:center;gap:11px;padding:15px 18px;border:1px solid #d8e3d8;border-radius:18px;color:var(--green);background:#edf3ec!important}
+.explore-sunset-heading__badge svg{color:#d3932d}
+.explore-sunset-heading__badge span{font-size:11px;color:#77746b}
+.explore-sunset-heading__badge b{color:var(--green);font-size:14px}
+.explore-sunset-toolbar{display:flex!important;align-items:center!important;gap:12px!important;margin-bottom:24px!important}
+.explore-sunset-toolbar label{display:flex!important;align-items:center!important;gap:10px!important;flex:1;min-height:56px;padding:0 17px;border:1px solid #dfd0b5;border-radius:18px;background:#fffdf8;box-shadow:0 8px 22px rgba(61,75,55,.06)}
+.explore-sunset-toolbar label svg{color:#9b7a43;flex:0 0 auto}
+.explore-sunset-toolbar input{width:100%;border:0!important;outline:0!important;color:var(--green)!important;background:transparent!important;font:500 13px "Tajawal",sans-serif}
+.explore-sunset-toolbar input::placeholder{color:#9b978b}
+.explore-sunset-categories{display:flex!important;gap:8px!important;max-width:58%;overflow-x:auto;scrollbar-width:none}
+.explore-sunset-categories::-webkit-scrollbar{display:none}
+.explore-sunset-categories button{min-height:48px;padding:0 16px;border:1px solid #dfd0b5;border-radius:15px;color:var(--green);background:#fffdf8;font:800 11px "Tajawal",sans-serif;white-space:nowrap;cursor:pointer;transition:.2s}
+.explore-sunset-categories button:hover{border-color:#d3932d;background:#fff6e4}
+.explore-sunset-categories button.is-active{border-color:#d3932d;color:#fff;background:#d3932d;box-shadow:0 7px 16px rgba(211,147,45,.2)}
+.explore-sunset-results{display:flex!important;align-items:baseline;justify-content:space-between;gap:18px;margin-bottom:20px!important}
+.explore-sunset-results strong{color:var(--green)!important;font:900 17px "Noto Kufi Arabic",sans-serif}
+.explore-sunset-results span{color:#77746b!important;font-size:12px}
+.explore-sunset-grid{display:grid!important;grid-template-columns:repeat(3,1fr);gap:18px!important}
+.explore-sunset-card{position:relative;overflow:hidden;border:1px solid #eadfca!important;border-radius:22px!important;background:#fffdf9!important;box-shadow:0 16px 34px rgba(61,75,55,.1)!important;transition:.25s!important}
+.explore-sunset-card:hover{transform:translateY(-7px);border-color:#d3932d!important;box-shadow:0 24px 44px rgba(61,75,55,.16)!important}
+.explore-sunset-card__image{position:relative!important;display:block!important;height:260px!important;overflow:hidden;background:#e5eee6}
+.explore-sunset-card__image img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.explore-sunset-card:hover .explore-sunset-card__image img{transform:scale(1.045)}
+.explore-sunset-card__image:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(20,55,45,.7),transparent 58%);pointer-events:none}
+.explore-sunset-card__image span{position:absolute;z-index:1;top:14px;right:14px;padding:8px 11px;border:1px solid rgba(255,255,255,.45);border-radius:10px;color:#fff;background:rgba(20,63,53,.9);font-size:10px;font-weight:900}
+.explore-sunset-card__number{position:absolute;z-index:1;bottom:13px;left:15px;color:rgba(255,255,255,.75);font:700 10px "DM Sans",sans-serif;direction:ltr}
+.explore-sunset-card__favorite{position:absolute;z-index:2;top:14px;left:14px;display:grid;place-items:center;width:38px;height:38px;border:1px solid #fff;border-radius:50%;color:var(--green);background:rgba(255,255,255,.9);cursor:pointer}
+.explore-sunset-card__favorite.is-active{color:#fff;border-color:#d3932d;background:#d3932d}
+.explore-sunset-card__body{padding:18px 18px 16px!important}
+.explore-sunset-card__body h3{margin:0;color:var(--green)!important;font:900 16px/1.55 "Noto Kufi Arabic",sans-serif}
+.explore-sunset-card__body p{display:flex;align-items:center;gap:5px;margin:7px 0 15px;color:#77746b!important;font-size:11px}
+.explore-sunset-card__body>div{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid #edf0e9;color:#d3932d;font-size:11px}
+.explore-sunset-card__body>div a{display:flex;align-items:center;gap:5px;color:var(--green);font-weight:900}
+.explore-sunset-suggest,.explore-sunset-map-cta{border-color:#e3d5bd!important;background:#fffdf8!important;color:var(--green)!important}
+@media(max-width:700px){
+ .explore-sunset-hero{min-height:360px!important}.explore-sunset-hero__content{min-height:360px!important;padding:42px 0 56px!important}.explore-sunset-hero__content:before{width:72px;height:72px;font-size:38px}.explore-sunset-hero h1{font-size:clamp(43px,13vw,66px)!important}.explore-sunset-hero p{font-size:15px!important;line-height:1.9!important}.explore-sunset-hero__stats{width:100%;margin-top:28px!important}.explore-sunset-hero__stats span{min-width:0;flex:1;padding:12px 8px!important}.explore-sunset-hero__stats strong{font-size:18px!important}.explore-sunset-hero__stats small{font-size:9px}.explore-sunset-content{padding-top:56px!important}.explore-sunset-heading{display:block!important}.explore-sunset-heading__badge{width:max-content;margin-top:22px}.explore-sunset-toolbar{display:flex!important;flex-direction:column!important;align-items:stretch!important}.explore-sunset-categories{max-width:none;width:100%}.explore-sunset-results{display:block!important}.explore-sunset-results span{display:block;margin-top:7px}.explore-sunset-grid{grid-template-columns:1fr!important}.explore-sunset-card__image{height:255px!important}
+}
