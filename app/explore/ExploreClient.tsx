@@ -174,16 +174,9 @@ function DuneDivider() {
 /* ============================= الخلفية الجديدة (واحة في غروب الشمس) ============================= */
 function GhoutBackdrop() {
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 scale-105"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1548508492-4e551980894f?q=80&w=2000&auto=format&fit=crop')`,
-          backgroundAttachment: 'fixed',
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0908]/95 via-[#0a0908]/80 to-[#0a0908]" />
-      <div className="absolute inset-0 bg-[#0a0908]/60 backdrop-blur-[2px]" />
+    <div className="explore-backdrop" aria-hidden="true">
+      <div className="explore-backdrop__glow explore-backdrop__glow--one" />
+      <div className="explore-backdrop__glow explore-backdrop__glow--two" />
     </div>
   );
 }
@@ -256,7 +249,7 @@ function ExploreClientInner({ places, oldMemories, testimonials }: { places: Pla
   }, [places, activeCategory, searchQuery]);
 
   return (
-    <div dir={dir} className="relative min-h-screen bg-[#0a0908] text-white selection:bg-amber-500/30" style={{ fontFamily: "'Tajawal', 'IBM Plex Sans Arabic', sans-serif" }}>
+    <div dir={dir} className="explore-page relative min-h-screen selection:bg-amber-500/30" style={{ fontFamily: "'Tajawal', 'IBM Plex Sans Arabic', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap');
         @keyframes riseIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
@@ -273,7 +266,6 @@ function ExploreClientInner({ places, oldMemories, testimonials }: { places: Pla
       <GhoutBackdrop />
 
       <div className="relative z-10">
-        <TopNav />
         <Hero places={places} oldMemories={oldMemories} testimonials={testimonials} />
         <DuneDivider />
 
@@ -345,7 +337,7 @@ function Hero({ places, oldMemories, testimonials }: { places: Place[]; oldMemor
   ];
 
   return (
-    <header className="relative w-full overflow-hidden">
+    <header className="explore-hero relative w-full overflow-hidden">
       <div className="relative h-[46vh] sm:h-[56vh] min-h-[360px] max-h-[560px] w-full">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=2000&auto=format&fit=crop')` }} />
         <div className="absolute inset-0 bg-gradient-to-b from-orange-950/60 via-black/30 to-[#0a0908]" />
@@ -394,7 +386,7 @@ function PlaceCard({ place, isFav, onOpen, onToggleFavorite, onShowOnMap }: { pl
   const category = useAutoTranslate(place.category);
 
   return (
-    <div className="group relative rounded-[1.5rem] overflow-hidden border border-white/5 bg-[#15120e] shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1 hover:border-amber-500/20 transition-all duration-300">
+    <div className="explore-place-card group relative rounded-[1.5rem] overflow-hidden border shadow-lg hover:-translate-y-1 transition-all duration-300">
       <button onClick={onOpen} className="block w-full text-start" aria-label={name}>
         <div className="relative h-48">
           <img
@@ -446,11 +438,11 @@ function LandmarksSection({ places, totalCount, categories, activeCategory, onCa
   const router = useRouter();
   const { t } = useLanguage();
   return (
-    <section>
+    <section className="explore-landmarks">
       <div className="flex items-center justify-between gap-3 flex-wrap mb-5">
         <SectionEyebrow icon={MapPin} eyebrow={t('destinationsEyebrow')} title={t('discoverLandmarks')} subtitle={`${t('landmarksSubtitle')} (${totalCount})`} />
       </div>
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      <div className="explore-tools flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
           <Search className="absolute start-3.5 top-1/2 -translate-y-1/2 text-stone-500" size={16} />
           <input
@@ -461,7 +453,7 @@ function LandmarksSection({ places, totalCount, categories, activeCategory, onCa
           />
         </div>
         {categories.length > 1 && (
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+          <div className="explore-category-list flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
             {categories.map((cat: string) => (
               <CategoryButton key={cat} cat={cat} active={activeCategory === cat} onClick={() => onCategoryChange(cat)} />
             ))}

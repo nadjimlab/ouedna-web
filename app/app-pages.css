@@ -1,3 +1,64 @@
 
 .explore-sunset-error{display:flex;align-items:center;gap:16px;margin-top:20px;padding:24px;border:1px solid #e5cfa4;border-radius:18px;color:var(--green);background:#fffaf4}.explore-sunset-error>svg{flex:0 0 auto;color:#bd8b38}.explore-sunset-error h2{margin:0;font:900 17px "Noto Kufi Arabic",sans-serif}.explore-sunset-error p{margin:5px 0 0;color:var(--muted);font-size:12px}.explore-sunset-error button{margin-inline-start:auto;flex:0 0 auto;min-height:40px;padding:0 14px;border:0;border-radius:10px;color:#2b261c;background:#e3b75f;font:800 11px "Noto Kufi Arabic",sans-serif;cursor:pointer}
 @media(max-width:520px){.explore-sunset-error{align-items:flex-start;flex-wrap:wrap}.explore-sunset-error button{width:100%;margin-inline-start:0}}
+
+/* Discover page: warm editorial catalogue inspired by the Ouedna brand. */
+.explore-page{position:relative;isolation:isolate;overflow:hidden;background:#faf4e9!important;color:#173f35!important}
+.explore-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#faf4e9}
+.explore-backdrop__glow{position:absolute;width:42vw;height:42vw;border-radius:50%;filter:blur(10px);opacity:.55}
+.explore-backdrop__glow--one{top:18%;right:-18%;background:#f2dcae}
+.explore-backdrop__glow--two{bottom:-20%;left:-16%;background:#dbe9df}
+.explore-page>div.relative.z-10{position:relative;z-index:1}
+.explore-hero{color:var(--green)!important}
+.explore-hero>div:first-child{height:auto!important;min-height:380px;max-height:none!important;padding:62px 0 74px;background:#fbf1df!important}
+.explore-hero>div:first-child>div:first-child{display:none}
+.explore-hero>div:first-child>div:nth-child(2),.explore-hero>div:first-child>div:nth-child(3),.explore-hero>div:first-child>div:nth-child(4){display:none}
+.explore-hero>div:first-child>div:last-child{position:relative!important;height:auto!important;max-width:720px!important;margin-inline:auto;padding:0 24px;align-items:flex-start!important;justify-content:center!important;text-align:right}
+.explore-hero>div:first-child>div:last-child:before{content:"⌁";display:grid;place-items:center;width:84px;height:84px;margin-bottom:24px;border:1px solid #c8d7c8;border-radius:30px 30px 30px 44px;color:var(--green);background:#e5eee6;font:700 45px/1 Georgia,serif;transform:rotate(-8deg)}
+.explore-hero h1{max-width:650px!important;margin:0 0 18px!important;color:var(--green)!important;font:900 clamp(42px,7vw,86px)/1.12 "Noto Kufi Arabic",sans-serif!important;letter-spacing:-.1em!important;text-shadow:none!important}
+.explore-hero h1 span{color:#d3932d!important}
+.explore-hero p{max-width:560px!important;margin:0!important;color:#6b675e!important;font:500 clamp(15px,2vw,20px)/2 "Tajawal",sans-serif!important}
+.explore-hero>div:nth-child(2){position:relative!important;margin-top:-24px!important}
+.explore-hero>div:nth-child(2)>div{border:1px solid #e3d5bd!important;border-radius:22px!important;background:rgba(255,255,255,.88)!important;box-shadow:0 18px 40px rgba(61,75,55,.1)!important;backdrop-filter:blur(14px)}
+.explore-hero>div:nth-child(2)>div>div{color:var(--green)!important;border-color:#eadfca!important}
+.explore-hero>div:nth-child(2) span{color:var(--green)!important}
+.explore-hero>div:nth-child(2) svg{color:#d3932d!important}
+.explore-hero>div:nth-child(2) span:last-child{color:#c48625!important}
+.explore-page .max-w-5xl.mx-auto.px-4.sm\:px-6.pt-10{padding-top:78px!important}
+.explore-landmarks{position:relative}
+.explore-landmarks h2{color:var(--green)!important}
+.explore-landmarks .text-stone-400,.explore-landmarks .text-stone-500{color:#77746b!important}
+.explore-tools>div:first-child{flex:1 1 260px}
+.explore-tools input{min-height:56px!important;border:1px solid #dfd0b5!important;border-radius:18px!important;color:var(--green)!important;background:#fffdf8!important;box-shadow:0 8px 22px rgba(61,75,55,.06)}
+.explore-tools input:focus{border-color:#d3932d!important;box-shadow:0 0 0 4px rgba(211,147,45,.14)!important}
+.explore-tools input::placeholder{color:#9b978b!important}
+.explore-tools svg{color:#9b7a43!important}
+.explore-category-list{scrollbar-width:none}
+.explore-category-list::-webkit-scrollbar{display:none}
+.explore-category-list button{min-height:48px!important;padding-inline:17px!important;border:1px solid #dfd0b5!important;border-radius:15px!important;color:var(--green)!important;background:#fffdf8!important}
+.explore-category-list button:hover{border-color:#d3932d!important;background:#fff6e4!important}
+.explore-category-list button.bg-amber-500{color:#fff!important;border-color:#d3932d!important;background:#d3932d!important}
+.explore-place-card{border-color:#eadfca!important;background:#fffdf9!important;box-shadow:0 16px 34px rgba(61,75,55,.1)!important}
+.explore-place-card:hover{border-color:#d3932d!important;box-shadow:0 24px 44px rgba(61,75,55,.16)!important}
+.explore-place-card>button:first-child>div:first-child{height:270px!important}
+.explore-place-card>button:first-child>div:first-child>div{background:linear-gradient(0deg,rgba(20,55,45,.72),transparent 58%)!important}
+.explore-place-card h3{color:var(--green)!important}
+.explore-place-card p{color:#77746b!important}
+.explore-place-card .bg-black\/40{color:#fff!important;background:rgba(20,63,53,.88)!important;border-color:rgba(255,255,255,.4)!important}
+.explore-place-card .bg-white\/5{color:var(--green)!important;border-color:#eadfca!important;background:#f5f0e6!important}
+.explore-place-card .group-hover\:bg-amber-500:hover{color:#fff!important;background:#d3932d!important}
+.explore-place-card .text-white{color:var(--green)!important}
+.explore-place-card .text-stone-300{color:#77746b!important}
+.explore-place-card>button.absolute{color:var(--green)!important;border-color:#fff!important;background:rgba(255,255,255,.9)!important}
+@media(max-width:700px){
+  .explore-hero>div:first-child{min-height:335px;padding:42px 0 56px}
+  .explore-hero>div:first-child>div:last-child{padding:0 22px}
+  .explore-hero>div:first-child>div:last-child:before{width:72px;height:72px;margin-bottom:20px;font-size:38px}
+  .explore-hero h1{font-size:clamp(42px,13vw,66px)!important}
+  .explore-hero p{font-size:15px!important;line-height:1.9!important}
+  .explore-page .max-w-5xl.mx-auto.px-4.sm\:px-6.pt-10{padding-top:56px!important}
+  .explore-tools{gap:12px!important}
+  .explore-category-list{width:calc(100vw - 34px);margin-inline:-2px;padding-bottom:4px}
+  .explore-category-list button{min-height:46px!important;padding-inline:14px!important}
+  .explore-place-card>button:first-child>div:first-child{height:255px!important}
+}
