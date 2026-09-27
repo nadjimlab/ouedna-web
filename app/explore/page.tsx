@@ -27,12 +27,13 @@ export default async function ExplorePage() {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const { data, error } = await supabase
       .from("places")
-      .select("id,name,description,category,main_category,municipality,address,image_url,rating,lat,lng")
+      // The public schema uses main_category; category is not a column in places.
+      .select("id,name,description,main_category,municipality,address,image_url,rating,lat,lng")
       .eq("status", "منشور")
       .order("created_at", { ascending: false })
       .limit(60);
     if (error) throw error;
-    return (data ?? []).map((place) => ({ ...place, category: place.category || place.main_category, municipality: place.municipality || place.address }));
+    return (data ?? []).map((place) => ({ ...place, category: place.main_category, municipality: place.municipality || place.address }));
   };
 
   let places = [];
