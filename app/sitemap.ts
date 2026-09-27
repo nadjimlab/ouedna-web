@@ -1,61 +1,52 @@
-import { MetadataRoute } from 'next'
-import { createClient } from '@supabase/supabase-js'
+import type { MetadataRoute } from "next";
+import { createClient } from "@supabase/supabase-js";
+import { siteConfig } from "@/app/metadata";
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 
-// تهيئة عميل Supabase باستخدام متغيرات البيئة
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
+export const revalidate = 3600;
+
+const publicRoutes = [
+  ["/explore", "daily", 1],
+  ["/map", "weekly", 0.8],
+  ["/archive", "weekly", 0.7],
+  ["/community", "weekly", 0.6],
+  ["/about", "monthly", 0.5],
+  ["/download", "monthly", 0.5],
+  ["/guide", "monthly", 0.5],
+  ["/itinerary", "monthly", 0.5],
+  ["/privacy", "yearly", 0.2],
+  ["/suggest-place", "monthly", 0.4],
+  ["/updates", "weekly", 0.4],
+] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://ouedna.myeloued.com'
+  const now = new Date();
+  const staticRoutes: MetadataRoute.Sitemap = publicRoutes.map(([path, changeFrequency, priority]) => ({
+    url: `${siteConfig.url}${path}`,
+    lastModified: now,
+    changeFrequency,
+    priority,
+  }));
 
-  // 1. الروابط الثابتة للموقع
-  const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/explore`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/map`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/archive`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    }
-  ]
-
-  // 2. جلب الروابط الديناميكية من Supabase
-  // استبدل 'places' باسم الجدول الفعلي لديك، و 'id' باسم عمود المُعرّف
-  const { data: places, error } = await supabase
-    .from('places')
-    .select('id, created_at') 
-    // .eq('status', 'approved') // يمكنك إزالة التعليق لجلب الأماكن المعتمدة فقط
-
-  let dynamicRoutes: MetadataRoute.Sitemap = []
-
-  if (places && !error) {
-    dynamicRoutes = places.map((place) => ({
-      url: `${baseUrl}/place/${place.id}`,
-      // إذا كان لديك عمود لتاريخ التحديث، يفضل استخدامه بدلاً من تاريخ الإنشاء
-      lastModified: place.created_at ? new Date(place.created_at) : new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    }))
+  try {
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const { data: places, error } = await supabase
+      .from("places")
+      .select("id,created_at")
+      .eq("status", "منشور")
+      .order("id", { ascending: false })
+      .limit(5000);
+    if (error || !places) return staticRoutes;
+    return [
+      ...staticRoutes,
+      ...places.map((place) => ({
+        url: `${siteConfig.url}/place/${place.id}`,
+        lastModified: place.created_at ? new Date(place.created_at) : now,
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      })),
+    ];
+  } catch {
+    return staticRoutes;
   }
-
-  // 3. دمج وإرجاع جميع الروابط
-  return [...staticRoutes, ...dynamicRoutes]
 }

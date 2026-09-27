@@ -17,7 +17,7 @@ import { siteConfig } from "./metadata";
 
 // Ouedna brand metadata: Arabic-first tourism gateway for El Oued, Algeria.
 const siteName = "Ouedna | وادنا";
-const siteTitle = "وادنا Ouedna | اكتشف الوادي على إيقاعك";
+const siteTitle = "وادنا Ouedna | اكتشف وادي سوف على إيقاعك";
 const siteDescription = "وادنا هو الدليل السياحي الذكي لاكتشاف ولاية الوادي: المعالم، الواحات، الأسواق، التراث، والخرائط في تطبيق واحد.";
 const siteUrl = siteConfig.url;
 const panoramicOgImage = siteConfig.ogImage;
@@ -32,12 +32,12 @@ export const metadata: Metadata = {
   creator: "Ouedna",
   publisher: "Ouedna",
   category: "travel",
-  robots: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  robots: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   icons: {
     icon: "/ouedna/ouedna-mark-new.png",
     apple: "/ouedna/ouedna-mark-new.png",
   },
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/explore", languages: { "ar-DZ": "/explore", "fr-FR": "/explore?lang=fr", "en-US": "/explore?lang=en" } },
   openGraph: {
     type: "website",
     locale: "ar_DZ",

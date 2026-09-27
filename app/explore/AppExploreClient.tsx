@@ -12,7 +12,7 @@ function imageFor(value: unknown) {
   return "";
 }
 
-export default function AppExploreClient({ places }: { places: Place[] }) {
+export default function AppExploreClient({ places, dataError = "" }: { places: Place[]; dataError?: string }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("الكل");
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -61,7 +61,7 @@ export default function AppExploreClient({ places }: { places: Place[] }) {
         <div className="explore-sunset-toolbar"><label><Search size={17} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث عن معلم، سوق، واحة..." /></label><div className="explore-sunset-categories">{categories.map((item) => <button key={item} type="button" className={category === item ? "is-active" : ""} onClick={() => setCategory(item)}>{item}</button>)}</div></div>
         <div className="explore-sunset-results"><strong>{filtered.length} معلم متاح</strong><span>الأماكن المنشورة والمعتمدة في منصة وادنا</span></div>
 
-        {filtered.length ? <div className="explore-sunset-grid">{filtered.map((place, index) => {
+        {dataError ? <div className="explore-sunset-error" role="alert"><Search size={26} /><div><h2>تعذر تحميل الأماكن</h2><p>{dataError}</p></div><button type="button" onClick={() => window.location.reload()}>إعادة المحاولة</button></div> : filtered.length ? <div className="explore-sunset-grid">{filtered.map((place, index) => {
           const image = imageFor(place.image_url) || "/ouedna/local-architecture.webp";
           const saved = favorites.includes(String(place.id));
           return <article className={`explore-sunset-card explore-sunset-card--${(index % 3) + 1}`} key={place.id}>

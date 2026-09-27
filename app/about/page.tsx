@@ -3,10 +3,11 @@ import Link from "next/link";
 import { Compass, Mail, MapPin, Target, Users } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "من نحن | سوف 360",
+  title: "من نحن | وادنا Ouedna",
   description:
-    "تعرّف على منصة اكتشف سوف، دليلك السياحي الرقمي لاستكشاف معالم ولاية الوادي — رؤيتنا، أهدافنا، وكيفية التواصل معنا.",
+    "تعرّف على وادنا، المنصة السياحية الرقمية لاكتشاف معالم واحات وتراث ولاية الوادي.",
   alternates: { canonical: "/about" },
+  openGraph: { title: "من نحن | وادنا Ouedna", description: "رؤية وادنا لدعم اكتشاف السياحة المحلية في وادي سوف.", url: "https://ouedna.myeloued.com/about" },
 };
 
 export default function AboutPage() {
@@ -25,7 +26,7 @@ export default function AboutPage() {
         </div>
 
         <p className="text-gray-300 leading-relaxed mb-8">
-          اكتسف سوف هي منصة رقمية مستقلة تهدف إلى تعريف الزوار والمقيمين بمعالم ولاية الوادي
+          وادنا هي منصة رقمية مستقلة تهدف إلى تعريف الزوار والمقيمين بمعالم ولاية الوادي
           السياحية والتراثية عبر خريطة تفاعلية حديثة، مع معلومات عملية عن كل موقع
           (الوصول، ساعات العمل، وسائل التواصل). المنصة في طور التطوير المستمر تمهيداً
           لتقديمها لمديرية السياحة بولاية الوادي كأداة رسمية داعمة للترويج السياحي بالمنطقة.
