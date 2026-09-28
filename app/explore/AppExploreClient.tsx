@@ -3,6 +3,7 @@
 import { Compass, Heart, MapPin, Search, Star, ArrowLeft, MapPinned, Sparkles, View } from "lucide-react";
 import Link from "next/link";
 import DesertScene from "@/components/platform/DesertScene";
+import LandmarkFrame from "@/components/platform/LandmarkFrame";
 import { useMemo, useState } from "react";
 
 type Place = { id: string | number; name?: string; category?: string; description?: string; image_url?: unknown; municipality?: string; lat?: number; lng?: number; rating?: number; virtual_tour_url?: string | null };
@@ -72,7 +73,7 @@ export default function AppExploreClient({ places, dataError = "" }: { places: P
           const image = imageFor(place.image_url) || "/ouedna/local-architecture.webp";
           const saved = favorites.includes(String(place.id));
           return <article className={`explore-sunset-card explore-sunset-card--${(index % 3) + 1}`} key={place.id}>
-            <Link href={`/place/${place.id}`} className="explore-sunset-card__image"><img src={image} alt={place.name || "معلم من وادي سوف"} onError={(event) => { event.currentTarget.src = "/ouedna/local-architecture.webp"; }} /><span>{place.category || "معلم سياحي"}</span><div className="explore-sunset-card__number">0{index + 1}</div>{place.virtual_tour_url ? <b className="pano360-badge pano360-badge--card"><View size={12} /> جولة 360°</b> : null}</Link>
+            <Link href={`/place/${place.id}`} className="explore-sunset-card__image"><LandmarkFrame src={image} alt={`${place.name || "معلم من وادي سوف"} — ${place.municipality || "ولاية الوادي"}`} category={place.category || "معلم سياحي"} tour={Boolean(place.virtual_tour_url)} index={index} /></Link>
             <button className={`explore-sunset-card__favorite${saved ? " is-active" : ""}`} type="button" aria-label={saved ? "إزالة من المفضلة" : "إضافة إلى المفضلة"} onClick={() => toggleFavorite(place.id)}><Heart size={17} fill={saved ? "currentColor" : "none"} /></button>
             <div className="explore-sunset-card__body"><Link href={`/place/${place.id}`}><h3>{place.name || "معلم من وادي سوف"}</h3></Link><p><MapPin size={14} />{place.municipality || "ولاية الوادي"}</p><div><span><Star size={13} fill="currentColor" /> {place.rating ? Number(place.rating).toFixed(1) : "جديد"}</span><Link href={`/map?placeId=${place.id}&destination=${encodeURIComponent(place.name || "")}`}>إلى الخريطة <ArrowLeft size={13} /></Link></div></div>
           </article>;
