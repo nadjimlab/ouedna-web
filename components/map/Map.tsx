@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   MapContainer,
   TileLayer,
@@ -92,7 +92,7 @@ const getCategoryStyle = (category: string): CategoryStyle => {
 };
 
 const getPhotoPinIcon = (imageUrl?: string) => {
-  const img = imageUrl || '/ouedna/local-architecture.webp';
+  const img = (imageUrl || '/ouedna/local-architecture.webp').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   return L.divIcon({
     className: 'soufmap-photo-pin',
     html: `
@@ -107,7 +107,7 @@ const getPhotoPinIcon = (imageUrl?: string) => {
         display: flex; align-items: center; justify-content: center;
         cursor: pointer;
       ">
-        <img src="${img}" style="
+          <img src="${img}" loading="lazy" alt="" onerror="this.src='/ouedna/local-architecture.webp'" style="
           width: 100%; height: 100%;
           object-fit: cover;
           border-radius: 50%;
@@ -365,12 +365,22 @@ export default function Map({
   isNavigating = false,
 }: MapProps) {
   const [routeCoordinates, setRouteCoordinates] = useState<[number, number][]>([]);
+  const routeCacheRef = useRef(new globalThis.Map<string, { coordinates: [number, number][]; info: RouteInfo }>());
 
   const defaultCenter: [number, number] = userLocation
     ? [userLocation.lat, userLocation.lng]
     : selectedPlace
     ? [selectedPlace.lat, selectedPlace.lng]
     : DEFAULT_CENTER;
+
+  const validPlaces = useMemo(
+    () => (places || []).filter((place) => Number.isFinite(place.lat) && Number.isFinite(place.lng)),
+    [places]
+  );
+  const markerIcons = useMemo(
+    () => new globalThis.Map(validPlaces.map((place) => [String(place.id), getPhotoPinIcon(place.image)])),
+    [validPlaces]
+  );
 
   const tileUrl = '/api/tiles/{z}/{x}/{y}.png';
   const tileAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
@@ -384,6 +394,15 @@ export default function Map({
         setRouteCoordinates([]);
         if (onRouteInfoCalculated) onRouteInfoCalculated(null);
         if (onRouteStatusChange) onRouteStatusChange({ loading: false, error: null });
+        return;
+      }
+
+      const cacheKey = `${userLocation.lat.toFixed(5)},${userLocation.lng.toFixed(5)}:${routeTarget.id}:${travelMode}`;
+      const cached = routeCacheRef.current.get(cacheKey);
+      if (cached) {
+        setRouteCoordinates(cached.coordinates);
+        onRouteInfoCalculated?.(cached.info);
+        onRouteStatusChange?.({ loading: false, error: null });
         return;
       }
 
@@ -405,17 +424,21 @@ export default function Map({
 
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
+        clearTimeout(timeoutId);
         if (cancelled) return;
 
-        setRouteCoordinates(data.coordinates as [number, number][]);
+        const coordinates = (Array.isArray(data.coordinates) ? data.coordinates : []) as [number, number][];
+        const info: RouteInfo = {
+          distanceKm: Number(data.distanceKm || 0),
+          durationMin: Number(data.durationMin || 0),
+          estimated: !!data.estimated,
+          steps: Array.isArray(data.steps) ? data.steps : undefined,
+        };
+        routeCacheRef.current.set(cacheKey, { coordinates, info });
+        setRouteCoordinates(coordinates);
 
         if (onRouteInfoCalculated) {
-          onRouteInfoCalculated({
-            distanceKm: data.distanceKm,
-            durationMin: data.durationMin,
-            estimated: !!data.estimated,
-            steps: Array.isArray(data.steps) ? data.steps : undefined,
-          });
+          onRouteInfoCalculated(info);
         }
         if (onRouteStatusChange) onRouteStatusChange({ loading: false, error: null });
       } catch (err) {
@@ -449,7 +472,16 @@ export default function Map({
       attributionControl={true}
     >
       <ApplyMapTheme theme={mapTheme} />
-      <TileLayer key={mapTheme} attribution={tileAttribution} url={tileUrl} subdomains={['a', 'b', 'c']} maxZoom={19} />
+      <TileLayer
+        key={mapTheme}
+        attribution={tileAttribution}
+        url={tileUrl}
+        subdomains={['a', 'b', 'c']}
+        maxZoom={19}
+        updateWhenIdle
+        updateWhenZooming={false}
+        keepBuffer={2}
+      />
 
       <ResizeHandler />
       <FollowOrFit
@@ -497,13 +529,13 @@ export default function Map({
       )}
 
       {/* بقية المعالم على الخريطة مع دبابيس الصور الاحترافية */}
-      {places
+      {validPlaces
         .filter((p) => !routeTarget || p.id !== routeTarget.id)
         .map((place) => (
-          <Marker
+        <Marker
             key={place.id}
             position={[place.lat, place.lng]}
-            icon={getPhotoPinIcon(place.image)}
+            icon={markerIcons.get(String(place.id))!}
             eventHandlers={{
               click: () => onSelectPlace(place),
             }}

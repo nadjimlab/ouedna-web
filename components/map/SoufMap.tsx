@@ -35,6 +35,7 @@ import {
   ChevronUp,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { Place } from '@/data/places';
 import { RouteInfo, RouteStep } from './Map';
 import { useLanguage, DictKey } from '@/lib/i18n';
@@ -184,7 +185,7 @@ function SoufMapInner({
     const q = searchQuery.trim().toLowerCase();
     if (!q) return [];
     return (places || [])
-      .filter((p) => p.name.toLowerCase().includes(q) || p.municipality?.toLowerCase().includes(q))
+      .filter((p) => `${p.name} ${p.municipality || ''} ${p.category || ''} ${p.description || ''}`.toLowerCase().includes(q))
       .slice(0, 6);
   }, [places, searchQuery]);
 
@@ -224,21 +225,6 @@ function SoufMapInner({
     };
   }, [isNavigating]);
 
-  // تفعيل GPS عالي الدقة فور تحميل الخريطة وتحديثه باستمرار ليتطابق مع دقة التطبيق
-  useEffect(() => {
-    if (!navigator.geolocation) return;
-    const watchId = navigator.geolocation.watchPosition(
-      (pos) => {
-        if (pos.coords.accuracy <= 100) {
-          setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-        }
-      },
-      (err) => console.log('GPS watch info:', err.message),
-      { enableHighAccuracy: true, maximumAge: 3000, timeout: 10000 }
-    );
-    return () => navigator.geolocation.clearWatch(watchId);
-  }, []);
-
   const handleLocateUser = () => {
     if (!navigator.geolocation) {
       setUserLocation({ lat: 33.3683, lng: 6.8667 });
@@ -263,7 +249,7 @@ function SoufMapInner({
           { enableHighAccuracy: false, timeout: 7000 }
         );
       },
-      { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+      { enableHighAccuracy: true, maximumAge: 15000, timeout: 7000 }
     );
   };
 
@@ -348,13 +334,13 @@ function SoufMapInner({
         <div className="flex items-center justify-between gap-3 px-3 sm:px-5 py-2.5">
           {/* الشعار + شريط البحث */}
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            <a href="/" className="flex items-center gap-2 shrink-0">
+            <Link href="/" className="flex items-center gap-2 shrink-0">
               <span className="text-xl sm:text-2xl">🌴</span>
               <span className="hidden sm:flex flex-col leading-tight">
                 <span className="font-black text-sm sm:text-base text-white">سوف 360</span>
                 <span className="text-[9px] sm:text-[10px] text-gray-400 -mt-0.5">{t('brandTagline')}</span>
               </span>
-            </a>
+            </Link>
 
             <div ref={searchWrapRef} className="relative hidden md:block w-full max-w-md">
               <div className="flex items-center bg-[#141f3d] border border-white/10 rounded-xl px-3 py-2 focus-within:border-amber-500 transition-colors">

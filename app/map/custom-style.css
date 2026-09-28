@@ -260,3 +260,19 @@
 .leaflet-tile-pane {
   opacity: 1 !important;
 }
+
+/* Map UX performance layer: calm controls, reliable touch targets, and safe areas. */
+.soufmap-controls button { min-width: 44px; min-height: 44px; touch-action: manipulation; }
+.soufmap-controls { top: max(16px, env(safe-area-inset-top)); }
+.leaflet-marker-icon, .leaflet-interactive { touch-action: manipulation; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #101a35; color: #fff; }
+.leaflet-popup-content { margin: 11px 13px; font-size: 12px; line-height: 1.7; }
+.soufmap-container .leaflet-control-attribution { padding: 3px 6px; border-radius: 7px 0 0; }
+@media (max-width: 767px) {
+  .soufmap-controls { top: max(12px, env(safe-area-inset-top)); left: 12px; gap: 6px; }
+  .soufmap-controls button { min-width: 46px; min-height: 46px; }
+  .soufmap-container .leaflet-control-attribution { max-width: 75vw; font-size: 8px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .soufmap-user-pulse, .soufmap-container .leaflet-tile-pane { animation: none !important; transition: none !important; }
+}
