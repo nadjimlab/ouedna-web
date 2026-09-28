@@ -62,8 +62,8 @@ export default async function HomePage() {
           <div className="home-relaunch__hero-inner platform-container">
             <div className="home-relaunch__hero-copy">
               <span className="platform-eyebrow"><i /> المنصة السياحية الرسمية لولاية الوادي</span>
-              <h1>منصة وادنا<br /><em>ترحب بكم.</em></h1>
-              <p>مرحباً بكم في اكتشاف مدينة الألف قبة وقبة؛ واحات، كثبان، تراث، ومعالم تستحق أن تُروى.</p>
+              <h1>اكتشف ولاية<br /><em>الألف قبة وقبة.</em></h1>
+              <p>هنا تبدأ الحكاية؛ واحة تحت غروب ذهبي، رمال تنبض بالحياة، ومعالم أصيلة تنتظر أن تكتشفها بطريقتك.</p>
               <div className="home-relaunch__actions"><Link className="platform-button platform-button--amber" href="/explore"><Compass size={18} /> ابدأ الاستكشاف <ArrowLeft size={16} /></Link><Link className="platform-button platform-button--outline" href="/map"><MapPinned size={17} /> الخريطة التفاعلية</Link></div>
               <div className="home-relaunch__trust"><span><i /> دليل محلي موثوق</span><span>تجارب 360°</span><span>عربي · Français · English</span></div>
             </div>
