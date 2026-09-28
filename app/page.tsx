@@ -19,6 +19,8 @@ export const metadata: Metadata = {
 
 type FeaturedPlace = { id: string | number; name: string; category: string; municipality: string; description: string; image: string; rating: number; virtualTour?: string | null };
 
+const excludedCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
+
 function firstImage(value: unknown) {
   if (Array.isArray(value)) return String(value[0] || "");
   if (typeof value === "string") return value.replace(/[\[\]"']/g, "").split(",")[0]?.trim() || "";
@@ -28,8 +30,8 @@ function firstImage(value: unknown) {
 async function getFeaturedPlaces(): Promise<FeaturedPlace[]> {
   try {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const { data } = await supabase.from("places").select("id,name,description,main_category,municipality,address,image_url,rating,virtual_tour_url").eq("status", "منشور").order("rating", { ascending: false }).limit(3);
-    return (data || []).map((place) => ({
+    const { data } = await supabase.from("places").select("id,name,description,main_category,municipality,address,image_url,rating,virtual_tour_url").eq("status", "منشور").order("rating", { ascending: false }).limit(60);
+    return (data || []).filter((place) => !excludedCategories.has(place.main_category || "")).slice(0, 6).map((place) => ({
       id: place.id,
       name: place.name || "معلم من وادي سوف",
       category: place.main_category || "معلم سياحي",
