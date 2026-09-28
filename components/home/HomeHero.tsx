@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, type CSSProperties } from "react";
-import { ArrowLeft, Globe2, History, Map as MapIcon, Route } from "lucide-react";
+import { ArrowLeft, Globe2, History, Map as MapIcon, Route, View } from "lucide-react";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type Variants } from "framer-motion";
 import { LANGUAGES, useLanguage, type DictKey } from "@/lib/i18n";
 
@@ -11,6 +11,7 @@ const FEATURES: { href: string; key: DictKey; Icon: typeof Route }[] = [
   { href: "/itinerary", key: "homeFeatTrip", Icon: Route },
   { href: "/archive", key: "homeFeatArchive", Icon: History },
   { href: "/map", key: "homeFeatMaps", Icon: MapIcon },
+  { href: "/virtual-tour", key: "homeFeatVr", Icon: View },
 ];
 
 // ذرّات رمل ثابتة القيم (لا عشوائية) حتى لا يحدث عدم تطابق بين الخادم والمتصفح.

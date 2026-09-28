@@ -19,6 +19,7 @@ import "./world-class.css";
 import "./glass-cards.css";
 import "./explore-glass.css";
 import "./home-hero.css";
+import "./platform-fixes.css";
 import PwaRuntime from "./PwaRuntime";
 import { siteConfig } from "./metadata";
 

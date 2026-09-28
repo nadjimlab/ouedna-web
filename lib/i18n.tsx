@@ -175,6 +175,22 @@ export const dict = {
   homeFeatMaps: { ar: 'خرائط تفاعلية ومسارات سياحية دقيقة', en: 'Interactive maps and precise tourist routes', fr: 'Cartes interactives et itinéraires touristiques précis' },
   homeCta: { ar: 'ابدأ رحلة الاستكشاف', en: 'Start exploring', fr: 'Commencer l’exploration' },
   homeGuest: { ar: 'دخول مباشر كزائر', en: 'Continue as a guest', fr: 'Continuer en tant qu’invité' },
+  vrTour: { ar: 'زيارة افتراضية VR', en: 'Virtual visit VR', fr: 'Visite virtuelle VR' },
+  vrEmpty: { ar: 'لا توجد معالم بصور بعد. أضف صور المعالم من لوحة التحكم لتظهر هنا تلقائياً.', en: 'No landmarks with photos yet. Add photos from the dashboard and they will appear here automatically.', fr: 'Aucun site avec photos pour le moment. Ajoutez des photos depuis le tableau de bord.' },
+  vrHint: { ar: 'اسحب للتجول داخل الصورة', en: 'Drag to look around', fr: 'Faites glisser pour explorer' },
+  vrGyro: { ar: 'التحكم بحركة الهاتف', en: 'Phone motion control', fr: 'Contrôle par mouvement' },
+  vrGoggles: { ar: 'وضع نظارة VR', en: 'VR headset mode', fr: 'Mode casque VR' },
+  vrFullscreen: { ar: 'ملء الشاشة', en: 'Fullscreen', fr: 'Plein écran' },
+  vrExit: { ar: 'خروج', en: 'Exit', fr: 'Quitter' },
+  vrZoomIn: { ar: 'تكبير', en: 'Zoom in', fr: 'Zoom avant' },
+  vrZoomOut: { ar: 'تصغير', en: 'Zoom out', fr: 'Zoom arrière' },
+  vrPano: { ar: 'جولة 360° حقيقية', en: 'True 360° tour', fr: 'Vrai tour 360°' },
+  vrDetails: { ar: 'تفاصيل المعلم', en: 'Landmark details', fr: 'Détails du site' },
+  vrPrev: { ar: 'السابق', en: 'Previous', fr: 'Précédent' },
+  vrNext: { ar: 'التالي', en: 'Next', fr: 'Suivant' },
+  vrPause: { ar: 'إيقاف مؤقت', en: 'Pause', fr: 'Pause' },
+  vrPlay: { ar: 'تشغيل الجولة', en: 'Play tour', fr: 'Lancer la visite' },
+  homeFeatVr: { ar: 'زيارة افتراضية VR لمعالم الوادي', en: 'Virtual VR visit of the landmarks', fr: 'Visite virtuelle VR des sites' },
 } as const;
 
 export type DictKey = keyof typeof dict;

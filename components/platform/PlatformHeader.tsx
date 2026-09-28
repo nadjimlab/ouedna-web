@@ -1,7 +1,7 @@
 "use client";
 
 // Ouedna platform header: language and direction are driven by the shared provider.
-import { Compass, Download, Globe2, History, Home, MapPinned, MessageCircle } from "lucide-react";
+import { Compass, Download, Globe2, History, Home, MapPinned, MessageCircle, View } from "lucide-react";
 import Link from "next/link";
 import { type DictKey, useLanguage } from "@/lib/i18n";
 import PwaInstallButton from "./PwaInstallButton";
@@ -16,8 +16,9 @@ export default function PlatformHeader({ active }: { active?: string }) {
     ["/map", "map", MapPinned],
     ["/archive", "archive", History],
     ["/community", "community", MessageCircle],
+    ["/virtual-tour", "vrTour", View],
   ];
-  const mobileItems: NavItem[] = items;
+  const mobileItems: NavItem[] = items.filter(([href]) => href !== "/virtual-tour");
 
   return (
     <>

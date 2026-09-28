@@ -1,10 +1,11 @@
-import { Compass, Heart, MapPinned, MessageCircle, ShieldCheck } from "lucide-react";
+import { Compass, Heart, MapPinned, MessageCircle, ShieldCheck, View } from "lucide-react";
 import Link from "next/link";
 
 const links = [
   ["/explore", "استكشف", Compass],
   ["/map", "الخريطة", MapPinned],
   ["/community", "المجتمع", MessageCircle],
+  ["/virtual-tour", "زيارة افتراضية VR", View],
   ["/favorites", "المفضلة", Heart],
 ] as const;
 

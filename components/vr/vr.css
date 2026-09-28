@@ -1,0 +1,64 @@
+.vr { --gold: #d48a2e; --gold-soft: #f0b866; position: fixed; inset: 0; z-index: 10; overflow: hidden; color: #fff; background: #120e0c; direction: rtl; font-family: "Tajawal", sans-serif; touch-action: none; }
+html[dir="ltr"] .vr { direction: ltr; }
+.vr--empty { display: grid; place-content: center; justify-items: center; gap: 16px; text-align: center; padding: 24px; }
+.vr--empty p { max-width: 340px; margin: 0; line-height: 1.9; color: rgba(255,255,255,.85); }
+
+.vr__stage { position: absolute; inset: 0; display: flex; cursor: grab; }
+.vr__stage:active { cursor: grabbing; }
+.vr__eye { position: relative; flex: 1; overflow: hidden; }
+.vr__eye--pano { touch-action: auto; }
+.vr__pano { position: absolute; inset: 0; height: 100%; }
+.vr--goggles .vr__eye + .vr__eye { border-inline-start: 3px solid #000; }
+.vr__move { position: absolute; inset: 0; will-change: transform; transform: scale(1.25); }
+.vr__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.vr__img--in { animation: vr-in 1s ease both; }
+@keyframes vr-in { from { opacity: 0; } to { opacity: 1; } }
+.vr__shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(18,14,12,.6), transparent 22%, transparent 42%, rgba(18,14,12,.94) 100%); }
+
+.vr__top { position: absolute; inset: 0 0 auto; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: max(14px, env(safe-area-inset-top)) 16px 0; }
+.vr__brand { font: 800 16px "Noto Kufi Arabic", sans-serif; text-shadow: 0 2px 12px rgba(0,0,0,.6); }
+.vr__tools { display: flex; gap: 10px; }
+.vr__btn { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; color: #fff; cursor: pointer; background: rgba(18,14,12,.38); backdrop-filter: blur(10px); transition: background .2s, transform .2s; }
+.vr__btn:hover { background: rgba(255,255,255,.2); }
+.vr__btn:active { transform: scale(.93); }
+.vr__btn.is-on { background: var(--gold); border-color: var(--gold); color: #2a1b0c; }
+.vr__btn--main { width: 58px; height: 58px; background: var(--gold); border-color: var(--gold); color: #2a1b0c; }
+.vr__btn--main:hover { background: var(--gold-soft); }
+.vr__zoom { position: absolute; z-index: 5; inset-inline-end: 16px; top: 45%; display: grid; gap: 10px; }
+.vr__hint { position: absolute; z-index: 4; inset-inline: 0; top: 38%; margin: 0; text-align: center; font: 600 15px "Tajawal", sans-serif; text-shadow: 0 2px 14px rgba(0,0,0,.7); animation: vr-hint 4s ease 1s both; pointer-events: none; }
+@keyframes vr-hint { 0%,100% { opacity: 0; } 15%,80% { opacity: 1; } }
+
+.vr__panel { position: absolute; inset: auto 0 0; z-index: 5; display: grid; gap: 14px; padding: 0 16px max(16px, env(safe-area-inset-bottom)); }
+.vr__segs { display: flex; gap: 4px; }
+.vr__seg { flex: 1; height: 3px; overflow: hidden; border-radius: 3px; background: rgba(255,255,255,.3); }
+.vr__seg i { display: block; width: 0; height: 100%; background: var(--gold-soft); }
+.vr__seg.is-done i { width: 100%; }
+.vr__seg.is-now i { animation: vr-fill 7s linear forwards; }
+.vr--paused .vr__seg.is-now i { animation-play-state: paused; }
+@keyframes vr-fill { to { width: 100%; } }
+.vr__info { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; }
+.vr__info h1 { margin: 0; font: 900 clamp(24px, 6vw, 38px)/1.3 "Noto Kufi Arabic", sans-serif; text-shadow: 0 3px 20px rgba(0,0,0,.6); }
+.vr__loc { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 4px 0 0; color: var(--gold-soft); font-weight: 700; }
+.vr__loc span { display: inline-flex; align-items: center; gap: 5px; }
+.vr__tag { padding: 2px 10px; border: 1px solid var(--gold); border-radius: 999px; font-size: 12px; }
+.vr__desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 560px; margin: 8px 0 0; line-height: 1.8; color: rgba(255,255,255,.88); }
+.vr__cta { flex: none; display: inline-flex; align-items: center; min-height: 46px; padding: 0 20px; border-radius: 16px; color: #2a1b0c; background: var(--gold); font: 800 14px "Noto Kufi Arabic", sans-serif; transition: background .2s, transform .2s; }
+.vr__cta:hover { background: var(--gold-soft); transform: translateY(-2px); }
+.vr__ctrl { display: flex; justify-content: center; align-items: center; gap: 16px; }
+.vr__rail { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 2px; scroll-snap-type: x proximity; scrollbar-width: none; }
+.vr__rail::-webkit-scrollbar { display: none; }
+.vr__thumb { position: relative; flex: none; display: grid; place-items: center; width: 92px; height: 68px; overflow: hidden; padding: 0; border: 2px solid transparent; border-radius: 16px; color: #fff; cursor: pointer; scroll-snap-align: center; background: #2a201b; opacity: .72; transition: opacity .2s, border-color .2s, transform .2s; }
+.vr__thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vr__thumb span { position: absolute; inset: auto 0 0; padding: 14px 6px 4px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 700 11px "Tajawal", sans-serif; background: linear-gradient(transparent, rgba(0,0,0,.8)); }
+.vr__thumb:hover { opacity: 1; }
+.vr__thumb.is-on { opacity: 1; border-color: var(--gold); transform: translateY(-3px); }
+
+/* وضع النظارة: عينان جنباً إلى جنب، واجهة مخفية عدا زر الخروج (التقدّم التلقائي يستمر) */
+.vr--goggles .vr__top, .vr--goggles .vr__panel, .vr--goggles .vr__shade { opacity: 0; pointer-events: none; }
+.vr__exit { position: absolute; z-index: 9; inset-inline-start: 50%; top: 12px; translate: -50% 0; display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid rgba(255,255,255,.5); border-radius: 999px; color: #fff; cursor: pointer; background: rgba(0,0,0,.55); font: 700 13px "Tajawal", sans-serif; }
+html[dir="rtl"] .vr__exit { inset-inline-start: auto; left: 50%; translate: -50% 0; }
+
+.vr a:focus-visible, .vr button:focus-visible { outline: 3px solid var(--gold-soft); outline-offset: 3px; }
+@media (min-width: 900px) { .vr__panel, .vr__top { padding-inline: max(32px, calc((100% - 1180px) / 2)); } .vr__thumb { width: 116px; height: 78px; } }
+@media (max-width: 520px) { .vr__info { flex-direction: column; align-items: stretch; } .vr__cta { justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .vr__img--in, .vr__hint { animation: none; } }

@@ -24,7 +24,7 @@ export interface Place {
   openingHours?: string;
 }
 
-const excludedPublicCategories = new Set(['مرافق صحية', 'صحي', 'طبي', 'مستشفيات']);
+const excludedPublicCategories = new Set(['مرافق صحية', 'صحي', 'طبي', 'مستشفيات', 'مصحات خاصة', 'صيدليات']);
 
 export async function getPlacesFromDB(): Promise<Place[]> {
   const { data, error } = await supabase
