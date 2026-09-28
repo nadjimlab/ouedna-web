@@ -5,5 +5,13 @@ import PlatformFooter from "./PlatformFooter";
 import PlatformHeader from "./PlatformHeader";
 
 export default function PlatformFrame({ children, active, immersive = false }: { children: ReactNode; active?: string; immersive?: boolean }) {
-  return <LanguageProvider><div className={`platform-shell${immersive ? " platform-shell--immersive" : ""}`}><PlatformHeader active={active} /><main className="platform-main">{children}</main><PlatformFooter /></div></LanguageProvider>;
+  return (
+    <LanguageProvider>
+      <div className={`platform-shell${immersive ? " platform-shell--immersive" : ""}`}>
+        {!immersive && <PlatformHeader active={active} />}
+        <main className="platform-main">{children}</main>
+        {!immersive && <PlatformFooter />}
+      </div>
+    </LanguageProvider>
+  );
 }
