@@ -34,7 +34,18 @@ export default async function ExplorePage() {
       .order("created_at", { ascending: false })
       .limit(60);
     if (error) throw error;
-    return (data ?? []).filter((place) => !excludedPublicCategories.has(place.main_category || "")).map((place) => ({ ...place, category: place.main_category, municipality: place.municipality || place.address }));
+    const visiblePlaces = (data ?? []).filter((place) => !excludedPublicCategories.has(place.main_category || ""));
+    const ids = visiblePlaces.map((place) => place.id);
+    const { data: gallery } = ids.length
+      ? await supabase.from("gallery").select("place_id,image_url,is_cover").in("place_id", ids).order("is_cover", { ascending: false }).limit(240)
+      : { data: [] };
+    const galleryByPlace = new Map<number, string[]>();
+    (gallery ?? []).forEach((image) => {
+      const current = galleryByPlace.get(image.place_id) ?? [];
+      if (image.image_url && !current.includes(image.image_url)) current.push(image.image_url);
+      galleryByPlace.set(image.place_id, current);
+    });
+    return visiblePlaces.map((place) => ({ ...place, gallery: galleryByPlace.get(place.id) ?? [], category: place.main_category, municipality: place.municipality || place.address }));
   };
 
   let places = [];

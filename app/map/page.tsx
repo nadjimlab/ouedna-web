@@ -25,13 +25,18 @@ function MapContent() {
   const destinationParam = searchParams.get('destination');
 
   const [places, setPlaces] = useState<Place[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function loadData() {
-      const data = await getPlacesFromDB();
-      setPlaces(data);
       setLoading(false);
+      try {
+        const data = await Promise.race([getPlacesFromDB(), new Promise<Place[]>((resolve) => setTimeout(() => resolve([]), 8000))]);
+        setPlaces(data);
+      } catch (error) {
+        console.error('تعذر تحميل معالم الخريطة:', error);
+        setPlaces([]);
+      }
     }
     loadData();
   }, []);
