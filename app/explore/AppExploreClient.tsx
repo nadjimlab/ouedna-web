@@ -1,8 +1,7 @@
 "use client";
 
-import { Compass, Heart, MapPin, Search, Star, ArrowLeft, MapPinned, Sparkles, View } from "lucide-react";
+import { Compass, Heart, MapPin, Search, Star, ArrowLeft, MapPinned, Sparkles, View, Route, Archive, Plus, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
-import DesertScene from "@/components/platform/DesertScene";
 import LandmarkFrame from "@/components/platform/LandmarkFrame";
 import { useMemo, useState } from "react";
 
@@ -20,68 +19,48 @@ export default function AppExploreClient({ places, dataError = "" }: { places: P
   const [tourOnly, setTourOnly] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
-    try {
-      return JSON.parse(window.localStorage.getItem("souf360_favorites") || "[]").map(String);
-    } catch {
-      return [];
-    }
+    try { return JSON.parse(window.localStorage.getItem("souf360_favorites") || "[]").map(String); } catch { return []; }
   });
-
-  const tourCount = useMemo(() => places.filter((place) => place.virtual_tour_url).length, [places]);
   const categories = useMemo(() => ["الكل", ...Array.from(new Set(places.map((place) => place.category).filter(Boolean) as string[]))], [places]);
+  const tourPlaces = useMemo(() => places.filter((place) => place.virtual_tour_url), [places]);
   const filtered = useMemo(() => places.filter((place) => {
     const haystack = `${place.name || ""} ${place.description || ""} ${place.category || ""} ${place.municipality || ""}`.toLowerCase();
     return (!tourOnly || Boolean(place.virtual_tour_url)) && (category === "الكل" || place.category === category) && (!query.trim() || haystack.includes(query.toLowerCase().trim()));
   }), [places, query, category, tourOnly]);
 
   function toggleFavorite(id: string | number) {
-    const current = new Set(favorites);
-    const key = String(id);
-    if (current.has(key)) current.delete(key);
-    else current.add(key);
-    const next = [...current];
-    localStorage.setItem("souf360_favorites", JSON.stringify(next));
-    setFavorites(next);
+    const current = new Set(favorites); const key = String(id);
+    if (current.has(key)) current.delete(key); else current.add(key);
+    const next = [...current]; localStorage.setItem("souf360_favorites", JSON.stringify(next)); setFavorites(next);
   }
 
-  return (
-    <section className="explore-sunset-page">
-      <div className="desert-hero">
-        <DesertScene />
-        <div className="desert-hero__veil" />
-        <div className="desert-hero__content platform-container">
-          <span className="desert-hero__eyebrow"><i /> الدليل السياحي الرسمي · ولاية الوادي</span>
-          <h1>اكتشف سحر<em>وادي سوف</em></h1>
-          <p>أرض الألف قبة وواحات النخيل والكثبان الذهبية. معالم وتجارب أصيلة وجولات افتراضية 360° — دليلك الكامل لرحلة لا تُنسى في قلب الصحراء.</p>
-          <div className="desert-hero__actions">
-            <a className="desert-btn desert-btn--gold" href="#places"><Compass size={18} /> ابدأ الاستكشاف</a>
-            <Link className="desert-btn desert-btn--glass" href="/map"><MapPinned size={18} /> افتح الخريطة</Link>
-          </div>
-          <div className="desert-hero__stats"><span><strong>{places.length || "—"}</strong><small>وجهة سياحية</small></span><span><strong>{categories.length > 1 ? categories.length - 1 : "—"}</strong><small>تصنيف</small></span><span><strong>{tourCount || "—"}</strong><small>جولة 360°</small></span></div>
-        </div>
-        <div className="desert-hero__scroll"><span /> مرر لاكتشاف المزيد</div>
-        <svg className="desert-hero__wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,70 C240,120 480,20 720,60 C960,100 1200,30 1440,70 L1440,120 L0,120 Z" fill="#faf4e9" /></svg>
-      </div>
-
-      <div id="places" className="explore-sunset-content platform-container">
-        <div className="explore-sunset-heading"><div><span className="platform-eyebrow"><i />02 / دليل المعالم</span><h2>الأماكن التي<br /><em>تستحق الوصول.</em></h2><p>ابحث، صفِّ، واحفظ الأماكن التي تريد أن تراها في رحلتك.</p></div><div className="explore-sunset-heading__badge"><Compass size={27} /><span>بيانات حقيقية<br /><b>من وادنا</b></span></div></div>
-
-        <div className="explore-sunset-toolbar"><label><Search size={17} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث عن معلم، سوق، واحة..." /></label><div className="explore-sunset-categories">{tourCount > 0 ? <button type="button" className={`pano360-chip${tourOnly ? " is-active" : ""}`} aria-pressed={tourOnly} onClick={() => setTourOnly(!tourOnly)}><View size={14} /> جولات 360° ({tourCount})</button> : null}{categories.map((item) => <button key={item} type="button" className={category === item ? "is-active" : ""} onClick={() => setCategory(item)}>{item}</button>)}</div></div>
-        <div className="explore-sunset-results"><strong>{filtered.length} معلم متاح</strong><span>الأماكن المنشورة والمعتمدة في منصة وادنا</span></div>
-
-        {dataError ? <div className="explore-sunset-error" role="alert"><Search size={26} /><div><h2>تعذر تحميل الأماكن</h2><p>{dataError}</p></div><button type="button" onClick={() => window.location.reload()}>إعادة المحاولة</button></div> : filtered.length ? <div className="explore-sunset-grid">{filtered.map((place, index) => {
-          const image = imageFor(place.image_url) || "/ouedna/local-architecture.webp";
-          const saved = favorites.includes(String(place.id));
-          return <article className={`explore-sunset-card explore-sunset-card--${(index % 3) + 1}`} key={place.id}>
-            <Link href={`/place/${place.id}`} className="explore-sunset-card__image"><LandmarkFrame src={image} alt={`${place.name || "معلم من وادي سوف"} — ${place.municipality || "ولاية الوادي"}`} category={place.category || "معلم سياحي"} tour={Boolean(place.virtual_tour_url)} index={index} /></Link>
-            <button className={`explore-sunset-card__favorite${saved ? " is-active" : ""}`} type="button" aria-label={saved ? "إزالة من المفضلة" : "إضافة إلى المفضلة"} onClick={() => toggleFavorite(place.id)}><Heart size={17} fill={saved ? "currentColor" : "none"} /></button>
-            <div className="explore-sunset-card__body"><Link href={`/place/${place.id}`}><h3>{place.name || "معلم من وادي سوف"}</h3></Link><p><MapPin size={14} />{place.municipality || "ولاية الوادي"}</p><div><span><Star size={13} fill="currentColor" /> {place.rating ? Number(place.rating).toFixed(1) : "جديد"}</span><Link href={`/map?placeId=${place.id}&destination=${encodeURIComponent(place.name || "")}`}>إلى الخريطة <ArrowLeft size={13} /></Link></div></div>
-          </article>;
-        })}</div> : <div className="platform-empty-panel explore-sunset-empty"><Search size={28} /><h2>لا توجد نتائج مطابقة</h2><p>جرّب كلمة أخرى أو أعد اختيار كل التصنيفات.</p><button className="platform-button platform-button--green" type="button" onClick={() => { setQuery(""); setCategory("الكل"); setTourOnly(false); }}>إعادة التصفية</button></div>}
-
-        <div className="explore-sunset-suggest"><div><Sparkles size={20} /><span><strong>تعرف معلماً غير موجود؟</strong><small>أضفه إلى الدليل وسيظهر بعد مراجعة الإدارة.</small></span></div><Link className="platform-button platform-button--amber" href="/suggest-place">اقتراح معلم</Link></div>
-        <div className="explore-sunset-map-cta"><div><MapPinned size={22} /><span><strong>خطط طريقك من الخريطة</strong><small>شاهد المعالم حولك وانتقل إليها بسهولة.</small></span></div><Link href="/map">افتح الخريطة <ArrowLeft size={15} /></Link></div>
+  return <main className="app-explore-redesign">
+    <section className="app-explore-welcome">
+      <div className="app-explore-welcome__image" aria-hidden="true" />
+      <div className="app-explore-welcome__veil" />
+      <div className="platform-container app-explore-welcome__content">
+        <span className="app-explore-welcome__brand"><span className="app-explore-welcome__mark">✦</span> وادنا · الدليل السياحي الرسمي</span>
+        <span className="app-explore-welcome__badge">اكتشف الوادي</span>
+        <h1>مرحباً بك في<br /><em>قلب الصحراء</em></h1>
+        <p>من القباب التاريخية إلى الواحات الخضراء وسط الرمال الذهبية. خطط رحلتك واكتشف الأماكن التي تهمك.</p>
+        <div className="app-explore-welcome__actions"><a href="#places" className="platform-button platform-button--amber"><Compass size={17} /> ابدأ الاستكشاف</a><Link href="/map" className="app-explore-glass"><MapPinned size={17} /> الخريطة التفاعلية</Link></div>
       </div>
     </section>
-  );
+
+    <section className="app-explore-quick platform-container" aria-label="اختصارات وادنا">
+      <Link href="/itinerary" className="app-explore-quick-card app-explore-quick-card--gold"><span><Route size={22} /></span><strong>خط رحلتي</strong><small>خطط يومك بسهولة</small><ArrowLeft size={16} /></Link>
+      <Link href="/archive" className="app-explore-quick-card app-explore-quick-card--green"><span><Archive size={22} /></span><strong>أرشيف وذكريات</strong><small>اكتشف تاريخ وادي سوف</small><ArrowLeft size={16} /></Link>
+      <Link href="/map" className="app-explore-quick-card app-explore-quick-card--blue"><span><MapPinned size={22} /></span><strong>الخريطة التفاعلية</strong><small>مسارات سياحية دقيقة</small><ArrowLeft size={16} /></Link>
+      <Link href="/suggest-place" className="app-explore-quick-card app-explore-quick-card--sand"><span><Plus size={22} /></span><strong>اقترح معلماً</strong><small>أضف مكاناً للدليل</small><ArrowLeft size={16} /></Link>
+    </section>
+
+    {tourPlaces.length ? <section className="app-explore-tours platform-container"><div className="app-explore-section-head"><div><span className="platform-eyebrow"><i /> تجربة تفاعلية</span><h2>جولات 360°<br /><em>قبل الزيارة.</em></h2></div><button type="button" className="app-explore-view-all" onClick={() => { setTourOnly(true); document.getElementById("places")?.scrollIntoView({ behavior: "smooth" }); }}>عرض كل الجولات <ArrowLeft size={15} /></button></div><div className="app-explore-tour-strip">{tourPlaces.slice(0, 3).map((place, index) => <Link href={`/place/${place.id}`} className="app-explore-tour-item" key={place.id}><LandmarkFrame src={imageFor(place.image_url) || "/ouedna/local-architecture.webp"} alt={`${place.name || "معلم"} — ${place.municipality || "ولاية الوادي"}`} variant="thumb" tour index={index} /><span><b>{place.name}</b><small>{place.municipality || "ولاية الوادي"}</small></span><ArrowLeft size={17} /></Link>)}</div></section> : null}
+
+    <section id="places" className="app-explore-directory platform-container">
+      <div className="app-explore-section-head"><div><span className="platform-eyebrow"><i /> دليل وادنا</span><h2>اكتشف الأماكن<br /><em>التي تشبهك.</em></h2><p>ابحث عن معلمك القادم واحفظه ضمن رحلتك.</p></div><div className="app-explore-count"><strong>{filtered.length}</strong><small>معلم متاح</small></div></div>
+      <div className="app-explore-controls"><label className="app-explore-search"><Search size={18} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث عن معلم، واحة، سوق..." aria-label="البحث في المعالم" /></label><div className="app-explore-filter-label"><SlidersHorizontal size={16} /> تصفية حسب الاهتمام</div><div className="app-explore-categories"><button type="button" className={tourOnly ? "is-active" : ""} onClick={() => setTourOnly(!tourOnly)}><View size={14} /> 360° ({tourPlaces.length})</button>{categories.map((item) => <button type="button" key={item} className={category === item && !tourOnly ? "is-active" : ""} onClick={() => { setCategory(item); setTourOnly(false); }}>{item}</button>)}</div></div>
+      {dataError ? <div className="app-explore-error" role="alert"><Search size={26} /><div><h2>تعذر تحميل الأماكن</h2><p>{dataError}</p></div><button type="button" onClick={() => window.location.reload()}>إعادة المحاولة</button></div> : filtered.length ? <div className="app-explore-grid">{filtered.map((place, index) => { const image = imageFor(place.image_url) || "/ouedna/local-architecture.webp"; const saved = favorites.includes(String(place.id)); return <article className="app-place-card" key={place.id}><Link href={`/place/${place.id}`} className="app-place-card__visual"><LandmarkFrame src={image} alt={`${place.name || "معلم من وادي سوف"} — ${place.municipality || "ولاية الوادي"}`} category={place.category || "معلم سياحي"} tour={Boolean(place.virtual_tour_url)} index={index} /></Link><button className={`app-place-card__favorite${saved ? " is-active" : ""}`} type="button" aria-label={saved ? "إزالة من المفضلة" : "إضافة إلى المفضلة"} onClick={() => toggleFavorite(place.id)}><Heart size={17} fill={saved ? "currentColor" : "none"} /></button><div className="app-place-card__body"><Link href={`/place/${place.id}`}><h3>{place.name || "معلم من وادي سوف"}</h3></Link><p><MapPin size={14} /> {place.municipality || "ولاية الوادي"}</p><small>{place.description || "اكتشف تفاصيل هذا المعلم من دليل وادنا."}</small><div className="app-place-card__footer"><span><Star size={13} fill="currentColor" /> {place.rating ? Number(place.rating).toFixed(1) : "جديد"}</span><Link href={`/map?placeId=${place.id}&destination=${encodeURIComponent(place.name || "")}`}>الخريطة <ArrowLeft size={13} /></Link></div></div></article>; })}</div> : <div className="platform-empty-panel app-explore-empty"><Search size={28} /><h2>لا توجد نتائج بهذا البحث</h2><p>جرّب تصنيفاً آخر أو اكتب كلمة بحث مختلفة.</p><button className="platform-button platform-button--green" type="button" onClick={() => { setQuery(""); setCategory("الكل"); setTourOnly(false); }}>إعادة التصفية</button></div>}
+      <div className="app-explore-bottom-cta"><Sparkles size={20} /><span><strong>تعرف معلماً غير موجود؟</strong><small>ساعدنا في إثراء دليل وادنا المحلي.</small></span><Link href="/suggest-place" className="platform-button platform-button--amber">اقترح معلماً</Link></div>
+    </section>
+  </main>;
 }

@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Archive, Eye, EyeOff, LockKeyhole, Mail, MapPinned, Route, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import styles from "../admin.module.css";
 
@@ -67,9 +67,14 @@ export default function LoginPage() {
 
       <section className={styles.loginLayout} aria-labelledby="login-title">
         <div className={styles.loginWelcome}>
-          <span className={styles.loginEyebrow}><i /> البوابة الرسمية</span>
-          <h1>اكتشف الوادي<br /><em>وأدر حكايته.</em></h1>
-          <p>مساحة آمنة لفريق وادنا لإدارة الأماكن، التراث، القصص، وتجارب الزوار في ولاية الوادي.</p>
+          <span className={styles.loginEyebrow}><i /> المنصة السياحية الرسمية</span>
+          <h1>وادنا<br /><em>قلب الصحراء ينبض هنا.</em></h1>
+          <p>مرحباً بك في وادنا، منصتك لاكتشاف كنوز وادي سوف؛ من القباب التاريخية إلى الواحات الخضراء وسط الرمال الذهبية.</p>
+          <div className={styles.loginValues}>
+            <span><i><Route size={16} /></i> خط رحلتي</span>
+            <span><i><Archive size={16} /></i> أرشيف وذكريات وادي سوف</span>
+            <span><i><MapPinned size={16} /></i> خرائط تفاعلية ومسارات دقيقة</span>
+          </div>
           <div className={styles.loginMeta}><span><ShieldCheck size={15} /> وصول محمي</span><span>Wadi Souf · Algeria</span></div>
         </div>
 
