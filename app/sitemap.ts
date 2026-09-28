@@ -17,6 +17,7 @@ const publicRoutes = [
   ["/privacy", "yearly", 0.2],
   ["/suggest-place", "monthly", 0.4],
 ] as const;
+const excludedPublicCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
@@ -31,14 +32,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const { data: places, error } = await supabase
       .from("places")
-      .select("id,created_at")
+      .select("id,created_at,main_category")
       .eq("status", "منشور")
       .order("id", { ascending: false })
       .limit(5000);
     if (error || !places) return staticRoutes;
     return [
       ...staticRoutes,
-      ...places.map((place) => ({
+      ...places.filter((place) => !excludedPublicCategories.has(place.main_category || "")).map((place) => ({
         url: `${siteConfig.url}/place/${place.id}`,
         lastModified: place.created_at ? new Date(place.created_at) : now,
         changeFrequency: "monthly" as const,

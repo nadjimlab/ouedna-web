@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, Compass, Heart, MapPinned, Sparkles, Star, Users, View } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock3, Compass, Heart, MapPinned, Sparkles, Star, Users, View } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import DesertScene from "@/components/platform/DesertScene";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   alternates: { canonical: siteConfig.url },
 };
 
-type FeaturedPlace = { id: string | number; name: string; category: string; municipality: string; description: string; image: string; rating: number; virtualTour?: string | null };
+type FeaturedPlace = { id: string | number; name: string; category: string; municipality: string; description: string; image: string; rating: number; distance: string; time: string; virtualTour?: string | null };
 
 const excludedCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
 
@@ -31,15 +31,25 @@ async function getFeaturedPlaces(): Promise<FeaturedPlace[]> {
   try {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const { data } = await supabase.from("places").select("id,name,description,main_category,municipality,address,image_url,rating,virtual_tour_url").eq("status", "منشور").order("rating", { ascending: false }).limit(60);
-    return (data || []).filter((place) => !excludedCategories.has(place.main_category || "")).slice(0, 6).map((place) => ({
-      id: place.id,
-      name: place.name || "معلم من وادي سوف",
-      category: place.main_category || "معلم سياحي",
-      municipality: place.municipality || place.address || "ولاية الوادي",
-      description: place.description || "معلَم أصيل من معالم وادي سوف.",
-      image: firstImage(place.image_url) || "/ouedna/local-architecture.webp",
-      rating: Number(place.rating || 0),
-      virtualTour: place.virtual_tour_url,
+    const images = (data || []).filter((place) => !excludedCategories.has(place.main_category || "")).slice(0, 6);
+    const editorial = [
+      ["واحة سوف", "طبيعة", "قلب الواحة الكبرى ونخيلها العتيق", "مسار مفتوح", "نصف يوم"],
+      ["قصبة سوف", "تراث", "حصن تاريخي يعانق الرمال", "وسط المدينة", "ساعتان"],
+      ["قصر بني عيسى", "تراث", "قصبة بيضاء شامخة على التل", "رحلة قصيرة", "3 ساعات"],
+      ["واحة قصر بلحاج", "طبيعة", "واحة هادئة وسط الكثبان", "خارج المدينة", "نصف يوم"],
+      ["متحف الوادي", "ثقافة", "ذاكرة المنطقة في قاعاته", "داخل المدينة", "ساعة"],
+      ["ممرات الواحة", "تجربة", "مسار مشي بين النخيل وقت الغروب", "مسار الواحة", "ساعة ونصف"],
+    ] as const;
+    return editorial.map(([name, category, description, distance, time], index) => ({
+      id: `editorial-${index + 1}`,
+      name,
+      category,
+      municipality: distance,
+      description,
+      image: firstImage(images[index]?.image_url) || "/ouedna/local-architecture.webp",
+      rating: Number(images[index]?.rating || 4.8),
+      distance,
+      time,
     }));
   } catch {
     return [];
@@ -81,7 +91,7 @@ export default async function HomePage() {
 
         <section className="home-relaunch__categories platform-container"><div className="home-relaunch__heading"><div><span className="platform-eyebrow"><i /> استكشف حسب الاهتمام</span><h2>اختر ما<br /><em>يشبهك.</em></h2></div><Link className="platform-text-link" href="/explore">كل الأماكن <ArrowLeft size={15} /></Link></div><div className="home-relaunch__category-grid">{categories.map(([title, description, color], index) => <Link href={`/explore?category=${encodeURIComponent(title)}`} className="home-relaunch__category" style={{ background: color }} key={title}><span>0{index + 1}</span><Compass size={24} /><h3>{title}</h3><p>{description}</p><ArrowLeft size={17} /></Link>)}</div></section>
 
-        <section className="home-relaunch__featured"><div className="platform-container"><div className="home-relaunch__heading"><div><span className="platform-eyebrow"><i /> اختيارات وادنا</span><h2>أماكن تستحق<br /><em>التوقف.</em></h2></div><Link className="platform-text-link" href="/explore">اكتشف الدليل <ArrowLeft size={15} /></Link></div>{places.length ? <div className="home-relaunch__places">{places.map((place, index) => <article className={`home-relaunch__place home-relaunch__place--${index + 1}`} key={place.id}><Link href={`/place/${place.id}`} className="home-relaunch__place-frame"><LandmarkFrame src={place.image} alt={`${place.name} — ${place.municipality}`} variant={index === 0 ? "feature" : "card"} category={place.category} tour={Boolean(place.virtualTour)} index={index} /></Link><div><h3>{place.name}</h3><p><MapPinned size={12} /> {place.municipality} · <Star size={12} fill="currentColor" /> {place.rating ? place.rating.toFixed(1) : "جديد"}</p><small>{place.description}</small><Link className="home-relaunch__place-map" href={`/map?placeId=${place.id}&destination=${encodeURIComponent(place.name)}`}><MapPinned size={14} /> عرض على الخريطة <ArrowLeft size={13} /></Link></div></article>)}</div> : <div className="ds-empty">اكتشف أولى المعالم من صفحة الاستكشاف.</div>}</div></section>
+        <section className="home-relaunch__featured"><div className="platform-container"><div className="home-relaunch__heading"><div><span className="platform-eyebrow"><i /> اختيارات وادنا</span><h2>أماكن تستحق<br /><em>التوقف.</em></h2><div className="home-relaunch__heading-rule" /></div><Link className="platform-text-link" href="/explore">اكتشف الدليل <ArrowLeft size={15} /></Link></div>{places.length ? <div className="home-relaunch__places">{places.map((place, index) => <article className={`home-relaunch__place home-relaunch__place--${index + 1}`} key={place.id}><div className="home-relaunch__place-frame"><Link href="/explore" className="home-relaunch__place-image-link"><LandmarkFrame src={place.image} alt={place.name} variant={index === 0 ? "feature" : "card"} category={place.category} tour={false} index={index} /><span className="home-relaunch__place-badge">{index === 0 ? "الأكثر زيارة" : place.category}</span></Link><Link className="home-relaunch__favorite" href="/favorites" aria-label={`حفظ ${place.name}`}><Heart size={17} /></Link></div><div><h3>{place.name}</h3><small>{place.description}</small><p className="home-relaunch__place-meta"><span><MapPinned size={15} /> {place.distance}</span><span><Clock3 size={15} /> {place.time}</span></p><Link className="home-relaunch__place-map" href="/explore">استكشف <ArrowLeft size={14} /></Link></div></article>)}</div> : <div className="ds-empty">لا توجد وجهات سياحية متاحة حالياً.</div>}</div></section>
 
         {tourPlaces.length ? <section className="home-relaunch__tours"><div className="platform-container"><div className="home-relaunch__heading"><div><span className="platform-eyebrow"><i /> تجربة مختلفة</span><h2>تجوّل قبل<br /><em>أن تصل.</em></h2></div><span className="home-relaunch__tour-note"><View size={18} /> جولات افتراضية 360°</span></div><div className="home-relaunch__tour-grid">{tourPlaces.map((place) => <article className="home-relaunch__tour-card" key={place.id}><LandmarkFrame src={place.image} alt={`${place.name} — ${place.municipality}`} variant="thumb" tour /><div><span>{place.category}</span><h3>{place.name}</h3><p>{place.municipality}</p><Link href={`/place/${place.id}`} className="platform-button platform-button--amber"><View size={15} /> ابدأ الجولة <ArrowLeft size={14} /></Link></div></article>)}</div></div></section> : null}
 

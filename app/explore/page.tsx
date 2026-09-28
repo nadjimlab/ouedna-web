@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 };
 
 const EMPTY_RESULT = { places: [], error: "تعذر تحميل الأماكن الآن. يمكنك إعادة المحاولة دون مغادرة الصفحة." };
+const excludedPublicCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
 
 export default async function ExplorePage() {
   const loadPlaces = async () => {
@@ -33,7 +34,7 @@ export default async function ExplorePage() {
       .order("created_at", { ascending: false })
       .limit(60);
     if (error) throw error;
-    return (data ?? []).map((place) => ({ ...place, category: place.main_category, municipality: place.municipality || place.address }));
+    return (data ?? []).filter((place) => !excludedPublicCategories.has(place.main_category || "")).map((place) => ({ ...place, category: place.main_category, municipality: place.municipality || place.address }));
   };
 
   let places = [];

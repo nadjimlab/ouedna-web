@@ -24,6 +24,8 @@ export interface Place {
   openingHours?: string;
 }
 
+const excludedPublicCategories = new Set(['مرافق صحية', 'صحي', 'طبي', 'مستشفيات']);
+
 export async function getPlacesFromDB(): Promise<Place[]> {
   const { data, error } = await supabase
     .from('places')
@@ -36,7 +38,7 @@ export async function getPlacesFromDB(): Promise<Place[]> {
     return [];
   }
 
-  return data.map((item: any) => {
+  return data.filter((item: any) => !excludedPublicCategories.has(item.category || item.main_category || '')).map((item: any) => {
     const images = decodeImageUrls(item.image_url);
     const finalImage = images[0] || "/images/images.jpg";
 

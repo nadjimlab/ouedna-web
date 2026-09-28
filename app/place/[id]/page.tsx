@@ -14,8 +14,9 @@ import { View } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 function images(value: unknown) { if (Array.isArray(value)) return value.map(String).filter(Boolean); if (typeof value === "string") return value.replace(/[\[\]"']/g, "").split(",").map((item) => item.trim()).filter(Boolean); return []; }
+const excludedPublicCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
 
-async function getPlace(id: string) { const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); const { data } = await supabase.from("places").select("*").eq("id", Number(id)).eq("status", "منشور").maybeSingle(); return data; }
+async function getPlace(id: string) { const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); const { data } = await supabase.from("places").select("*").eq("id", Number(id)).eq("status", "منشور").maybeSingle(); return data && !excludedPublicCategories.has(data.category || data.main_category || "") ? data : null; }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;

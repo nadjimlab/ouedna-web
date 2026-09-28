@@ -1,0 +1,31 @@
+/* Featured tourism cards: calm desert glass over the oasis texture. */
+.home-relaunch__featured{position:relative;isolation:isolate;background:linear-gradient(145deg,#f8f4ec 0%,#e9dcc3 52%,#d9c49c 100%)!important;overflow:hidden}
+.home-relaunch__featured:before{content:"";position:absolute;inset:0;z-index:-1;opacity:.22;background:radial-gradient(ellipse at 82% 20%,#fff7d7 0 8%,transparent 31%),repeating-linear-gradient(164deg,transparent 0 62px,#c97b2d26 63px 65px),linear-gradient(22deg,transparent 0 55%,#3e7c591c 56% 58%,transparent 59%);pointer-events:none}
+.home-relaunch__heading-rule{width:110px;height:1px;margin-top:14px;background:linear-gradient(90deg,#d9a441,transparent);transform-origin:right;transform:scaleX(1.1)}
+.home-relaunch__places{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:24px!important;align-items:stretch!important}
+.home-relaunch__place{position:relative;min-width:0!important;overflow:hidden;border:1px solid rgba(255,255,255,.6)!important;border-top-color:rgba(255,255,255,.9)!important;border-bottom-color:rgba(27,42,74,.08)!important;border-radius:20px!important;background:rgba(248,244,236,.55)!important;box-shadow:0 8px 32px rgba(27,42,74,.12)!important;backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);transition:transform .4s ease,box-shadow .4s ease;animation:soufCardFadeUp .55s ease both}
+.home-relaunch__place:nth-child(2){animation-delay:.1s}.home-relaunch__place:nth-child(3){animation-delay:.2s}.home-relaunch__place:nth-child(4){animation-delay:.3s}.home-relaunch__place:nth-child(5){animation-delay:.4s}.home-relaunch__place:nth-child(6){animation-delay:.5s}
+.home-relaunch__place--1{grid-column:span 2!important}
+.home-relaunch__place--1 .home-relaunch__place-frame,.home-relaunch__place-frame{height:320px!important;min-height:0!important;padding:0!important;position:relative;overflow:hidden;border-radius:20px 20px 0 0!important}
+.home-relaunch__place--1 .home-relaunch__place-frame{height:320px!important}
+.home-relaunch__place-frame .home-relaunch__place-image-link{position:absolute;inset:0;display:block;overflow:hidden}
+.home-relaunch__place-frame .landmark-frame,.home-relaunch__place-frame>div{position:absolute!important;inset:0;width:100%;height:100%!important}
+.home-relaunch__place-image-link:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(248,244,236,.92) 100%);pointer-events:none}
+.home-relaunch__place-image-link img{transition:transform .4s ease!important}
+.home-relaunch__place:hover{transform:translateY(-8px);box-shadow:0 18px 42px rgba(27,42,74,.19)!important}
+.home-relaunch__place:hover .home-relaunch__place-image-link img{transform:scale(1.05)}
+.home-relaunch__place-badge{position:absolute;z-index:4;top:14px;right:14px;padding:8px 11px;border:1px solid rgba(255,255,255,.35);border-radius:10px;color:#fff;background:rgba(27,42,74,.55);box-shadow:0 5px 14px rgba(27,42,74,.13);backdrop-filter:blur(12px);font:700 10px "Tajawal",sans-serif}
+.home-relaunch__place--1 .home-relaunch__place-badge{color:#2f2519;background:rgba(217,164,65,.9)}
+.home-relaunch__favorite{position:absolute;z-index:6;top:12px;left:12px;display:grid;place-items:center;width:36px;height:36px;border:1px solid rgba(255,255,255,.6);border-radius:50%;color:#fff;background:rgba(27,42,74,.42);box-shadow:0 5px 14px rgba(27,42,74,.12);backdrop-filter:blur(12px);transition:.2s}
+.home-relaunch__favorite:hover{color:#b85c38;background:rgba(248,244,236,.9);transform:scale(1.06)}
+.home-relaunch__place>div:last-child{min-height:0!important;padding:18px 20px 20px!important}
+.home-relaunch__place h3{margin:0 0 7px!important;color:#1b2a4a!important;font:700 20px/1.45 "Noto Kufi Arabic",sans-serif!important}
+.home-relaunch__place small{display:block!important;min-height:29px!important;margin:0!important;overflow:hidden;color:#71717a!important;font-size:12px!important;line-height:1.8!important;text-overflow:ellipsis;white-space:nowrap}
+.home-relaunch__place-meta{display:flex!important;align-items:center;gap:16px!important;margin:12px 0 14px!important;color:#71717a!important;font-size:11px!important}
+.home-relaunch__place-meta span{display:inline-flex;align-items:center;gap:5px}.home-relaunch__place-meta svg{color:#3e7c59}
+.home-relaunch__place-map{position:relative;display:flex!important;align-items:center;justify-content:center;gap:7px;min-height:46px!important;margin:0!important;border-radius:12px;color:#fff!important;background:linear-gradient(110deg,#d9a441,#c97b2d)!important;box-shadow:none!important;font-size:12px!important;font-weight:800!important;overflow:hidden;transition:transform .2s ease,filter .2s ease!important}
+.home-relaunch__place-map:before{content:"";position:absolute;top:0;bottom:0;left:-45%;width:28%;background:linear-gradient(100deg,transparent,#ffffff80,transparent);transform:skewX(-20deg);transition:left .5s ease}.home-relaunch__place-map:hover{filter:saturate(1.1) brightness(1.06);transform:none!important}.home-relaunch__place-map:hover:before{left:130%}
+@keyframes soufCardFadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1023px){.home-relaunch__places{grid-template-columns:repeat(2,minmax(0,1fr))!important}.home-relaunch__place--1{grid-column:1/-1!important}.home-relaunch__place--1 .home-relaunch__place-frame,.home-relaunch__place-frame{height:300px!important}.home-relaunch__place>div:last-child{padding:17px!important}}
+@media(max-width:620px){.home-relaunch__places{grid-template-columns:1fr!important;gap:18px!important}.home-relaunch__place--1{grid-column:auto!important}.home-relaunch__place--1 .home-relaunch__place-frame,.home-relaunch__place-frame{height:220px!important}.home-relaunch__place>div:last-child{padding:17px!important}.home-relaunch__place h3{font-size:18px!important}.home-relaunch__place-meta{font-size:10px!important;gap:10px!important}.home-relaunch__place-map{min-height:48px!important}.home-relaunch__place:hover{transform:none}.home-relaunch__place:active{transform:scale(.98)}.home-relaunch__heading-rule{margin-top:10px}}
+@media(prefers-reduced-motion:reduce){.home-relaunch__place{animation:none!important;transition:none!important}.home-relaunch__place-image-link img{transition:none!important}}

@@ -16,6 +16,7 @@ import "./pano360.css";
 import "./desert.css";
 import "leaflet/dist/leaflet.css";
 import "./world-class.css";
+import "./glass-cards.css";
 import PwaRuntime from "./PwaRuntime";
 import { siteConfig } from "./metadata";
 
