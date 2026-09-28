@@ -16,7 +16,6 @@ const publicRoutes = [
   ["/itinerary", "monthly", 0.5],
   ["/privacy", "yearly", 0.2],
   ["/suggest-place", "monthly", 0.4],
-  ["/updates", "weekly", 0.4],
 ] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

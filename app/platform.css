@@ -10,9 +10,10 @@
 .platform-brand__mark img { width: 31px; height: 31px; object-fit: contain; }
 .platform-brand strong { display: block; font: 900 17px/1 "Noto Kufi Arabic", sans-serif; letter-spacing: -.06em; }
 .platform-brand small { display: block; margin-top: 4px; opacity: .58; direction: ltr; text-align: right; font: 10px/1 "DM Sans", sans-serif; }
-.platform-nav { display: flex; align-items: center; gap: 7px; margin-inline: auto; }
-.platform-nav a { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 10px 13px; color: var(--muted); font-size: 12px; font-weight: 800; transition: color .2s ease, transform .2s var(--ease-out); }
-.platform-nav a:hover, .platform-nav a.is-active { color: var(--green); transform: translateY(-1px); }
+.platform-nav { display: flex; align-items: center; gap: 3px; margin-inline: auto; padding: 5px; border-radius: 16px; background: rgba(14,75,66,.035); }
+.platform-nav a { position: relative; display: inline-flex; align-items: center; gap: 6px; padding: 10px 13px; border-radius: 11px; color: var(--muted); font-size: 12px; font-weight: 800; transition: color .2s ease, background .2s ease, transform .2s var(--ease-out); }
+.platform-nav a:hover { color: var(--green); background: rgba(255,255,255,.7); transform: translateY(-1px); }
+.platform-nav a.is-active { color: var(--green); background: #fff; box-shadow: 0 6px 16px rgba(14,75,66,.1); }
 .platform-nav a.is-active::after { content: ""; position: absolute; right: 13px; bottom: 2px; left: 13px; height: 2px; border-radius: 4px; background: var(--amber); }
 .platform-header__actions { display: flex; align-items: center; gap: 11px; }
 .platform-icon-link { position: relative; display: grid; place-items: center; width: 38px; height: 38px; color: var(--green); border: 1px solid var(--line); border-radius: 12px; background: #fff; }
@@ -20,7 +21,7 @@
 .platform-language { display: inline-flex; align-items: center; gap: 5px; height: 38px; padding: 0 8px; color: var(--muted); border: 1px solid var(--line); border-radius: 12px; background: #fff; }
 .platform-language select { border: 0; outline: 0; color: var(--green); background: transparent; font: 700 11px "Tajawal", sans-serif; cursor: pointer; }
 .platform-download-link, .platform-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 17px; border: 0; border-radius: 12px; font: 800 11px "Noto Kufi Arabic", sans-serif; cursor: pointer; transition: transform .18s var(--ease-out), box-shadow .18s var(--ease-out), background .18s ease; }
-.platform-download-link { min-height: 38px; color: #2b261c; background: var(--amber); box-shadow: 0 8px 17px rgba(212,155,69,.2); }
+.platform-download-link { min-height: 38px; color: #2b261c; background: linear-gradient(120deg, var(--amber), #eac488); box-shadow: 0 8px 17px rgba(212,155,69,.25); }
 .platform-download-link:hover, .platform-button:hover { transform: translateY(-2px); }
 .platform-download-link:active, .platform-button:active { transform: scale(.97); }
 .platform-button--amber { color: #2b261c; background: var(--amber); box-shadow: 0 11px 24px rgba(212,155,69,.22); }

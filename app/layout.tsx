@@ -11,6 +11,7 @@ import "./guide.css";
 import "./itinerary.css";
 import "./pwa-install.css";
 import "./premium-overhaul.css";
+import "./pano360.css";
 import "leaflet/dist/leaflet.css";
 import PwaRuntime from "./PwaRuntime";
 import { siteConfig } from "./metadata";
@@ -65,7 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Noto+Kufi+Arabic:wght@100..900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" />
-        <link rel="alternate" type="application/rss+xml" title="تحديثات وادنا" href="/feed.xml" />
+        <link rel="alternate" type="application/rss+xml" title="أحدث معالم وادنا السياحية" href="/feed.xml" />
       </head>
       <body className="min-h-full overflow-x-hidden">
         <PwaRuntime />

@@ -1,0 +1,122 @@
+/* الجولة الافتراضية 360° — طبقة عرض مستقلة لا تتداخل مع أنماط الصفحات الأخرى. */
+.pano360 {
+  position: relative;
+  width: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  background: #0b0f0d;
+  isolation: isolate;
+}
+.pano360__stage {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+}
+.pano360__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #f4e8d5;
+  background: radial-gradient(120% 120% at 50% 20%, rgba(14, 75, 66, 0.55), rgba(11, 15, 13, 0.92));
+  font: 700 12px "Noto Kufi Arabic", sans-serif;
+  text-align: center;
+  padding: 16px;
+}
+.pano360__overlay--error {
+  color: #f6c9a0;
+}
+.pano360__spin {
+  animation: pano360Spin 1.1s linear infinite;
+}
+@keyframes pano360Spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.pano360__hint {
+  position: absolute;
+  z-index: 2;
+  bottom: 12px;
+  inset-inline-start: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(10, 20, 18, 0.55);
+  backdrop-filter: blur(6px);
+  font: 700 10px "Noto Kufi Arabic", sans-serif;
+  pointer-events: none;
+  animation: pano360FadeOut 3.5s ease forwards;
+}
+@keyframes pano360FadeOut {
+  0%, 60% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* شارة 360° فوق بطاقات المعالم */
+.pano360-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: #0b0f0d;
+  background: linear-gradient(120deg, #d6a653, #f2d38b);
+  font: 800 10px "Noto Kufi Arabic", sans-serif;
+  box-shadow: 0 6px 16px rgba(214, 166, 83, 0.35);
+}
+
+/* أزرار التبديل بين معرض الصور والجولة الافتراضية داخل نافذة التفاصيل */
+.pano360-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px 0;
+  background: #12100c;
+}
+.pano360-tabs button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #cfc6ba;
+  background: rgba(255, 255, 255, 0.04);
+  font: 700 11px "Noto Kufi Arabic", sans-serif;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.pano360-tabs button[aria-pressed="true"] {
+  color: #0b0f0d;
+  background: linear-gradient(120deg, #d6a653, #f2d38b);
+  border-color: transparent;
+}
+
+/* قسم الجولة الافتراضية في صفحة تفاصيل المعلم */
+.place-detail-tour {
+  margin: 28px 0;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(14, 75, 66, 0.14);
+  box-shadow: 0 18px 40px rgba(14, 75, 66, 0.12);
+}
+.place-detail-tour__stage {
+  height: min(58vh, 480px);
+}
+.place-detail-tour__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  color: #173b35;
+  background: #fbf1df;
+  font: 800 12px "Noto Kufi Arabic", sans-serif;
+}

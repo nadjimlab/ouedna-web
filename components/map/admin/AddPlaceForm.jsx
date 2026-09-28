@@ -38,6 +38,7 @@ export default function AddPlaceForm() {
     facebook: '',
     instagram: '',
     opening_hours: '',
+    virtual_tour_url: '',
     status: 'منشور',
   });
 
@@ -337,6 +338,7 @@ export default function AddPlaceForm() {
         facebook: formData.facebook || null,
         instagram: formData.instagram || null,
         opening_hours: formData.opening_hours || null,
+        virtual_tour_url: formData.virtual_tour_url || null,
         image_url: uploadedUrls[0] || null,
         status: formData.status,
       };
@@ -373,7 +375,7 @@ export default function AddPlaceForm() {
         name: '', main_category: '', sub_category: '', description: '',
         address: '', district: '', municipality: '', lat: '', lng: '',
         map_link: '', phone: '', website: '', facebook: '', instagram: '',
-        opening_hours: '', status: 'منشور',
+        opening_hours: '', virtual_tour_url: '', status: 'منشور',
       });
       setImages([]);
       setPlusCodeInput('');
@@ -542,6 +544,16 @@ export default function AddPlaceForm() {
             <label>الموقع الإلكتروني</label>
             <input type="url" name="website" value={formData.website} onChange={handleInputChange} className="p-3 rounded bg-[#222] border border-gray-700 focus:border-green-500 outline-none" dir="ltr" />
           </div>
+        </div>
+      </fieldset>
+
+      {/* 3.5 الجولة الافتراضية 360° */}
+      <fieldset className="flex flex-col gap-4 border border-[#333] p-5 rounded-lg bg-[#1a1a1a]">
+        <legend className="text-lg font-semibold text-green-400 px-3">🧭 الجولة الافتراضية 360°</legend>
+        <div className="flex flex-col gap-1">
+          <label>رابط صورة بانورامية equirectangular (اختياري)</label>
+          <input type="url" name="virtual_tour_url" value={formData.virtual_tour_url} onChange={handleInputChange} className="p-3 rounded bg-[#222] border border-gray-700 focus:border-green-500 outline-none" dir="ltr" placeholder="https://.../panorama-360.jpg" />
+          <p className="text-xs text-gray-500 mt-1">ارفع صورة بانورامية 360° بنسبة 2:1 والصق رابطها هنا ليظهر زر "جولة افتراضية 360°" في صفحة المعلم.</p>
         </div>
       </fieldset>
 

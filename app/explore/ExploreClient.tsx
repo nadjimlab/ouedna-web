@@ -7,10 +7,11 @@ import {
   Compass, MapPin, Sparkles, ImageIcon, Upload,
   Landmark as LandmarkIcon, ChevronLeft, ChevronRight, X,
   MessageSquareHeart, Camera, Quote, Sun, Award, Clock3,
-  Search, Tag, Heart, Share2, Check, Info, Navigation2, Maximize2, Minimize2
+  Search, Tag, Heart, Share2, Check, Info, Navigation2, Maximize2, Minimize2, View, Images
 } from 'lucide-react';
 import { LanguageProvider, useLanguage, useAutoTranslate, DictKey } from '@/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Pano360Viewer from '@/components/platform/Pano360Viewer';
 import { SUPABASE_URL } from '@/lib/supabase/config';
 import { supabase } from '@/lib/supabase/client';
 
@@ -29,6 +30,7 @@ type Place = {
   gallery?: any;
   lat?: number;
   lng?: number;
+  virtual_tour_url?: string | null;
 };
 
 type OldMemory = {
@@ -402,6 +404,11 @@ function PlaceCard({ place, isFav, onOpen, onToggleFavorite, onShowOnMap }: { pl
               {category}
             </span>
           )}
+          {place.virtual_tour_url && (
+            <span className="pano360-badge absolute bottom-3 end-3 z-[1]">
+              <View size={11} /> 360°
+            </span>
+          )}
         </div>
         <div className="p-4 sm:p-5 pb-0">
           <h3 className="text-base sm:text-lg font-bold mb-1 text-white">{name}</h3>
@@ -608,8 +615,10 @@ function PlaceModal({ place, isFavorite, onToggleFavorite, onClose }: { place: P
   const { t } = useLanguage();
   const [activeImg, setActiveImg] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [activeView, setActiveView] = useState<'gallery' | 'tour'>('gallery');
 
   const images = useMemo(() => getPlaceImages(place), [place]);
+  const hasTour = Boolean(place.virtual_tour_url);
   
   const name = useAutoTranslate(place.name);
   const description = useAutoTranslate(place.description);
@@ -637,8 +646,22 @@ function PlaceModal({ place, isFavorite, onToggleFavorite, onClose }: { place: P
         </button>
 
         <div className="relative">
-          <SwipeableGallery images={images} activeIdx={activeImg} setActiveIdx={setActiveImg} alt={name || 'Place image'} />
-          {images.length > 1 && (
+          {hasTour && (
+            <div className="pano360-tabs">
+              <button type="button" aria-pressed={activeView === 'gallery'} onClick={() => setActiveView('gallery')}>
+                <Images size={13} /> الصور
+              </button>
+              <button type="button" aria-pressed={activeView === 'tour'} onClick={() => setActiveView('tour')}>
+                <View size={13} /> جولة افتراضية 360°
+              </button>
+            </div>
+          )}
+          {activeView === 'tour' && hasTour ? (
+            <Pano360Viewer src={place.virtual_tour_url} title={name} className="h-56 sm:h-72" />
+          ) : (
+            <SwipeableGallery images={images} activeIdx={activeImg} setActiveIdx={setActiveImg} alt={name || 'Place image'} />
+          )}
+          {activeView === 'gallery' && images.length > 1 && (
             <>
               <div className="flex overflow-x-auto gap-2 p-3 bg-[#12100c] border-b border-white/5">
                 {images.map((imgUrl, idx) => (

@@ -1,7 +1,7 @@
 "use client";
 
 // Ouedna platform header: language and direction are driven by the shared provider.
-import { Bell, Compass, Download, Globe2, Heart, History, Home, MapPinned, MessageCircle } from "lucide-react";
+import { Compass, Download, Globe2, Heart, History, Home, MapPinned, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { type DictKey, useLanguage } from "@/lib/i18n";
 import PwaInstallButton from "./PwaInstallButton";
@@ -31,7 +31,6 @@ export default function PlatformHeader({ active }: { active?: string }) {
             {items.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={active === href ? "is-active" : ""}><Icon size={16} />{t(labelKey)}</Link>)}
           </nav>
           <div className="platform-header__actions">
-            <Link href="/updates" className="platform-icon-link" aria-label={t("updates")}><Bell size={18} /><span className="platform-notification-dot" /></Link>
             <label className="platform-language" aria-label={t("language")}>
               <Globe2 size={15} />
               <select value={lang} onChange={(event) => setLang(event.target.value as typeof lang)}>

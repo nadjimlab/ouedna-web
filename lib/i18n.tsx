@@ -29,7 +29,6 @@ export const dict = {
   archive: { ar: 'ذاكرة الوادي', en: 'El Oued Memories', fr: "Mémoire d'El Oued" },
   community: { ar: 'المجتمع', en: 'Community', fr: 'Communauté' },
   favorites: { ar: 'المفضلة', en: 'Favorites', fr: 'Favoris' },
-  updates: { ar: 'مركز التحديثات', en: 'Updates', fr: 'Mises à jour' },
   downloadApp: { ar: 'حمّل التطبيق', en: 'Download app', fr: "Télécharger l'application" },
   events: { ar: 'الفعاليات', en: 'Events', fr: 'Événements' },
   restaurants: { ar: 'المطاعم', en: 'Restaurants', fr: 'Restaurants' },
