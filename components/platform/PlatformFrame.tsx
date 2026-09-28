@@ -4,6 +4,6 @@ import { LanguageProvider } from "@/lib/i18n";
 import PlatformFooter from "./PlatformFooter";
 import PlatformHeader from "./PlatformHeader";
 
-export default function PlatformFrame({ children, active }: { children: ReactNode; active?: string }) {
-  return <LanguageProvider><div className="platform-shell"><PlatformHeader active={active} /><main className="platform-main">{children}</main><PlatformFooter /></div></LanguageProvider>;
+export default function PlatformFrame({ children, active, immersive = false }: { children: ReactNode; active?: string; immersive?: boolean }) {
+  return <LanguageProvider><div className={`platform-shell${immersive ? " platform-shell--immersive" : ""}`}><PlatformHeader active={active} /><main className="platform-main">{children}</main><PlatformFooter /></div></LanguageProvider>;
 }

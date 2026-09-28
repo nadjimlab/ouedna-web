@@ -43,3 +43,27 @@ html{background:var(--wc-cream)}body{background:var(--wc-cream);color:var(--wc-i
 
 @media(max-width:950px){.platform-nav{display:none}.platform-header__inner{width:min(100% - 28px,1360px)}.platform-header__actions .platform-download-link{display:none}.home-relaunch__hero-inner{grid-template-columns:1fr;gap:25px;padding-top:45px}.home-relaunch__hero{max-height:none}.home-relaunch__hero-card{min-height:390px;max-width:560px;width:100%;justify-self:center;transform:none}.home-relaunch__hero-copy{order:2}.home-relaunch__hero-card{order:1}.home-relaunch__hero-bottom{display:none}.home-relaunch__intro{grid-template-columns:70px 1fr;padding-block:90px 70px}.home-relaunch__intro p{grid-column:2;margin:0}.home-relaunch__category-grid,.home-relaunch__tour-grid{grid-template-columns:1fr 1fr}.home-relaunch__places{grid-template-columns:1fr 1fr}.home-relaunch__place--1{grid-column:1/-1}.home-relaunch__place--1 .home-relaunch__place-frame{min-height:430px}.home-relaunch__place--2,.home-relaunch__place--3{padding-bottom:0}.home-relaunch__journey-links{grid-template-columns:1fr}.home-relaunch__heritage{grid-template-columns:1fr}.home-relaunch__heritage-mark{max-width:420px;width:100%;justify-self:center}}
 @media(max-width:620px){.platform-header{height:70px}.platform-header__inner{height:70px}.platform-brand small{display:none}.platform-language{display:none}.home-relaunch__hero{min-height:calc(100svh - 70px)}.home-relaunch__hero-inner{min-height:calc(100svh - 70px);padding-block:30px 60px}.home-relaunch__hero-copy h1{font-size:clamp(42px,14vw,62px)}.home-relaunch__hero-copy p{font-size:14px}.home-relaunch__hero-card{min-height:310px}.home-relaunch__intro{display:block;padding-block:80px 65px}.home-relaunch__section-number{margin-bottom:35px}.home-relaunch__intro p{margin-top:25px}.home-relaunch__categories,.home-relaunch__featured,.home-relaunch__tours,.home-relaunch__journey,.home-relaunch__heritage{padding-block:80px}.home-relaunch__heading{display:block}.home-relaunch__heading .platform-text-link,.home-relaunch__tour-note{margin-top:15px}.home-relaunch__category-grid,.home-relaunch__tour-grid,.home-relaunch__places{grid-template-columns:1fr}.home-relaunch__place--1 .home-relaunch__place-frame{min-height:350px}.home-relaunch__place--2,.home-relaunch__place--3{padding-bottom:0}.home-relaunch__heritage-mark{min-height:260px;font-size:48px}.platform-container{width:min(100% - 30px,1180px)}.platform-footer__main,.platform-footer__bottom{width:calc(100% - 30px)!important}.platform-mobile-nav{display:flex!important}}
+
+/* Immersive homepage: one full-bleed image with no editorial/demo content. */
+.platform-shell--immersive { background: #0b342f; }
+.platform-shell--immersive .platform-main { min-height: 100svh; }
+.platform-shell--immersive .platform-header { position: absolute; inset: 0 0 auto; z-index: 50; background: linear-gradient(180deg, rgba(4,24,21,.72), rgba(4,24,21,0)); border-bottom: 0; box-shadow: none; }
+.platform-shell--immersive .platform-brand { color: #fff; }
+.platform-shell--immersive .platform-brand small { color: rgba(255,255,255,.72); }
+.platform-shell--immersive .platform-nav { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.2); }
+.platform-shell--immersive .platform-nav a { color: rgba(255,255,255,.82); }
+.platform-shell--immersive .platform-nav a:hover,
+.platform-shell--immersive .platform-nav a.is-active { color: #173a32; background: rgba(255,255,255,.92); }
+.platform-shell--immersive .platform-language { color: #fff; border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.14); }
+.platform-shell--immersive .platform-language select { color: #fff; }
+.platform-shell--immersive .platform-language option { color: #173a32; }
+.platform-shell--immersive .platform-mobile-nav,
+.platform-shell--immersive .platform-footer { display: none !important; }
+.home-fullscreen { position: relative; width: 100%; height: 100svh; min-height: 560px; overflow: hidden; background: #0b342f; }
+.home-fullscreen::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(4,24,21,.18), rgba(4,24,21,.04) 45%, rgba(4,24,21,.3)); }
+.home-fullscreen__image { object-fit: cover; object-position: center; }
+@media (max-width: 620px) {
+  .platform-shell--immersive .platform-header__inner { width: calc(100% - 30px); height: 70px; }
+  .platform-shell--immersive .platform-header { background: linear-gradient(180deg, rgba(4,24,21,.65), transparent); }
+  .home-fullscreen { min-height: 100svh; }
+}
