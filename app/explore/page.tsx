@@ -28,7 +28,7 @@ export default async function ExplorePage() {
     const { data, error } = await supabase
       .from("places")
       // The public schema uses main_category; category is not a column in places.
-      .select("id,name,description,main_category,municipality,address,image_url,rating,lat,lng")
+      .select("id,name,description,main_category,municipality,address,image_url,rating,lat,lng,virtual_tour_url")
       .eq("status", "منشور")
       .order("created_at", { ascending: false })
       .limit(60);

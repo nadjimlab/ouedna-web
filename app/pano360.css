@@ -120,3 +120,22 @@
   background: #fbf1df;
   font: 800 12px "Noto Kufi Arabic", sans-serif;
 }
+
+/* شارة وشريحة التصفية داخل بطاقات صفحة الاستكشاف */
+.pano360-badge--card {
+  position: absolute;
+  z-index: 3;
+  bottom: 12px;
+  inset-inline-start: 12px;
+  font-size: 11px;
+}
+.pano360-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.pano360-chip.is-active {
+  color: #0b0f0d !important;
+  background: linear-gradient(120deg, #d6a653, #f2d38b) !important;
+}

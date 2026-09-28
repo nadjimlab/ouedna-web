@@ -12,6 +12,7 @@ import "./itinerary.css";
 import "./pwa-install.css";
 import "./premium-overhaul.css";
 import "./pano360.css";
+import "./desert.css";
 import "leaflet/dist/leaflet.css";
 import PwaRuntime from "./PwaRuntime";
 import { siteConfig } from "./metadata";
