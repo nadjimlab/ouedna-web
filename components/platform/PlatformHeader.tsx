@@ -1,7 +1,7 @@
 "use client";
 
 // Ouedna platform header: language and direction are driven by the shared provider.
-import { Compass, Download, Globe2, History, Home, MapPinned, MessageCircle, View } from "lucide-react";
+import { ArrowRight, Compass, Download, Globe2, History, Home, MapPinned, MessageCircle, View } from "lucide-react";
 import Link from "next/link";
 import { type DictKey, useLanguage } from "@/lib/i18n";
 import PwaInstallButton from "./PwaInstallButton";
@@ -10,6 +10,7 @@ type NavItem = readonly [href: string, labelKey: DictKey, icon: typeof Compass];
 
 export default function PlatformHeader({ active }: { active?: string }) {
   const { lang, setLang, t } = useLanguage();
+  const showBack = Boolean(active && active !== "/");
   const items: NavItem[] = [
     ["/", "home", Home],
     ["/explore", "explore", Compass],
@@ -24,6 +25,7 @@ export default function PlatformHeader({ active }: { active?: string }) {
     <>
       <header className="platform-header">
         <div className="platform-header__inner">
+          {showBack && <button type="button" className="platform-back-button" onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.href = "/"; }} aria-label="العودة"><ArrowRight size={18} /></button>}
           <Link href="/" className="platform-brand">
             <span className="platform-brand__mark"><img src="/ouedna/ouedna-mark-new.png" alt="" /></span>
             <span><strong>وادنا</strong><small>Ouedna · Wadi Souf</small></span>

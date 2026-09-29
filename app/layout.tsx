@@ -42,8 +42,12 @@ export const metadata: Metadata = {
   category: "travel",
   robots: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   icons: {
-    icon: "/ouedna/ouedna-mark-new.png",
-    apple: "/ouedna/ouedna-mark-new.png",
+    icon: [
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icons/icon-maskable-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/icons/apple-touch-icon.png",
   },
   alternates: { canonical: "/explore", languages: { "ar-DZ": "/explore", "fr-FR": "/explore?lang=fr", "en-US": "/explore?lang=en" } },
   openGraph: {
@@ -63,7 +67,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#0E4B42" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#0F3D2E" };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   const schema = { "@context": "https://schema.org", "@type": "TravelAgency", name: "وادنا Ouedna", description: siteDescription, url: siteUrl, location: { "@type": "Place", name: "ولاية الوادي، الجزائر" } };
