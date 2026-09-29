@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     ],
     apple: "/icons/apple-touch-icon.png",
   },
-  alternates: { canonical: "/explore", languages: { "ar-DZ": "/explore", "fr-FR": "/explore?lang=fr", "en-US": "/explore?lang=en" } },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "ar_DZ",
@@ -70,7 +70,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#0F3D2E" };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  const schema = { "@context": "https://schema.org", "@type": "TravelAgency", name: "وادنا Ouedna", description: siteDescription, url: siteUrl, location: { "@type": "Place", name: "ولاية الوادي، الجزائر" } };
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebSite", name: siteName, url: siteUrl, description: siteDescription, inLanguage: "ar-DZ", potentialAction: { "@type": "SearchAction", target: `${siteUrl}/explore?q={search_term_string}`, "query-input": "required name=search_term_string" } },
+      { "@type": "TouristDestination", name: "وادي سوف", description: siteDescription, url: siteUrl, containedInPlace: { "@type": "Country", name: "الجزائر" } },
+      { "@type": "Organization", name: siteName, url: siteUrl, logo: `${siteUrl}/icons/icon-512.png` }
+    ]
+  };
   return (
     <html lang="ar" dir="rtl" className="h-full antialiased">
       <head>
