@@ -195,7 +195,7 @@ export const dict = {
 
 export type DictKey = keyof typeof dict;
 
-/* ============================= السياق (Context) ============================= */
+  /* ============================= السياق (Context) ============================= */
 type LanguageContextValue = {
   lang: Lang;
   dir: 'rtl' | 'ltr';
