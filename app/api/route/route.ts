@@ -18,6 +18,32 @@ const CAR_ROUTER = 'https://routing.openstreetmap.de/routed-car';
 const FOOT_ROUTER = 'https://routing.openstreetmap.de/routed-foot';
 const LEGACY_CAR_ROUTER = 'https://router.project-osrm.org';
 const MAX_ROUTE_DISTANCE_KM = 500;
+// Lightweight protection for the public routing endpoint. This intentionally stays
+// in-process so the project has no extra infrastructure dependency; for multi-instance
+// deployments, replace it with an edge/Redis rate limiter.
+type RateEntry = { count: number; resetAt: number };
+const rateStore = new Map<string, RateEntry>();
+const RATE_WINDOW_MS = 60_000;
+const RATE_LIMIT = 30;
+
+function getClientKey(request: NextRequest) {
+  return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || request.headers.get('x-real-ip')
+    || 'anonymous';
+}
+
+function rateLimited(request: NextRequest) {
+  const now = Date.now();
+  const key = getClientKey(request);
+  const current = rateStore.get(key);
+  if (!current || current.resetAt <= now) {
+    rateStore.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+  current.count += 1;
+  return current.count > RATE_LIMIT;
+}
+
 
 function isValidCoordinate(latitude: number, longitude: number) {
   return Number.isFinite(latitude) && Number.isFinite(longitude)
@@ -133,6 +159,10 @@ function jsonResponse(payload: unknown, status: number, cacheControl: string) {
 }
 
 export async function GET(request: NextRequest) {
+  if (rateLimited(request)) {
+    return jsonResponse({ error: 'تم تجاوز الحد المؤقت للطلبات. حاول بعد دقيقة.', code: 'RATE_LIMITED' }, 429, 'no-store');
+  }
+
   const { searchParams } = new URL(request.url);
   const required = ['originLat', 'originLng', 'destLat', 'destLng'] as const;
   if (required.some((name) => !searchParams.get(name)?.trim())) {

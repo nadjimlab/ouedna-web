@@ -8,5 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ['/api/', '/_next/'], // منع أرشفة الملفات الداخلية والواجهات البرمجية
     },
     sitemap: 'https://ouedna.myeloued.com/sitemap.xml',
+    host: 'https://ouedna.myeloued.com',
   }
 }

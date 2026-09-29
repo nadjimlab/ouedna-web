@@ -1,0 +1,46 @@
+/* إصلاح الفراغ في أسفل كل الصفحات:
+   premium-overhaul.css جعل خلفية التذييل شفافة بينما بقي نصه أبيض، فصار غير مرئي ويحجز مساحة كبيرة.
+   هنا نعيد له خلفية خضراء داكنة ونصاً مقروءاً بحجم مضغوط، ونزيل الحشوات المتراكمة فوقه. */
+.platform-shell { display: flex; flex-direction: column; min-height: 100svh; }
+.platform-main { flex: 1 0 auto; min-height: 0; }
+
+.platform-shell .platform-footer {
+  display: block; width: 100%; max-width: none; margin: 0;
+  padding: 32px max(24px, calc((100% - 1180px) / 2)) 26px;
+  color: rgba(255, 255, 255, .8); background: #123c35; border-top: 3px solid #d48a2e; font-size: 13px;
+}
+.platform-footer__main { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 22px; }
+.platform-footer__identity { display: grid; gap: 8px; max-width: 420px; }
+.platform-footer__identity p { margin: 0; line-height: 1.9; }
+.platform-footer__identity span { display: inline-flex; align-items: center; gap: 6px; color: #f0b866; }
+.platform-shell .platform-footer__brand { color: #fff; font: 900 22px "Noto Kufi Arabic", sans-serif; }
+.platform-footer__links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.platform-footer__links a { display: inline-flex; align-items: center; gap: 6px; padding: 6px 0; color: rgba(255, 255, 255, .88); }
+.platform-footer__links a:hover { color: #f0b866; }
+.platform-footer__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .14); }
+.platform-shell .platform-footer small { color: rgba(255, 255, 255, .58); font-size: 12px; }
+
+.platform-page { padding-bottom: 56px; }
+.place-detail-page { padding-bottom: 36px; }
+@media (max-width: 900px) {
+  .platform-shell .platform-footer { padding-bottom: 104px; } /* يترك مكاناً لشريط التنقل السفلي الثابت */
+  .app-home { padding-bottom: 36px; }
+}
+
+
+/* Safe-area and standalone app behavior. */
+html, body { overscroll-behavior: none; }
+.platform-header { padding-top: env(safe-area-inset-top); }
+.platform-header__inner { min-height: 82px; }
+.platform-footer { padding-bottom: max(26px, calc(26px + env(safe-area-inset-bottom))); }
+.platform-mobile-nav { bottom: max(12px, env(safe-area-inset-bottom)); }
+.platform-back-button { display: none; align-items: center; justify-content: center; width: 40px; height: 40px; flex: 0 0 40px; border: 1px solid rgba(14,75,66,.16); border-radius: 12px; color: var(--green); background: rgba(255,255,255,.75); cursor: pointer; }
+.is-standalone .pwa-install-wrap { display: none !important; }
+.is-standalone .platform-back-button { display: inline-flex; }
+.is-standalone body { overscroll-behavior: none; }
+@media (max-width: 520px) {
+  .platform-header { padding-top: env(safe-area-inset-top); }
+  .platform-header__inner { min-height: 68px; }
+  .platform-back-button { width: 36px; height: 36px; flex-basis: 36px; }
+}
+.platform-shell .platform-footer { padding-bottom: max(104px, calc(104px + env(safe-area-inset-bottom))); }

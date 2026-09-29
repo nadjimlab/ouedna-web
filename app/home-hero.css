@@ -1,0 +1,172 @@
+/* Ouedna home hero — sunset desert, one orchestrated entrance, slow ambient motion. */
+.hh {
+  --gold: #d48a2e;
+  --gold-soft: #f0b866;
+  --ink: #1d1613;
+  position: relative;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  background: var(--ink);
+  direction: rtl;
+}
+html[dir="ltr"] .hh { direction: ltr; }
+
+/* الخلفية: تقريب بطيء جداً كأن الكاميرا تتقدّم داخل الواحة */
+.hh__bg { position: absolute; inset: -4%; z-index: -4; }
+.hh__img { object-fit: cover; object-position: 50% 62%; animation: hh-zoom 32s ease-in-out infinite alternate; }
+@keyframes hh-zoom { from { transform: scale(1.02); } to { transform: scale(1.14) translateY(-1.5%); } }
+
+/* وهج الشمس النابض عند الأفق */
+.hh__sun {
+  position: absolute; z-index: -3; left: 50%; top: 44%;
+  width: min(70vw, 620px); aspect-ratio: 1; translate: -50% -50%;
+  background: radial-gradient(circle, rgba(255,214,140,.55), rgba(255,170,80,.18) 42%, transparent 68%);
+  mix-blend-mode: screen; animation: hh-sun 7s ease-in-out infinite;
+}
+@keyframes hh-sun { 0%,100% { opacity: .65; scale: .94; } 50% { opacity: 1; scale: 1.08; } }
+
+.hh__shade {
+  position: absolute; inset: 0; z-index: -2;
+  background:
+    linear-gradient(180deg, rgba(29,22,19,.72) 0%, rgba(29,22,19,.18) 30%, rgba(29,22,19,.5) 62%, rgba(29,22,19,.92) 100%),
+    linear-gradient(270deg, rgba(29,22,19,.55), transparent 62%);
+}
+html[dir="ltr"] .hh__shade {
+  background:
+    linear-gradient(180deg, rgba(29,22,19,.72) 0%, rgba(29,22,19,.18) 30%, rgba(29,22,19,.5) 62%, rgba(29,22,19,.92) 100%),
+    linear-gradient(90deg, rgba(29,22,19,.55), transparent 62%);
+}
+
+/* حبّات رمل تعبر الشاشة */
+.hh__grains { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.hh__grains i {
+  position: absolute; inset-inline-start: -10px; border-radius: 50%;
+  background: #ffd9a0; opacity: 0; animation: hh-grain linear infinite;
+}
+@keyframes hh-grain {
+  0% { transform: translate(0, 0); opacity: 0; }
+  12% { opacity: .55; }
+  88% { opacity: .35; }
+  100% { transform: translate(calc(var(--drift) * -1 - 110vw), calc(var(--drift) * .25)); opacity: 0; }
+}
+html[dir="ltr"] .hh__grains i { animation-name: hh-grain-ltr; }
+@keyframes hh-grain-ltr {
+  0% { transform: translate(0, 0); opacity: 0; }
+  12% { opacity: .55; }
+  88% { opacity: .35; }
+  100% { transform: translate(calc(var(--drift) + 110vw), calc(var(--drift) * .25)); opacity: 0; }
+}
+
+.hh__inner {
+  min-height: 100svh; min-height: 100dvh; display: flex; flex-direction: column;
+  width: min(1180px, 100%); margin-inline: auto;
+  padding: max(22px, env(safe-area-inset-top)) 24px max(28px, env(safe-area-inset-bottom));
+}
+
+.hh__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.hh__top-actions { display: flex; align-items: center; gap: 10px; }
+.hh__vr-button {
+  display: inline-flex; align-items: center; gap: 7px; min-height: 52px; padding: 0 17px;
+  color: #fff; border: 1.5px solid rgba(240,184,102,.72); border-radius: 999px;
+  background: rgba(15,61,46,.78); box-shadow: 0 10px 28px rgba(0,0,0,.24); backdrop-filter: blur(12px);
+  font: 800 14px "Noto Kufi Arabic", "Tajawal", sans-serif; transition: transform .25s, background .25s;
+}
+.hh__vr-button:hover { transform: translateY(-2px); background: rgba(212,138,46,.92); color: #2a1b0c; }
+.hh__logo {
+  display: grid; place-items: center; width: 84px; height: 84px; border-radius: 24px; overflow: hidden;
+  background: #0f3d2e; box-shadow: 0 14px 34px rgba(0,0,0,.4), inset 0 0 0 1px rgba(240,184,102,.35);
+}
+.hh__logo img { width: 100%; height: 100%; object-fit: cover; }
+.hh__lang {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px;
+  border: 1.5px solid rgba(255,255,255,.55); border-radius: 999px; color: #fff; cursor: pointer;
+  background: rgba(29,22,19,.28); backdrop-filter: blur(10px);
+  font: 700 17px "Noto Kufi Arabic", "Tajawal", sans-serif; transition: background .25s, border-color .25s;
+}
+.hh__lang:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+
+.hh__copy { margin-block: auto; padding-block: 40px 20px; max-width: 560px; }
+.hh__badge {
+  display: inline-block; padding: 9px 22px; border: 1.5px solid var(--gold); border-radius: 999px;
+  color: var(--gold-soft); background: rgba(29,22,19,.32); backdrop-filter: blur(8px);
+  font: 700 16px "Noto Kufi Arabic", "Tajawal", sans-serif;
+}
+.hh__title {
+  margin: 28px 0 0; font: 900 clamp(76px, 20vw, 168px)/1.05 "Noto Kufi Arabic", "Tajawal", sans-serif;
+  letter-spacing: -.02em; color: #fff; text-shadow: 0 6px 40px rgba(0,0,0,.45);
+}
+.hh__tagline {
+  margin: 4px 0 0; font: 700 clamp(26px, 6vw, 40px)/1.5 "Noto Kufi Arabic", "Tajawal", sans-serif;
+  background: linear-gradient(100deg, var(--gold) 20%, #ffe0a8 50%, var(--gold) 80%);
+  background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: hh-shine 6s ease-in-out 1.6s infinite;
+}
+@keyframes hh-shine { 0%,100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+.hh__intro { margin: 22px 0 0; color: rgba(255,255,255,.9); font: 500 clamp(17px, 3.6vw, 21px)/1.95 "Tajawal", sans-serif; text-shadow: 0 2px 14px rgba(0,0,0,.5); }
+
+.hh__features { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 14px; }
+.hh__features a {
+  display: flex; align-items: center; gap: 16px; width: fit-content; max-width: 100%;
+  color: #fff; font: 700 clamp(17px, 3.8vw, 20px)/1.5 "Tajawal", sans-serif; text-shadow: 0 2px 12px rgba(0,0,0,.5);
+  transition: transform .3s cubic-bezier(.16,1,.3,1);
+}
+.hh__ficon {
+  flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
+  color: var(--gold); background: rgba(212,138,46,.16); border: 1px solid rgba(240,184,102,.22);
+  backdrop-filter: blur(6px); transition: background .3s, color .3s, transform .3s;
+}
+.hh__features a:hover { transform: translateX(-6px); }
+html[dir="ltr"] .hh__features a:hover { transform: translateX(6px); }
+.hh__features a:hover .hh__ficon { background: var(--gold); color: var(--ink); }
+
+.hh__actions { margin-top: 34px; display: grid; gap: 22px; justify-items: center; }
+.hh__cta {
+  position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; min-height: 84px; border-radius: 34px; color: #2a1b0c; background: var(--gold);
+  font: 800 clamp(22px, 5vw, 28px)/1 "Noto Kufi Arabic", "Tajawal", sans-serif;
+  box-shadow: 0 18px 44px rgba(212,138,46,.42); transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s;
+}
+.hh__cta::after {
+  content: ""; position: absolute; inset-block: 0; inset-inline-start: -40%; width: 30%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: skewX(-20deg); animation: hh-sweep 4.5s ease-in-out 2s infinite;
+}
+@keyframes hh-sweep { 0% { inset-inline-start: -40%; } 45%,100% { inset-inline-start: 140%; } }
+.hh__cta:hover { transform: translateY(-3px); box-shadow: 0 24px 56px rgba(212,138,46,.55); }
+.hh__cta:active { transform: translateY(0) scale(.985); }
+.hh__cta:hover .hh__arrow { transform: translateX(-6px); }
+html[dir="ltr"] .hh__cta:hover .hh__arrow { transform: scaleX(-1) translateX(-6px); }
+html[dir="ltr"] .hh__arrow { transform: scaleX(-1); }
+.hh__arrow { transition: transform .3s; }
+.hh__guest { color: rgba(255,255,255,.78); font: 500 clamp(17px, 3.8vw, 20px) "Tajawal", sans-serif; padding: 10px 16px; transition: color .2s; }
+.hh__guest:hover { color: #fff; text-decoration: underline; text-underline-offset: 6px; }
+
+.hh a:focus-visible, .hh button:focus-visible { outline: 3px solid var(--gold-soft); outline-offset: 4px; }
+
+/* شاشات واسعة: النص في جهة البداية والصورة تتنفس على الجهة الأخرى */
+@media (min-width: 900px) {
+  .hh__inner { padding-inline: 48px; }
+  .hh__copy { max-width: 600px; }
+  .hh__actions { justify-items: start; }
+  .hh__cta { width: auto; min-width: 380px; min-height: 72px; padding-inline: 40px; border-radius: 26px; }
+}
+@media (max-width: 380px) {
+  .hh__logo { width: 68px; height: 68px; border-radius: 20px; }
+  .hh__lang { min-height: 46px; padding-inline: 16px; font-size: 15px; }
+  .hh__cta { min-height: 72px; border-radius: 28px; }
+}
+
+@media (max-width: 620px) {
+  .hh__top-actions { flex-direction: column; align-items: flex-end; gap: 8px; }
+  .hh__vr-button { min-height: 42px; padding-inline: 13px; font-size: 11px; }
+  .hh__lang { min-height: 42px; padding-inline: 14px; font-size: 12px; }
+  .hh__copy { padding-block: 28px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hh__img, .hh__sun, .hh__tagline, .hh__cta::after { animation: none; }
+  .hh__grains { display: none; }
+}

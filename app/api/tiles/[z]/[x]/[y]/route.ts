@@ -4,9 +4,9 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { z: string; x: string; y: string } | Promise<{ z: string; x: string; y: string }> }
+  context: { params: Promise<{ z: string; x: string; y: string }> }
 ) {
-  const resolvedParams = await Promise.resolve(context.params);
+  const resolvedParams = await context.params;
   const { z, x, y } = resolvedParams;
   const cleanY = y.replace(/\.png$/, '');
 
