@@ -22,7 +22,7 @@ import "./home-hero.css";
 import "./platform-fixes.css";
 import PwaRuntime from "./PwaRuntime";
 import { siteConfig } from "./metadata";
-
+import AppProviders from "@/components/AppProviders";
 // Ouedna brand metadata: Arabic-first tourism gateway for El Oued, Algeria.
 const siteName = "Ouedna | وادنا";
 const siteTitle = "وادنا Ouedna | اكتشف وادي سوف على إيقاعك";
@@ -90,7 +90,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <PwaRuntime />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-amber-600 focus:px-4 focus:py-2 focus:text-white">الانتقال إلى المحتوى الرئيسي</a>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-        <div id="main-content">{children}</div>
+        <AppProviders>
+  <div id="main-content">{children}</div>
+</AppProviders>
       </body>
     </html>
   );
