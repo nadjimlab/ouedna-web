@@ -88,10 +88,16 @@ export default function HomeHero() {
           <span className="hh__logo">
             <Image src="/ouedna/ouedna-mark-new.png" alt="Ouedna" width={84} height={84} priority />
           </span>
-          <button type="button" className="hh__lang" onClick={nextLang} aria-label={t("language")}>
-            <Globe2 size={20} aria-hidden="true" />
-            {current.label}
-          </button>
+          <div className="hh__top-actions">
+            <Link href="/virtual-tour" className="hh__vr-button">
+              <View size={18} aria-hidden="true" />
+              <span>زيارة VR</span>
+            </Link>
+            <button type="button" className="hh__lang" onClick={nextLang} aria-label={t("language")}>
+              <Globe2 size={20} aria-hidden="true" />
+              {current.label}
+            </button>
+          </div>
         </motion.div>
 
         <div className="hh__copy">
