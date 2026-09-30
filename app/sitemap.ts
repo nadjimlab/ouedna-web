@@ -6,8 +6,10 @@ import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 export const revalidate = 3600;
 
 const publicRoutes = [
+  ["/", "daily", 1],
   ["/explore", "daily", 1],
   ["/map", "weekly", 0.8],
+  ["/virtual-tour", "weekly", 0.8],
   ["/archive", "weekly", 0.7],
   ["/community", "weekly", 0.6],
   ["/about", "monthly", 0.5],

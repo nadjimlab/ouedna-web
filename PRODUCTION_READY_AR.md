@@ -6,7 +6,7 @@
 
 1. أنشئ ملف `.env.local` بالقيم الصحيحة لـ Supabase وأي متغيرات OSRM.
 2. نفّذ `npm install` ثم `npm run lint` و `npm run build`.
-3. اربط النطاق `ouedna.myeloued.com` بشهادة HTTPS صحيحة.
+3. اربط النطاق `myeloued.com` بشهادة HTTPS صحيحة.
 4. راجع سياسات Supabase RLS قبل فتح لوحة الإدارة.
 5. في الاستضافة متعددة النسخ، استبدل rate limiter المحلي في `/app/api/route/route.ts` بـ Redis/edge limiter.
 

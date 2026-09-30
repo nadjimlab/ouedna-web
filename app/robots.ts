@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { siteConfig } from './metadata'
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/_next/'], // منع أرشفة الملفات الداخلية والواجهات البرمجية
     },
-    sitemap: 'https://ouedna.myeloued.com/sitemap.xml',
-    host: 'https://ouedna.myeloued.com',
+    sitemap: `${siteConfig.url}/sitemap.xml`,
+    host: siteConfig.url,
   }
 }

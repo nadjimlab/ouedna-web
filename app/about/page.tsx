@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Compass, Mail, MapPin, Target, Users } from "lucide-react";
+import { siteConfig } from "@/app/metadata";
 
 export const metadata: Metadata = {
   title: "من نحن | وادنا Ouedna",
   description:
     "تعرّف على وادنا، المنصة السياحية الرقمية لاكتشاف معالم واحات وتراث ولاية الوادي.",
   alternates: { canonical: "/about" },
-  openGraph: { title: "من نحن | وادنا Ouedna", description: "رؤية وادنا لدعم اكتشاف السياحة المحلية في وادي سوف.", url: "https://ouedna.myeloued.com/about" },
+  openGraph: { title: "من نحن | وادنا Ouedna", description: "رؤية وادنا لدعم اكتشاف السياحة المحلية في وادي سوف.", url: `${siteConfig.url}/about` },
 };
 
 export default function AboutPage() {
