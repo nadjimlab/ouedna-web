@@ -357,12 +357,12 @@ export async function autoTranslate(text: string, targetLang: Lang): Promise<str
  */
 export function useAutoTranslate(text?: string | null): string {
   const { lang } = useLanguage();
-  const [translated, setTranslated] = useState(text || '');
+  const [translated, setTranslated] = useState(() => lang === 'ar' ? text || '' : '…');
 
   useEffect(() => {
     let cancelled = false;
     queueMicrotask(() => {
-      if (!cancelled) setTranslated(text || '');
+      if (!cancelled) setTranslated(lang === 'ar' ? text || '' : '…');
     });
     if (!text || lang === 'ar') return;
     autoTranslate(text, lang).then((res) => {
