@@ -1,11 +1,7 @@
 "use client";
 
 // Ouedna platform header: language and direction are driven by the shared provider.
-<<<<<<< HEAD
 import { ArrowRight, Compass, Download, Globe2, History, Home, MapPinned, MessageCircle, View } from "lucide-react";
-=======
-import { Compass, Download, Globe2, History, Home, MapPinned, MessageCircle, View } from "lucide-react";
->>>>>>> 1813fdc (feat: add immersive virtual tour and hide health facilities)
 import Link from "next/link";
 import { type DictKey, useLanguage } from "@/lib/i18n";
 import PwaInstallButton from "./PwaInstallButton";

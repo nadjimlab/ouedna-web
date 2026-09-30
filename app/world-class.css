@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 
 /* Immersive homepage welcome layer. */
@@ -32,8 +31,6 @@ html{background:var(--wc-cream)}body{background:var(--wc-cream);color:var(--wc-i
 .platform-nav a{padding:9px 12px;font-size:11px}.platform-nav a.is-active{box-shadow:0 4px 12px rgba(13,75,66,.08)}
 .platform-language{height:40px;border-radius:13px;background:#fff}.platform-download-link{height:40px;border-radius:13px;padding-inline:15px}
 .platform-main{min-height:calc(100vh - 78px)}
-=======
->>>>>>> 7fa4b64 (feat: add welcome hero actions)
 
 
 /* Immersive homepage welcome layer. */
