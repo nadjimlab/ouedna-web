@@ -12,6 +12,12 @@ function hasDashboardPermission(profile: { role?: string | null; permissions?: u
 }
 
 export async function middleware(request: NextRequest) {
+  const hostname = (request.headers.get("x-forwarded-host") || request.headers.get("host") || request.nextUrl.hostname).split(":")[0].toLowerCase();
+  if (hostname === "ouedna.myeloued.com") {
+    const canonicalUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, "https://myeloued.com");
+    return NextResponse.redirect(canonicalUrl, 308);
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
