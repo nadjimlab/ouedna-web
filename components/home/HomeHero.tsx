@@ -91,7 +91,7 @@ export default function HomeHero() {
           <div className="hh__top-actions">
             <Link href="/virtual-tour" className="hh__vr-button">
               <View size={18} aria-hidden="true" />
-              <span>زيارة VR</span>
+              <span>{t("homeFeatVr")}</span>
             </Link>
             <button type="button" className="hh__lang" onClick={nextLang} aria-label={t("language")}>
               <Globe2 size={20} aria-hidden="true" />

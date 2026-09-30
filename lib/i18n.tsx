@@ -119,6 +119,63 @@ export const dict = {
 
   // ------- عام -------
   language: { ar: 'اللغة', en: 'Language', fr: 'Langue' },
+  back: { ar: 'العودة', en: 'Back', fr: 'Retour' },
+  primaryNavigation: { ar: 'التنقل الرئيسي', en: 'Primary navigation', fr: 'Navigation principale' },
+  footerNavigation: { ar: 'روابط الموقع', en: 'Footer navigation', fr: 'Navigation du pied de page' },
+  privacy: { ar: 'الخصوصية', en: 'Privacy', fr: 'Confidentialité' },
+  contactUs: { ar: 'تواصل معنا', en: 'Contact us', fr: 'Nous contacter' },
+  footerTrusted: { ar: 'محتوى محلي موثوق ومراجع', en: 'Trusted, reviewed local content', fr: 'Contenu local fiable et vérifié' },
+  allRightsReserved: { ar: 'جميع الحقوق محفوظة.', en: 'All rights reserved.', fr: 'Tous droits réservés.' },
+  exploreBrand: { ar: 'وادنا · الدليل السياحي الرسمي', en: 'Ouedna · Official tourism guide', fr: 'Ouedna · Guide touristique officiel' },
+  exploreBadge: { ar: 'اكتشف الوادي', en: 'Discover El Oued', fr: 'Découvrez El Oued' },
+  exploreWelcomeTitle: { ar: 'مرحباً بك في', en: 'Welcome to', fr: 'Bienvenue au' },
+  exploreWelcomeTitleAccent: { ar: 'قلب الصحراء', en: 'the heart of the desert', fr: 'cœur du désert' },
+  exploreWelcomeDescription: { ar: 'من القباب التاريخية إلى الواحات الخضراء وسط الرمال الذهبية. خطط رحلتك واكتشف الأماكن التي تهمك.', en: 'From historic domes to green oases among golden dunes. Plan your journey and discover the places that matter to you.', fr: 'Des coupoles historiques aux oasis verdoyantes au milieu des dunes dorées. Planifiez votre voyage et découvrez les lieux qui vous ressemblent.' },
+  startExploring: { ar: 'ابدأ الاستكشاف', en: 'Start exploring', fr: 'Commencer l’exploration' },
+  interactiveMap: { ar: 'الخريطة التفاعلية', en: 'Interactive map', fr: 'Carte interactive' },
+  itinerary: { ar: 'خط رحلتي', en: 'My itinerary', fr: 'Mon itinéraire' },
+  itineraryDesc: { ar: 'خطط يومك بسهولة', en: 'Plan your day easily', fr: 'Planifiez votre journée' },
+  archiveMemories: { ar: 'أرشيف وذكريات', en: 'Archive & memories', fr: 'Archives et souvenirs' },
+  archiveDesc: { ar: 'اكتشف تاريخ وادي سوف', en: 'Discover Souf history', fr: 'Découvrez l’histoire du Souf' },
+  mapDesc: { ar: 'مسارات سياحية دقيقة', en: 'Accurate tourism routes', fr: 'Itinéraires touristiques précis' },
+  suggestLandmark: { ar: 'اقترح معلماً', en: 'Suggest a landmark', fr: 'Suggérer un site' },
+  suggestDesc: { ar: 'أضف مكاناً للدليل', en: 'Add a place to the guide', fr: 'Ajouter un lieu au guide' },
+  virtualVisit: { ar: 'زيارة افتراضية', en: 'Virtual visit', fr: 'Visite virtuelle' },
+  beforeYourVisit: { ar: 'شاهد المعالم قبل الزيارة.', en: 'See the landmarks before your visit.', fr: 'Découvrez les sites avant votre visite.' },
+  showLandmarks: { ar: 'عرض المعالم', en: 'Show landmarks', fr: 'Voir les sites' },
+  exploreDirectory: { ar: 'دليل وادنا', en: 'Ouedna guide', fr: 'Guide Ouedna' },
+  exploreDirectoryTitle: { ar: 'اكتشف الأماكن التي تشبهك.', en: 'Discover places that suit you.', fr: 'Découvrez les lieux qui vous ressemblent.' },
+  exploreDirectoryDescription: { ar: 'ابحث عن معلمك القادم واحفظه ضمن رحلتك.', en: 'Find your next landmark and save it to your journey.', fr: 'Trouvez votre prochain site et ajoutez-le à votre voyage.' },
+  availableLandmarks: { ar: 'معلم متاح', en: 'landmarks available', fr: 'sites disponibles' },
+  exploreSearchPlaceholder: { ar: 'ابحث عن معلم، واحة، سوق...', en: 'Search a landmark, oasis, or market...', fr: 'Rechercher un site, une oasis ou un marché...' },
+  filterByInterest: { ar: 'تصفية حسب الاهتمام', en: 'Filter by interest', fr: 'Filtrer par intérêt' },
+  tour360: { ar: '360°', en: '360°', fr: '360°' },
+  openMap: { ar: 'افتح الخريطة', en: 'Open map', fr: 'Ouvrir la carte' },
+  newPlace: { ar: 'جديد', en: 'New', fr: 'Nouveau' },
+  noExploreResults: { ar: 'لا توجد نتائج بهذا البحث', en: 'No results for this search', fr: 'Aucun résultat pour cette recherche' },
+  tryAnotherFilter: { ar: 'جرّب تصنيفاً آخر أو اكتب كلمة بحث مختلفة.', en: 'Try another category or search term.', fr: 'Essayez une autre catégorie ou un autre terme.' },
+  resetFilters: { ar: 'إعادة التصفية', en: 'Reset filters', fr: 'Réinitialiser les filtres' },
+  unknownLandmark: { ar: 'معلم من وادي سوف', en: 'Souf landmark', fr: 'Site du Souf' },
+  suggestPrompt: { ar: 'تعرف معلماً غير موجود؟', en: 'Know a landmark we missed?', fr: 'Vous connaissez un site absent ?' },
+  suggestPromptDesc: { ar: 'ساعدنا في إثراء دليل وادنا المحلي.', en: 'Help us enrich the local Ouedna guide.', fr: 'Aidez-nous à enrichir le guide local Ouedna.' },
+  saved: { ar: 'محفوظ', en: 'Saved', fr: 'Enregistré' },
+  publishedAfterReview: { ar: 'تجارب منشورة بعد المراجعة', en: 'Experiences published after review', fr: 'Expériences publiées après vérification' },
+  inspireYou: { ar: 'تجارب تلهمك.', en: 'Experiences to inspire you.', fr: 'Des expériences pour vous inspirer.' },
+  experienceCount: { ar: 'تجربة', en: 'experiences', fr: 'expériences' },
+  shareJourney: { ar: 'شارك أثراً من رحلتك', en: 'Share a trace of your journey', fr: 'Partagez une trace de votre voyage' },
+  reviewBeforePublish: { ar: 'ستُراجع التجربة قبل نشرها حفاظاً على جودة الدليل.', en: 'Your experience will be reviewed before publication.', fr: 'Votre expérience sera vérifiée avant publication.' },
+  firstShareTitle: { ar: 'كن أول من يشارك', en: 'Be the first to share', fr: 'Soyez le premier à partager' },
+  firstShareDescription: { ar: 'لا توجد تجارب منشورة بعد. اترك أثراً صادقاً للزائر التالي.', en: 'No experiences have been published yet. Leave an honest trace for the next visitor.', fr: 'Aucune expérience publiée. Laissez un témoignage sincère au prochain visiteur.' },
+  thankYou: { ar: 'شكراً لمشاركتك.', en: 'Thank you for sharing.', fr: 'Merci pour votre partage.' },
+  receivedForReview: { ar: 'وصلت تجربتك إلى الإدارة للمراجعة.', en: 'Your experience has been sent for review.', fr: 'Votre expérience a été envoyée pour vérification.' },
+  addAnother: { ar: 'إضافة تجربة أخرى', en: 'Add another experience', fr: 'Ajouter une autre expérience' },
+  nameOptional: { ar: 'الاسم (اختياري)', en: 'Name (optional)', fr: 'Nom (facultatif)' },
+  yourExperience: { ar: 'تجربتك *', en: 'Your experience *', fr: 'Votre expérience *' },
+  namePlaceholder: { ar: 'اسمك', en: 'Your name', fr: 'Votre nom' },
+  experiencePlaceholder: { ar: 'ما الذي ترك أثراً في رحلتك؟', en: 'What left an impression on your journey?', fr: 'Qu’est-ce qui vous a marqué pendant votre voyage ?' },
+  visitorPhotoAlt: { ar: 'صورة من تجربة زائر', en: 'Photo from a visitor experience', fr: 'Photo d’une expérience visiteur' },
+  attachPhotos: { ar: 'أرفق صوراً (اختياري)', en: 'Attach photos (optional)', fr: 'Joindre des photos (facultatif)' },
+  submitForReview: { ar: 'إرسال للمراجعة', en: 'Submit for review', fr: 'Envoyer pour vérification' },
 
   // ------- صفحة الخريطة -------
   mapSearchPlaceholder: { ar: 'ابحث عن معلم، فندق، مطعم...', en: 'Search a landmark, hotel, restaurant...', fr: 'Rechercher un site, un hôtel, un restaurant...' },
@@ -205,25 +262,26 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>('ar');
+export function LanguageProvider({ children, initialLang = 'ar' }: { children: React.ReactNode; initialLang?: Lang }) {
+  const [lang, setLangState] = useState<Lang>(initialLang);
 
   useEffect(() => {
     try {
       const saved = (window.localStorage.getItem(STORAGE_KEY) || window.localStorage.getItem(LEGACY_STORAGE_KEY)) as Lang | null;
       if (saved && LANGUAGES.some((l) => l.code === saved)) {
-        setLangState(saved);
+        if (saved !== initialLang) queueMicrotask(() => setLangState(saved));
         window.localStorage.setItem(STORAGE_KEY, saved);
       }
     } catch {
       // تجاهل أي خطأ فالقراءة من التخزين المحلي
     }
-  }, []);
+  }, [initialLang]);
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
     try {
       window.localStorage.setItem(STORAGE_KEY, l);
+      document.cookie = `${STORAGE_KEY}=${l}; Path=/; Max-Age=31536000; SameSite=Lax`;
     } catch {
       // تجاهل أي خطأ فالكتابة
     }
@@ -243,6 +301,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dir = dir;
+    try {
+      document.cookie = `${STORAGE_KEY}=${lang}; Path=/; Max-Age=31536000; SameSite=Lax`;
+    } catch {
+      // Cookie persistence is best-effort.
+    }
   }, [lang, dir]);
 
   return (
@@ -298,7 +361,9 @@ export function useAutoTranslate(text?: string | null): string {
 
   useEffect(() => {
     let cancelled = false;
-    setTranslated(text || '');
+    queueMicrotask(() => {
+      if (!cancelled) setTranslated(text || '');
+    });
     if (!text || lang === 'ar') return;
     autoTranslate(text, lang).then((res) => {
       if (!cancelled) setTranslated(res);

@@ -44,3 +44,24 @@ html, body { overscroll-behavior: none; }
   .platform-back-button { width: 36px; height: 36px; flex-basis: 36px; }
 }
 .platform-shell .platform-footer { padding-bottom: max(104px, calc(104px + env(safe-area-inset-bottom))); }
+
+/* Shared production polish: focus, translated labels, and mobile clearance. */
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+.platform-place-grid, .app-explore-grid, .app-action-grid { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
+.platform-place-card, .app-place-card, .platform-place-card__body, .app-place-card__body, .platform-header__inner { min-width: 0; }
+.platform-place-card h3, .app-place-card h3, .app-place-card small { overflow-wrap: anywhere; }
+@media (max-width: 900px) {
+  .platform-shell:not(.platform-shell--immersive) .platform-main:not(:has(.app-map-shell)) { padding-bottom: max(84px, calc(84px + env(safe-area-inset-bottom))); }
+  .platform-header__actions .platform-language { display: inline-flex; max-width: 92px; }
+  .platform-language select { max-width: 68px; font-size: 10px; }
+  .app-explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .app-explore-grid { grid-template-columns: minmax(0, 1fr); }
+  .platform-header__actions .platform-language { display: inline-flex; }
+  .platform-language { padding-inline: 5px; }
+  .platform-language svg { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}

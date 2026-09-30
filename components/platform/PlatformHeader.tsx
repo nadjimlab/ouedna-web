@@ -25,12 +25,12 @@ export default function PlatformHeader({ active }: { active?: string }) {
     <>
       <header className="platform-header">
         <div className="platform-header__inner">
-          {showBack && <button type="button" className="platform-back-button" onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.href = "/"; }} aria-label="العودة"><ArrowRight size={18} /></button>}
+          {showBack && <button type="button" className="platform-back-button" onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.href = "/"; }} aria-label={t("back")}><ArrowRight size={18} /></button>}
           <Link href="/" className="platform-brand">
             <span className="platform-brand__mark"><img src="/ouedna/ouedna-mark-new.png" alt="" /></span>
             <span><strong>وادنا</strong><small>Ouedna · Wadi Souf</small></span>
           </Link>
-          <nav className="platform-nav" aria-label={t("home")}>
+          <nav className="platform-nav" aria-label={t("primaryNavigation")}>
             {items.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={active === href ? "is-active" : ""}><Icon size={16} />{t(labelKey)}</Link>)}
           </nav>
           <div className="platform-header__actions">
@@ -45,7 +45,7 @@ export default function PlatformHeader({ active }: { active?: string }) {
           </div>
         </div>
       </header>
-      <nav className="platform-mobile-nav" aria-label={t("home")}>
+      <nav className="platform-mobile-nav" aria-label={t("primaryNavigation")}>
         {mobileItems.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={active === href ? "is-active" : ""}><Icon size={19} /><span>{t(labelKey)}</span></Link>)}
       </nav>
     </>
