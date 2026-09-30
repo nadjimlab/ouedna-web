@@ -248,6 +248,23 @@ export const dict = {
   vrPause: { ar: 'إيقاف مؤقت', en: 'Pause', fr: 'Pause' },
   vrPlay: { ar: 'تشغيل الجولة', en: 'Play tour', fr: 'Lancer la visite' },
   homeFeatVr: { ar: 'زيارة افتراضية VR لمعالم الوادي', en: 'Virtual VR visit of the landmarks', fr: 'Visite virtuelle VR des sites' },
+  archiveHeroTitle: { ar: 'صور تحفظ\nروح المكان.', en: 'Images that preserve\nthe spirit of place.', fr: 'Des images qui gardent\nl’âme du lieu.' },
+  archiveHeroDescription: { ar: 'أرشيف بصري لولاية الوادي، يجمع الذكريات القديمة والمواد التراثية التي يشاركها أهل سوف.', en: 'A visual archive of El Oued, bringing together old memories and heritage shared by the Souf community.', fr: 'Un archive visuelle d’El Oued qui rassemble les souvenirs et le patrimoine partagés par la communauté du Souf.' },
+  archiveLive: { ar: 'أرشيف حي', en: 'Living archive', fr: 'Archive vivante' },
+  archivePublished: { ar: 'مادة منشورة تستحق التوقف.', en: 'published pieces worth pausing for.', fr: 'publications qui méritent une pause.' },
+  archiveImageAlt: { ar: 'ذاكرة من وادي سوف', en: 'A memory from Wadi Souf', fr: 'Un souvenir du Souf' },
+  archiveVerified: { ar: 'صور موثقة', en: 'verified photos', fr: 'photos vérifiées' },
+  archiveEmptyTitle: { ar: 'الأرشيف قيد التوسعة', en: 'The archive is growing', fr: 'Les archives s’enrichissent' },
+  archiveEmptyDescription: { ar: 'ستظهر هنا الصور التي تعتمدها الإدارة من ذاكرة وادي سوف.', en: 'Images approved from the memory of Wadi Souf will appear here.', fr: 'Les images validées de la mémoire du Souf apparaîtront ici.' },
+  communityHeroTitle: { ar: 'المكان يكبر\nبأهله.', en: 'A place grows\nthrough its people.', fr: 'Un lieu grandit\ngrâce à ses habitants.' },
+  communityHeroDescription: { ar: 'شارك تجربة، صورة، اقتراحاً أو سؤالاً. هنا تتحول المعرفة المحلية إلى طريق أوضح للزائر التالي.', en: 'Share an experience, photo, suggestion or question. Local knowledge becomes a clearer path for the next visitor.', fr: 'Partagez une expérience, une photo, une idée ou une question. Le savoir local devient un chemin plus clair pour le prochain visiteur.' },
+  communityHeroAlt: { ar: 'واحة النخيل في وادي سوف', en: 'Palm oasis in Wadi Souf', fr: 'Oasis de palmiers du Souf' },
+  mapLoading: { ar: 'جاري جلب المعالم الحقيقية من قاعدة البيانات...', en: 'Loading real landmarks from the database...', fr: 'Chargement des sites depuis la base de données...' },
+  mapLoadingShort: { ar: 'جاري تحميل الخريطة التفاعلية...', en: 'Loading the interactive map...', fr: 'Chargement de la carte interactive...' },
+  mapLoadError: { ar: 'تعذر تحميل بيانات الخريطة.', en: 'Could not load map data.', fr: 'Impossible de charger les données de la carte.' },
+  panoLoading: { ar: 'جارٍ تحميل الجولة الافتراضية 360°…', en: 'Loading the 360° virtual tour…', fr: 'Chargement de la visite virtuelle 360°…' },
+  panoError: { ar: 'تعذّر تحميل الجولة الافتراضية حالياً. حاول لاحقاً.', en: 'The virtual tour could not load right now. Try again later.', fr: 'La visite virtuelle ne peut pas être chargée. Réessayez plus tard.' },
+  panoHint: { ar: 'اسحب للاستكشاف بزاوية 360°', en: 'Drag to explore in 360°', fr: 'Faites glisser pour explorer à 360°' },
 } as const;
 
 export type DictKey = keyof typeof dict;

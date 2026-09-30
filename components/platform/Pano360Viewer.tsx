@@ -5,6 +5,7 @@
 // إضافية في package.json.
 import { useEffect, useRef, useState } from "react";
 import { Maximize2, RotateCw, View } from "lucide-react";
+import { useLanguage } from "@/lib/i18n";
 
 declare global {
   interface Window {
@@ -18,6 +19,7 @@ const CSS_URL = "https://unpkg.com/pannellum@2.5.6/build/pannellum.css";
 const JS_URL = "https://unpkg.com/pannellum@2.5.6/build/pannellum.js";
 
 export default function Pano360Viewer({ src, title, className }: { src?: string | null; title?: string; className?: string }) {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewerRef = useRef<any>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "failed">("loading");
@@ -91,23 +93,23 @@ export default function Pano360Viewer({ src, title, className }: { src?: string 
         ref={containerRef}
         className="pano360__stage"
         role="img"
-        aria-label={title ? `جولة افتراضية 360° داخل ${title}` : "جولة افتراضية 360°"}
+        aria-label={title ? `${t("vrTour")} — ${title}` : t("vrTour")}
       />
       {status === "loading" && (
         <div className="pano360__overlay">
           <RotateCw size={18} className="pano360__spin" />
-          <span>جارٍ تحميل الجولة الافتراضية 360°…</span>
+          <span>{t("panoLoading")}</span>
         </div>
       )}
       {status === "failed" && (
         <div className="pano360__overlay pano360__overlay--error">
           <View size={18} />
-          <span>تعذّر تحميل الجولة الافتراضية حالياً. حاول لاحقاً.</span>
+          <span>{t("panoError")}</span>
         </div>
       )}
       {status === "ready" && (
         <span className="pano360__hint">
-          <Maximize2 size={12} /> اسحب للاستكشاف بزاوية 360°
+          <Maximize2 size={12} /> {t("panoHint")}
         </span>
       )}
     </div>

@@ -276,3 +276,8 @@
 @media (prefers-reduced-motion: reduce) {
   .soufmap-user-pulse, .soufmap-container .leaflet-tile-pane { animation: none !important; transition: none !important; }
 }
+
+
+/* Ouedna premium map layer: preserve Leaflet behavior, unify only the visual chrome. */
+.soufmap-controls,.soufmap-ctrl-group,.soufmap-ctrl-btn{background:rgba(11,61,53,.92);border-color:rgba(214,166,83,.24);color:#fff;box-shadow:0 10px 24px rgba(5,34,30,.25)}.soufmap-ctrl-btn:hover{background:#173b35}.soufmap-tag,.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0b3d35!important}.soufmap-tag{border-color:rgba(214,166,83,.4)!important}.soufmap-tag::before{border-top-color:#0b3d35!important}.soufmap-user-dot{background:#d6a653}.soufmap-user-car{background:#173b35}.soufmap-user-pulse{background:rgba(214,166,83,.3)}.soufmap-pin{background:#b7772d}.leaflet-control-attribution{background:rgba(11,61,53,.82)!important;color:rgba(255,255,255,.72)!important}.leaflet-control-attribution a{color:#f0c875!important}
+@media(max-width:767px){.soufmap-controls{top:max(12px,env(safe-area-inset-top));bottom:auto}.soufmap-container{padding-bottom:max(84px,env(safe-area-inset-bottom))}}
