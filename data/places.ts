@@ -14,7 +14,7 @@ export interface Place {
   popularity: PlacePopularity;
   lat: number;
   lng: number;
-  rating: number;
+  rating?: number;
   image: string;
   description: string;
   location: string;
@@ -38,28 +38,32 @@ export async function getPlacesFromDB(): Promise<Place[]> {
     return [];
   }
 
-  return data.filter((item: any) => !excludedPublicCategories.has(item.category || item.main_category || '')).map((item: any) => {
+  const rows = (data ?? []) as Array<Record<string, unknown>>;
+  return rows.filter((item) => !excludedPublicCategories.has(String(item.category || item.main_category || '')) && typeof item.lat === 'number' && typeof item.lng === 'number').map((item) => {
     const images = decodeImageUrls(item.image_url);
     const finalImage = images[0] || "/images/images.jpg";
+    const name = String(item.name || "معلم سياحي");
+    const description = typeof item.description === "string" ? item.description : "";
+    const category = String(item.category || item.main_category || "تاريخ وثقافة");
 
     return {
-      id: item.id,
-      name: item.name,
-      subtitle: item.description ? item.description.substring(0, 40) + "..." : item.name,
-      category: item.category || item.main_category || 'تاريخ وثقافة',
-      municipality: item.municipality || "الوادي",
-      district: item.district || "الوادي",
+      id: Number(item.id),
+      name,
+      subtitle: description ? description.substring(0, 40) + "..." : name,
+      category,
+      municipality: String(item.municipality || "الوادي"),
+      district: String(item.district || "الوادي"),
       popularity: "high",
-      lat: item.lat || 33.3683,
-      lng: item.lng || 6.8667,
-      rating: item.rating || 4.5,
+      lat: item.lat as number,
+      lng: item.lng as number,
+      rating: typeof item.rating === 'number' && item.rating > 0 ? item.rating : undefined,
       image: finalImage,
-      description: item.description || '',
-      location: item.municipality || "الوادي",
-      tags: [item.category || 'سياحة'],
-      phone: item.phone,
-      website: item.website,
-      openingHours: item.opening_hours,
+      description,
+      location: String(item.municipality || "الوادي"),
+      tags: [category || 'سياحة'],
+      phone: typeof item.phone === "string" ? item.phone : undefined,
+      website: typeof item.website === "string" ? item.website : undefined,
+      openingHours: typeof item.opening_hours === "string" ? item.opening_hours : undefined,
     };
   });
 }

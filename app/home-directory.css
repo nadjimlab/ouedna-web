@@ -1,0 +1,40 @@
+.home-directory {
+  background: #f7f2e9;
+  color: #1d1613;
+  padding: clamp(3.5rem, 8vw, 7rem) 0;
+  direction: rtl;
+}
+html[dir="ltr"] .home-directory { direction: ltr; }
+.home-directory__heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.home-directory__heading h2 {
+  margin: .6rem 0 .75rem;
+  color: #1d1613;
+  font: 900 clamp(2rem, 4vw, 4rem)/1.15 "Noto Kufi Arabic", "Tajawal", sans-serif;
+  letter-spacing: -.04em;
+}
+.home-directory__heading p { max-width: 42rem; margin: 0; color: #6a5b4d; font: 500 1.05rem/1.8 "Tajawal", sans-serif; }
+.home-directory__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+.home-directory__card { overflow: hidden; border: 1px solid rgba(103, 76, 47, .13); border-radius: 1.5rem; background: rgba(255,255,255,.72); box-shadow: 0 16px 45px rgba(83, 57, 35, .08); transition: transform .25s ease, box-shadow .25s ease; }
+.home-directory__card:hover { transform: translateY(-5px); box-shadow: 0 22px 55px rgba(83, 57, 35, .15); }
+.home-directory__image { position: relative; display: block; aspect-ratio: 1.35; overflow: hidden; background: #d9c7ad; }
+.home-directory__image img { object-fit: cover; transition: transform .5s ease; }
+.home-directory__card:hover .home-directory__image img { transform: scale(1.04); }
+.home-directory__body { padding: 1.15rem 1.2rem 1.25rem; }
+.home-directory__body > span { color: #1f5a45; font: 800 .78rem/1.2 "Tajawal", sans-serif; }
+.home-directory__body h3 { margin: .55rem 0 .35rem; font: 800 1.35rem/1.35 "Tajawal", sans-serif; }
+.home-directory__body h3 a { color: inherit; }
+.home-directory__body p { display: -webkit-box; overflow: hidden; min-height: 3.2rem; margin: 0; color: #6a5b4d; font: 500 .95rem/1.7 "Tajawal", sans-serif; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.home-directory__meta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; padding-top: .85rem; border-top: 1px solid rgba(103, 76, 47, .12); }
+.home-directory__meta small { display: inline-flex; align-items: center; gap: .35rem; color: #7c6d5d; font: 700 .83rem/1.4 "Tajawal", sans-serif; }
+.home-directory__meta a { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; color: white; background: #1f5a45; }
+.home-directory__actions { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: 2rem; }
+.home-directory__empty { margin-top: 1rem; background: rgba(255,255,255,.65); }
+@media (max-width: 850px) { .home-directory__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .home-directory { padding: 3.5rem 0 4.5rem; } .home-directory__heading { display: block; } .home-directory__heading .platform-text-link { display: inline-flex; margin-top: 1rem; } .home-directory__grid { grid-template-columns: 1fr; } .home-directory__card { border-radius: 1.25rem; } }
+@media (prefers-reduced-motion: reduce) { .home-directory__card, .home-directory__image img { transition: none; } }
