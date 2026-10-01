@@ -22,6 +22,7 @@ import "./explore-glass.css";
 import "./home-hero.css";
 import "./home-directory.css";
 import "./platform-fixes.css";
+import "./internal-backdrop.css";
 import PwaRuntime from "./PwaRuntime";
 import { siteConfig } from "./metadata";
 import AppProviders from "@/components/AppProviders";
