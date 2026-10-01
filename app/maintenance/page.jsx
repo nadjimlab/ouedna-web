@@ -23,7 +23,7 @@ export default async function MaintenancePage() {
   return (
     <main
       dir="rtl"
-      className="flex min-h-screen flex-col items-center justify-center gap-5 bg-[#0b121f] px-6 text-center"
+      className="internal-plain-page flex min-h-screen flex-col items-center justify-center gap-5 bg-[#0b121f] px-6 text-center"
     >
       <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-400">
         <Wrench size={30} />

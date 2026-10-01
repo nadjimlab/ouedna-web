@@ -38,7 +38,7 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <main dir="rtl" className="min-h-screen bg-[#0b121f] text-white px-6 py-16">
+    <main dir="rtl" className="internal-plain-page min-h-screen bg-[#0b121f] text-white px-6 py-16">
       <div className="max-w-3xl mx-auto">
         <Link href="/" className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 text-sm font-bold mb-10">
           ← العودة إلى الرئيسية

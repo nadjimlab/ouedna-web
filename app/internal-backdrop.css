@@ -58,6 +58,32 @@
 }
 .platform-shell:not(.platform-shell--immersive) .platform-page-hero > *,
 .platform-shell:not(.platform-shell--immersive) .app-screen-heading > * { position: relative; z-index: 1; }
+
+/* Standalone public pages (about, privacy, maintenance) */
+.internal-plain-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 46% 40% at 82% 12%, rgba(226, 168, 72, .3), transparent 66%),
+    radial-gradient(ellipse 48% 52% at 10% 88%, rgba(59, 137, 113, .28), transparent 70%),
+    linear-gradient(135deg, #0a2928 0%, #123f38 48%, #1b2824 100%) !important;
+}
+.internal-plain-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .5;
+  pointer-events: none;
+  background:
+    linear-gradient(145deg, transparent 0 38%, rgba(255, 215, 130, .13) 38.2% 38.5%, transparent 38.7%),
+    radial-gradient(circle at 18% 22%, rgba(255, 231, 171, .25) 0 1px, transparent 1.8px);
+  background-size: auto, 42px 42px;
+  mask-image: linear-gradient(to bottom, black, transparent 92%);
+}
+.internal-plain-page > * { position: relative; z-index: 1; }
+
 @media (max-width: 700px) {
   .platform-shell:not(.platform-shell--immersive)::after { opacity: .24; }
   .platform-shell:not(.platform-shell--immersive) .platform-page-hero::before,
