@@ -1,6 +1,6 @@
 "use client";
 
-import { Camera, CheckCircle2, LoaderCircle, MapPin, Send } from "lucide-react";
+import { Camera, CheckCircle2, LoaderCircle, Send } from "lucide-react";
 import { useRef, useState } from "react";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 
