@@ -122,7 +122,7 @@ export default function HomeHero() {
               <span>{t("homeCta")}</span>
               <ArrowLeft size={20} className="hh__arrow" aria-hidden="true" />
             </Link>
-            <Link href="/explore" className="hh__guest">{t("homeGuest")}</Link>
+            <Link href="/itinerary" className="hh__secondary"><Route size={18} aria-hidden="true" /> خطط رحلتك</Link>
           </motion.div>
         </div>
       </motion.div>

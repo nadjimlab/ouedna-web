@@ -143,6 +143,14 @@ html[dir="ltr"] .hh__arrow { transform: scaleX(-1); }
 .hh__arrow { transition: transform .3s; }
 .hh__guest { color: rgba(255,255,255,.78); font: 500 clamp(17px, 3.8vw, 20px) "Tajawal", sans-serif; padding: 10px 16px; transition: color .2s; }
 .hh__guest:hover { color: #fff; text-decoration: underline; text-underline-offset: 6px; }
+.hh__secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 54px; padding: 0 22px; border: 1px solid rgba(255,255,255,.55);
+  border-radius: 999px; color: #fff; background: rgba(15,61,46,.42);
+  box-shadow: 0 10px 24px rgba(0,0,0,.16); backdrop-filter: blur(10px);
+  font: 800 16px/1 "Tajawal", sans-serif; transition: transform .25s, background .25s, border-color .25s;
+}
+.hh__secondary:hover { transform: translateY(-2px); border-color: var(--gold-soft); background: rgba(212,138,46,.88); color: #2a1b0c; }
 
 .hh a:focus-visible, .hh button:focus-visible { outline: 3px solid var(--gold-soft); outline-offset: 4px; }
 
