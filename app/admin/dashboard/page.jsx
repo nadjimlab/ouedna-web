@@ -443,8 +443,8 @@ export default function DashboardPage() {
             <span className="text-white font-black text-2xl drop-shadow-sm">س</span>
           </div>
           <div>
-            <p className="text-[#0F172A] font-black text-lg tracking-wide">سوف 360</p>
-            <p className="text-xs text-[#64748B] font-medium mt-0.5">منصة الإدارة الرقمية</p>
+            <p className="text-[#0F172A] font-black text-lg tracking-wide">منصة وادنا</p>
+            <p className="text-xs text-[#64748B] font-medium mt-0.5">لوحة التحكم الرقمية</p>
           </div>
           <button onClick={() => setMobileSidebarOpen(false)} className="mr-auto text-[#94A3B8] hover:text-[#0F172A] md:hidden p-2">✕</button>
         </div>
@@ -521,7 +521,7 @@ export default function DashboardPage() {
           <button onClick={() => setMobileSidebarOpen(true)} className="p-2 text-[#64748B] bg-[#F1F5F9] rounded-lg md:hidden">☰</button>
 
           <div className="hidden sm:flex flex-col">
-            <h2 className="text-lg font-black text-[#0F172A]">نظام إدارة المنصة</h2>
+            <h2 className="text-lg font-black text-[#0F172A]">لوحة تحكم منصة وادنا</h2>
             <p className="text-xs text-[#64748B] font-medium">الإصدار الرسمي للعرض التقديمي</p>
           </div>
 
@@ -560,8 +560,8 @@ export default function DashboardPage() {
               <div className="bg-gradient-to-r from-[#193F38] to-[#102D28] p-8 rounded-2xl border border-[#D4AF37]/30 shadow-md text-white flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
                   <span className="bg-[#D4AF37] text-black font-black text-xs px-3 py-1 rounded-full">IA Tour Algérie 2026 • Axe 03: Performance</span>
-                  <h1 className="text-2xl font-black mt-3">المركز الإحصائي والتحليلات الوطنية (ALGERIA 360 AI)</h1>
-                  <p className="text-[#E2E8F0] text-sm mt-1 font-medium">متابعة فورية لمعالم منصة Souf360 الوطنية، مؤشرات الأداء، وحالة النظام المربوط بـ Supabase.</p>
+                  <h1 className="text-2xl font-black mt-3">المركز الإحصائي والتحليلات الوطنية لمنصة وادنا</h1>
+                  <p className="text-[#E2E8F0] text-sm mt-1 font-medium">متابعة فورية لمعالم منصة وادنا، مؤشرات الأداء، وحالة النظام المربوط بـ Supabase.</p>
                 </div>
                 <div className="bg-black/30 px-5 py-3 rounded-xl border border-white/10 text-center">
                   <span className="block text-xs text-[#D4AF37] font-bold">الحالة الميدانية</span>
