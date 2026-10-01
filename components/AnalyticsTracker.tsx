@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { supabase } from "@/lib/supabase/client";
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 
 const VISITOR_KEY = "ouedna.analytics.visitor";
 
@@ -25,11 +25,20 @@ export default function AnalyticsTracker() {
     if (!pathname || pathname.startsWith("/admin")) return;
 
     const timer = window.setTimeout(() => {
-      void supabase.rpc("record_web_page_view", {
-        p_path: pathname,
-        p_visitor_key: getVisitorKey(),
-        p_referrer: document.referrer || null,
-      });
+      void fetch(`${SUPABASE_URL}/rest/v1/rpc/record_web_page_view`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          p_path: pathname,
+          p_visitor_key: getVisitorKey(),
+          p_referrer: document.referrer || null,
+        }),
+        keepalive: true,
+      }).catch(() => undefined);
     }, 450);
 
     return () => window.clearTimeout(timer);
