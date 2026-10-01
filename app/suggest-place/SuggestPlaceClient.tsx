@@ -99,15 +99,18 @@ export default function SuggestPlaceClient() {
 
   return (
     <form className="platform-suggest-form" onSubmit={submit}>
-      <div className="platform-form-section-heading"><span>01</span><div><h2>تعريف المكان</h2><p>الاسم والتصنيف والموقع الأساسي.</p></div></div>
-      <div className="platform-form-grid">
-        <label>اسم المعلم *<input name="name" required minLength={2} placeholder="مثال: واحة أو سوق أو قصر" /></label>
-        <label>التصنيف الرئيسي *<input name="main_category" required placeholder="معلم تراثي، سوق، طبيعة..." /></label>
-        <label>التصنيف الفرعي<input name="sub_category" placeholder="اختياري" /></label>
-        <label>البلدية<input name="municipality" placeholder="بلدية الوادي" /></label>
-        <label>العنوان<input name="address" placeholder="الحي أو الشارع" /></label>
-        <label>الهاتف<input name="phone" type="tel" placeholder="اختياري" /></label>
-      </div>
+      <section className="suggest-place-identity">
+        <div className="platform-form-section-heading"><span>01</span><div><h2>تعريف المكان</h2><p>الاسم والتصنيف والموقع الأساسي.</p></div><b>البيانات الأساسية</b></div>
+        <p className="suggest-place-identity__hint">اكتب المعلومات كما يعرفها السكان والزوار. الحقول المعلّمة بـ <strong>*</strong> مطلوبة لإرسال الاقتراح.</p>
+        <div className="platform-form-grid">
+          <label><span className="suggest-field-label">اسم المعلم <em>* مطلوب</em></span><input name="name" required minLength={2} placeholder="مثال: واحة أو سوق أو قصر" /></label>
+          <label><span className="suggest-field-label">التصنيف الرئيسي <em>* مطلوب</em></span><input name="main_category" required placeholder="معلم تراثي، سوق، طبيعة..." /></label>
+          <label><span className="suggest-field-label">التصنيف الفرعي <small>اختياري</small></span><input name="sub_category" placeholder="مثال: قصر تاريخي أو واحة" /></label>
+          <label><span className="suggest-field-label">البلدية <small>اختياري</small></span><input name="municipality" placeholder="بلدية الوادي" /></label>
+          <label><span className="suggest-field-label">العنوان <small>اختياري</small></span><input name="address" placeholder="الحي أو الشارع" /></label>
+          <label><span className="suggest-field-label">الهاتف <small>اختياري</small></span><input name="phone" type="tel" placeholder="05 XX XX XX XX" dir="ltr" /></label>
+        </div>
+      </section>
 
       <div className="platform-form-section-heading"><span>02</span><div><h2>المعلومات المفيدة</h2><p>أضف وصفاً يساعد الزائر على فهم المكان.</p></div></div>
       <label className="platform-form-wide">الوصف<textarea name="description" rows={5} placeholder="ما الذي يميز المكان؟ وما قصته؟" /></label>
