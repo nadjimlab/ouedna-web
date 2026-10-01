@@ -143,3 +143,22 @@ html{background:var(--wc-cream)}body{background:var(--wc-cream);color:var(--wc-i
 .suggest-coordinates-detected svg { flex: 0 0 auto; }
 .suggest-coordinate-grid { margin-top: 4px; }
 @media (max-width: 600px) { .suggest-coordinates-box { padding: 15px 13px; }.suggest-coordinates-box__heading { display: block; }.suggest-coordinates-box__badge { display: inline-block; margin-top: 10px; }.suggest-map-link-actions { align-items: flex-start; flex-direction: column; }.suggest-map-link-actions button { align-self: flex-start; }.suggest-coordinate-grid { gap: 10px; } }
+
+/* Suggest hero correction — match the homepage oasis and restore text contrast. */
+.suggest-page-v2 { background: linear-gradient(145deg, #f7f5ee 0%, #eef4ee 48%, #f7ecda 100%); }
+.suggest-hero-v2 { isolation: isolate; width: 100vw; margin-inline: calc(50% - 50vw); padding-inline: max(15px, calc((100vw - 1180px) / 2)); color: #fff; background: #173f37; overflow: hidden; }
+.suggest-hero-v2::before { content: ""; position: absolute; z-index: -2; inset: 0; background: linear-gradient(90deg, rgba(9,27,24,.92) 0%, rgba(13,54,45,.72) 44%, rgba(10,32,27,.42) 100%), linear-gradient(180deg, rgba(12,32,27,.18), rgba(9,28,24,.8)), url('/ouedna/ouedna-hero-new.jpg') center/cover; animation: suggestHeroKenBurns 18s ease-in-out infinite alternate; }
+.suggest-hero-v2::after { content: ""; position: absolute; z-index: -1; inset: auto 0 0; height: 35%; background: linear-gradient(0deg, rgba(12,41,34,.84), transparent); pointer-events: none; }
+.suggest-hero-v2__copy h1 { color: #fff; text-shadow: 0 5px 25px rgba(0,0,0,.28); }
+.suggest-hero-v2__copy h1 em { color: #f2c774; text-shadow: 0 4px 22px rgba(0,0,0,.22); }
+.suggest-hero-v2__copy p { color: rgba(255,255,255,.9); text-shadow: 0 2px 12px rgba(0,0,0,.24); }
+.suggest-hero-v2__copy .platform-eyebrow { color: #ffe2a0; }
+.suggest-hero-v2__copy .platform-eyebrow i { background: #f2c774; }
+.suggest-hero-v2__trust { color: rgba(255,255,255,.82); }
+.suggest-hero-v2__trust svg { color: #f2c774; }
+.suggest-hero-v2__actions .platform-button--outline { color: #fff; border-color: rgba(255,255,255,.65); background: rgba(8,35,29,.24); }
+.suggest-hero-v2__actions .platform-button--outline:hover { color: #fff; background: rgba(255,255,255,.15); }
+.suggest-hero-v2__visual { filter: drop-shadow(0 25px 40px rgba(0,0,0,.2)); }
+.suggest-hero-v2__image { border-color: rgba(255,255,255,.82); }
+@keyframes suggestHeroKenBurns { from { transform: scale(1); } to { transform: scale(1.07); } }
+@media (prefers-reduced-motion: reduce) { .suggest-hero-v2::before { animation: none; } }
