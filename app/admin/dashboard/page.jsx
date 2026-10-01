@@ -559,7 +559,7 @@ export default function DashboardPage() {
             <div className="space-y-8 max-w-7xl mx-auto animate-fade-in">
               <div className="bg-gradient-to-r from-[#193F38] to-[#102D28] p-8 rounded-2xl border border-[#D4AF37]/30 shadow-md text-white flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
-                  <span className="bg-[#D4AF37] text-black font-black text-xs px-3 py-1 rounded-full">IA Tour Algérie 2026 • Axe 03: Performance</span>
+                  <span className="bg-[#D4AF37] text-black font-black text-xs px-3 py-1 rounded-full">منصة وادنا • مركز الأداء والتحليلات</span>
                   <h1 className="text-2xl font-black mt-3">المركز الإحصائي والتحليلات الوطنية لمنصة وادنا</h1>
                   <p className="text-[#E2E8F0] text-sm mt-1 font-medium">متابعة فورية لمعالم منصة وادنا، مؤشرات الأداء، وحالة النظام المربوط بـ Supabase.</p>
                 </div>
