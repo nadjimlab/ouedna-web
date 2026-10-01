@@ -36,6 +36,7 @@ export default function AnalyticsTracker() {
           p_path: pathname,
           p_visitor_key: getVisitorKey(),
           p_referrer: document.referrer || null,
+          p_user_agent: navigator.userAgent || null,
         }),
         keepalive: true,
       }).catch(() => undefined);
