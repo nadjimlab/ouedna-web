@@ -35,6 +35,7 @@ const EMPTY_RELEASE_CONFIG = {
   release_notes: '',
 };
 const EMPTY_RELEASE_NOTIFICATION = { title: '', body: '' };
+const EMPTY_AGENCY_FORM = { name: '', description: '', municipality: '', address: '', phone: '', website: '', map_link: '', image_url: '', status: 'active' };
 
 const IconChevron = ({ open }) => (
   <svg className={`mr-auto transition-transform duration-300 ${open ? 'rotate-180' : ''}`} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -65,6 +66,10 @@ export default function DashboardPage() {
   const [heritageItems, setHeritageItems] = useState([]);
   const [memories, setMemories] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
+  const [agencies, setAgencies] = useState([]);
+  const [agencyForm, setAgencyForm] = useState(EMPTY_AGENCY_FORM);
+  const [editingAgencyId, setEditingAgencyId] = useState(null);
+  const [analytics, setAnalytics] = useState({ total: 0, unique: 0, today: 0, topPages: [] });
   const [releaseConfig, setReleaseConfig] = useState(EMPTY_RELEASE_CONFIG);
   const [releaseNotification, setReleaseNotification] = useState(EMPTY_RELEASE_NOTIFICATION);
   const [savingRelease, setSavingRelease] = useState(false);
@@ -83,6 +88,8 @@ export default function DashboardPage() {
   /* ---------- جلب البيانات ---------- */
   useEffect(() => {
     fetchAllData();
+    const refreshTimer = window.setInterval(fetchAllData, 60000);
+    return () => window.clearInterval(refreshTimer);
   }, []);
 
   async function fetchAllData() {
@@ -101,6 +108,26 @@ export default function DashboardPage() {
 
     const { data: fData } = await supabase.from('feedback').select('*').order('id', { ascending: false });
     if (fData) setFeedbacks(fData);
+
+    const [{ data: agencyData }, { data: visitData }] = await Promise.all([
+      supabase.from('tourism_agencies').select('*').order('created_at', { ascending: false }),
+      supabase.from('web_page_views').select('path, visitor_key, created_at').order('created_at', { ascending: false }).limit(5000),
+    ]);
+    if (agencyData) setAgencies(agencyData);
+    if (visitData) {
+      const today = new Date().toISOString().slice(0, 10);
+      const uniqueVisitors = new Set(visitData.map((visit) => visit.visitor_key).filter(Boolean));
+      const pages = visitData.reduce((acc, visit) => {
+        acc[visit.path] = (acc[visit.path] || 0) + 1;
+        return acc;
+      }, {});
+      setAnalytics({
+        total: visitData.length,
+        unique: uniqueVisitors.size,
+        today: visitData.filter((visit) => visit.created_at?.slice(0, 10) === today).length,
+        topPages: Object.entries(pages).sort((a, b) => b[1] - a[1]).slice(0, 5),
+      });
+    }
 
     const { data: sData } = await supabase.from('site_settings').select('*').eq('id', 1).single();
     if (sData?.site_status) setSiteStatus(sData.site_status);
@@ -349,6 +376,47 @@ export default function DashboardPage() {
     } else showToast('إجراء غير مسموح أو خطأ بالنظام');
   }
 
+  function resetAgencyForm() {
+    setAgencyForm(EMPTY_AGENCY_FORM);
+    setEditingAgencyId(null);
+  }
+
+  async function saveAgency(e) {
+    e.preventDefault();
+    if (!agencyForm.name.trim()) {
+      showToast('أدخل اسم الوكالة أولاً');
+      return;
+    }
+    const payload = Object.fromEntries(Object.entries(agencyForm).map(([key, value]) => [key, value.trim ? value.trim() : value]));
+    const query = editingAgencyId
+      ? supabase.from('tourism_agencies').update(payload).eq('id', editingAgencyId).select().single()
+      : supabase.from('tourism_agencies').insert(payload).select().single();
+    const { data, error } = await query;
+    if (error || !data) {
+      showToast(`تعذر حفظ الوكالة: ${error?.message || 'خطأ غير معروف'}`);
+      return;
+    }
+    setAgencies((current) => editingAgencyId ? current.map((agency) => agency.id === editingAgencyId ? data : agency) : [data, ...current]);
+    resetAgencyForm();
+    showToast(editingAgencyId ? 'تم تحديث بيانات الوكالة' : 'تمت إضافة الوكالة السياحية');
+  }
+
+  function editAgency(agency) {
+    setEditingAgencyId(agency.id);
+    setAgencyForm({ ...EMPTY_AGENCY_FORM, ...agency });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function archiveAgency(agency) {
+    if (!window.confirm(`سيتم أرشفة وكالة «${agency.name}» وإخفاؤها عن الزوار. هل تتابع؟`)) return;
+    const { error } = await supabase.from('tourism_agencies').update({ status: 'archived' }).eq('id', agency.id);
+    if (error) showToast('تعذر أرشفة الوكالة');
+    else {
+      setAgencies((current) => current.map((item) => item.id === agency.id ? { ...item, status: 'archived' } : item));
+      showToast('تمت أرشفة الوكالة');
+    }
+  }
+
   const pendingMemoriesCount = memories.filter(m => !m.approved).length;
   const visiblePlaces = placesFilter === 'clinics'
     ? places.filter((place) => place.main_category === 'مرافق صحية')
@@ -397,10 +465,14 @@ export default function DashboardPage() {
               <div className="flex flex-col gap-1 pr-11 mt-2 border-r-2 border-[#F1F5F9]">
                 <button className={`p-2.5 text-xs font-bold text-right rounded-lg transition-all ${view === 'add-place' ? 'text-[#B8962E] bg-[#F8FAFC]' : 'text-[#64748B] hover:text-[#0F172A]'}`} onClick={() => goTo('add-place')}>＋ إدراج معلم جديد</button>
                 <button className={`p-2.5 text-xs font-bold text-right rounded-lg transition-all ${view === 'places' && placesFilter === 'all' ? 'text-[#B8962E] bg-[#F8FAFC]' : 'text-[#64748B] hover:text-[#0F172A]'}`} onClick={() => { setPlacesFilter('all'); goTo('places'); }}>📋 قاعدة بيانات المعالم</button>
-                <button className={`p-2.5 text-xs font-bold text-right rounded-lg transition-all ${view === 'places' && placesFilter === 'clinics' ? 'text-[#B8962E] bg-[#F8FAFC]' : 'text-[#64748B] hover:text-[#0F172A]'}`} onClick={() => { setPlacesFilter('clinics'); goTo('places'); }}>🏥 قائمة العيادات الصحية</button>
               </div>
             )}
           </div>
+
+          <button className={`flex items-center gap-3.5 p-3.5 text-sm font-bold rounded-xl text-right transition-all ${view === 'agencies' ? 'bg-[#F8FAFC] text-[#B8962E] shadow-sm ring-1 ring-[#E2E8F0]' : 'text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]'}`} onClick={() => goTo('agencies')}>
+            <span className="text-lg">🏨</span> وكالات السياحة والأسفار
+            <span className="mr-auto rounded-full bg-[#F1F5F9] px-2 py-0.5 text-[10px] font-black text-[#64748B]">{agencies.length}</span>
+          </button>
 
           <button className={`flex items-center gap-3.5 p-3.5 text-sm font-bold rounded-xl text-right transition-all ${view === 'heritage' ? 'bg-[#F8FAFC] text-[#B8962E] shadow-sm ring-1 ring-[#E2E8F0]' : 'text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A]'}`} onClick={() => goTo('heritage')}>
             <span className="text-lg">🏺</span> السجل التراثي للوادي
@@ -499,18 +571,57 @@ export default function DashboardPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
+                  { title: 'زيارات الموقع', count: analytics.today, icon: '◉', color: 'text-[#0F766E]', bg: 'bg-[#ECFDF5]', detail: `اليوم · ${analytics.unique} زائر فريد` },
                   { title: 'إجمالي المعالم', count: places.length, icon: '📍', color: 'text-[#3B82F6]', bg: 'bg-[#EFF6FF]' },
                   { title: 'العناصر التراثية', count: heritageItems.length, icon: '🏺', color: 'text-[#D4AF37]', bg: 'bg-[#FFFBEB]' },
-                  { title: 'الذكريات المعلقة', count: pendingMemoriesCount, icon: '📸', color: 'text-[#EF4444]', bg: 'bg-[#FEF2F2]', alert: pendingMemoriesCount > 0 },
-                  { title: 'رسائل الجمهور', count: feedbacks.length, icon: '💬', color: 'text-[#8B5CF6]', bg: 'bg-[#F5F3FF]' },
+                  { title: 'الوكالات النشطة', count: agencies.filter((agency) => agency.status === 'active').length, icon: '🏨', color: 'text-[#B45309]', bg: 'bg-[#FFFBEB]' },
                 ].map((stat, i) => (
                   <div key={i} className={`bg-white p-6 rounded-2xl border ${stat.alert ? 'border-[#FECACA] ring-2 ring-[#FEE2E2]' : 'border-[#E2E8F0]'} shadow-sm flex flex-col relative`}>
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4 ${stat.bg}`}>{stat.icon}</div>
                     <h3 className="text-[#64748B] text-sm font-bold mb-1">{stat.title}</h3>
                     <p className={`text-4xl font-black ${stat.color}`}>{isLoading ? '...' : stat.count}</p>
+                    {stat.detail && <p className="mt-2 text-[11px] font-bold text-[#94A3B8]">{stat.detail}</p>}
                     {stat.alert && <span className="absolute top-6 left-6 flex h-3 w-3"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span></span>}
                   </div>
                 ))}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-6">
+                <section className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6">
+                  <div className="flex items-start justify-between gap-4 mb-6">
+                    <div><h2 className="text-lg font-black text-[#0F172A]">نبض المنصة</h2><p className="text-xs text-[#64748B] mt-1">بيانات الزيارات المسجلة مباشرة من صفحات الموقع العامة.</p></div>
+                    <button onClick={fetchAllData} className="rounded-lg bg-[#F8FAFC] px-3 py-2 text-xs font-black text-[#0F766E] hover:bg-[#ECFDF5]">تحديث البيانات</button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="rounded-xl bg-[#F8FAFC] p-4"><p className="text-xs font-bold text-[#64748B]">إجمالي المشاهدات</p><p className="mt-2 text-3xl font-black text-[#0F172A]">{analytics.total}</p></div>
+                    <div className="rounded-xl bg-[#F8FAFC] p-4"><p className="text-xs font-bold text-[#64748B]">الزوار الفريدون</p><p className="mt-2 text-3xl font-black text-[#0F172A]">{analytics.unique}</p></div>
+                  </div>
+                </section>
+                <section className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6">
+                  <h2 className="text-lg font-black text-[#0F172A]">أكثر الصفحات زيارة</h2>
+                  <div className="mt-4 space-y-3">{analytics.topPages.length ? analytics.topPages.map(([path, count]) => <div key={path} className="flex items-center gap-3"><span className="min-w-0 flex-1 truncate text-sm font-bold text-[#475569]" dir="ltr">{path}</span><span className="rounded-full bg-[#ECFDF5] px-2.5 py-1 text-xs font-black text-[#0F766E]">{count}</span></div>) : <p className="text-sm font-bold text-[#94A3B8]">ستظهر البيانات بعد أول زيارة.</p>}</div>
+                </section>
+              </div>
+            </div>
+          )}
+
+          {view === 'agencies' && (
+            <div className="max-w-7xl mx-auto space-y-6 animate-fade-in">
+              <div className="admin-hero-panel rounded-2xl p-7 text-white flex flex-col lg:flex-row justify-between gap-5">
+                <div><span className="admin-kicker">دليل الشركاء السياحيين</span><h1 className="text-2xl font-black mt-3">وكالات السياحة والأسفار</h1><p className="text-white/70 text-sm mt-2 max-w-2xl">إدارة دليل موثوق للوكالات المحلية التي تساعد الزائر على التخطيط والإقامة والتنقل في وادي سوف.</p></div>
+                <div className="self-start rounded-xl border border-white/10 bg-black/20 px-5 py-3 text-center"><span className="block text-xs text-[#D4AF37] font-bold">الوكالات المنشورة</span><span className="text-2xl font-black text-emerald-300">{agencies.filter((agency) => agency.status === 'active').length}</span></div>
+              </div>
+
+              <div className="grid grid-cols-1 xl:grid-cols-[0.85fr_1.4fr] gap-6 items-start">
+                <form onSubmit={saveAgency} className="admin-surface rounded-2xl p-6 space-y-4">
+                  <div><h2 className="text-lg font-black text-[#0F172A]">{editingAgencyId ? 'تعديل الوكالة' : 'إضافة وكالة جديدة'}</h2><p className="text-xs text-[#64748B] mt-1">الحقول الأساسية تكفي للبدء، ويمكن استكمال الروابط لاحقاً.</p></div>
+                  {[['name', 'اسم الوكالة', true], ['municipality', 'البلدية'], ['address', 'العنوان'], ['phone', 'رقم الهاتف'], ['website', 'الموقع الإلكتروني'], ['map_link', 'رابط خرائط Google'], ['image_url', 'رابط الصورة']].map(([key, label, required]) => <label key={key} className="block"><span className="mb-1.5 block text-xs font-black text-[#64748B]">{label}</span><input required={required} value={agencyForm[key]} onChange={(e) => setAgencyForm((current) => ({ ...current, [key]: e.target.value }))} className="admin-input" /></label>)}
+                  <label className="block"><span className="mb-1.5 block text-xs font-black text-[#64748B]">وصف مختصر</span><textarea rows="3" value={agencyForm.description} onChange={(e) => setAgencyForm((current) => ({ ...current, description: e.target.value }))} className="admin-input resize-y" /></label>
+                  <label className="block"><span className="mb-1.5 block text-xs font-black text-[#64748B]">الحالة</span><select value={agencyForm.status} onChange={(e) => setAgencyForm((current) => ({ ...current, status: e.target.value }))} className="admin-input"><option value="active">نشطة ومنشورة</option><option value="draft">مسودة</option><option value="archived">مؤرشفة</option></select></label>
+                  <div className="flex gap-3 pt-2"><button type="submit" className="admin-primary-button flex-1">{editingAgencyId ? 'حفظ التعديلات' : 'إضافة الوكالة'}</button>{editingAgencyId && <button type="button" onClick={resetAgencyForm} className="admin-secondary-button">إلغاء</button>}</div>
+                </form>
+
+                <section className="admin-surface rounded-2xl p-6"><div className="flex items-center justify-between mb-5"><div><h2 className="text-lg font-black text-[#0F172A]">دليل الوكالات</h2><p className="text-xs text-[#64748B] mt-1">{agencies.length} سجل في قاعدة البيانات</p></div><span className="rounded-full bg-[#ECFDF5] px-3 py-1 text-xs font-black text-[#0F766E]">Supabase live</span></div><div className="space-y-3">{agencies.length ? agencies.map((agency) => <article key={agency.id} className="rounded-xl border border-[#E2E8F0] p-4 hover:border-[#D4AF37] transition-colors"><div className="flex items-start gap-4"><div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[#F1F5F9]">{agency.image_url ? <img src={agency.image_url} alt="" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-2xl">🏨</div>}</div><div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><h3 className="font-black text-[#0F172A]">{agency.name}</h3><span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${agency.status === 'active' ? 'bg-[#ECFDF5] text-[#0F766E]' : agency.status === 'draft' ? 'bg-[#FFFBEB] text-[#B45309]' : 'bg-[#F1F5F9] text-[#64748B]'}`}>{agency.status === 'active' ? 'منشورة' : agency.status === 'draft' ? 'مسودة' : 'مؤرشفة'}</span></div><p className="mt-1 text-xs text-[#64748B]">{agency.municipality || 'ولاية الوادي'}{agency.phone ? ` · ${agency.phone}` : ''}</p>{agency.description && <p className="mt-2 line-clamp-2 text-sm text-[#475569]">{agency.description}</p>}</div></div><div className="mt-3 flex gap-2 border-t border-[#F1F5F9] pt-3"><button onClick={() => editAgency(agency)} className="rounded-lg bg-[#F8FAFC] px-3 py-2 text-xs font-black text-[#334155] hover:bg-[#ECFDF5]">تعديل</button>{agency.status !== 'archived' && <button onClick={() => archiveAgency(agency)} className="rounded-lg bg-[#FEF2F2] px-3 py-2 text-xs font-black text-[#B91C1C] hover:bg-[#FEE2E2]">أرشفة</button>}</div></article>) : <div className="rounded-xl border border-dashed border-[#CBD5E1] p-10 text-center text-sm font-bold text-[#94A3B8]">لا توجد وكالات بعد. أضف أول وكالة من النموذج.</div>}</div></section>
               </div>
             </div>
           )}

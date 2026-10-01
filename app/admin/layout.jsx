@@ -1,5 +1,6 @@
 import { Cairo } from 'next/font/google';
 import './tokens.css';
+import './admin-dashboard.css';
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],

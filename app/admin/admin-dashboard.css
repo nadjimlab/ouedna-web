@@ -1,0 +1,66 @@
+#admin-root {
+  --admin-ink: #102d28;
+  --admin-gold: #d4af37;
+  --admin-border: #e2e8f0;
+  background: #f7f8f6;
+  font-family: var(--font-cairo), "Cairo", system-ui, sans-serif;
+}
+
+#admin-root .admin-hero-panel {
+  background: radial-gradient(circle at 12% 10%, rgba(212, 175, 55, .24), transparent 32%), linear-gradient(135deg, #193f38 0%, #102d28 72%);
+  box-shadow: 0 18px 45px rgba(16, 45, 40, .14);
+}
+
+#admin-root .admin-kicker {
+  display: inline-flex;
+  border: 1px solid rgba(212, 175, 55, .45);
+  border-radius: 999px;
+  padding: .4rem .75rem;
+  color: #f5d979;
+  background: rgba(0, 0, 0, .2);
+  font-size: .68rem;
+  font-weight: 900;
+}
+
+#admin-root .admin-surface {
+  border: 1px solid var(--admin-border);
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 12px 35px rgba(15, 23, 42, .055);
+}
+
+#admin-root .admin-input {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: .75rem;
+  background: #fff;
+  padding: .7rem .85rem;
+  color: #0f172a;
+  font-size: .83rem;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+#admin-root .admin-input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, .14);
+}
+
+#admin-root .admin-primary-button,
+#admin-root .admin-secondary-button {
+  border-radius: .75rem;
+  padding: .75rem 1rem;
+  font-size: .8rem;
+  font-weight: 900;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+#admin-root .admin-primary-button { color: #102d28; background: linear-gradient(135deg, #e9cc65, #d4af37); box-shadow: 0 8px 18px rgba(212, 175, 55, .2); }
+#admin-root .admin-primary-button:hover { transform: translateY(-1px); box-shadow: 0 12px 22px rgba(212, 175, 55, .28); }
+#admin-root .admin-secondary-button { color: #334155; background: #f1f5f9; }
+#admin-root .admin-secondary-button:hover { background: #e2e8f0; }
+
+@media (max-width: 640px) {
+  #admin-root main { padding: 1rem; }
+  #admin-root header { padding-inline: 1rem; }
+  #admin-root .admin-hero-panel { padding: 1.25rem; }
+}
