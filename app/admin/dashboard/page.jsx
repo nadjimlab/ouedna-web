@@ -70,6 +70,7 @@ export default function DashboardPage() {
   const [agencyForm, setAgencyForm] = useState(EMPTY_AGENCY_FORM);
   const [editingAgencyId, setEditingAgencyId] = useState(null);
   const [analytics, setAnalytics] = useState({ total: 0, unique: 0, today: 0, topPages: [] });
+  const [analyticsError, setAnalyticsError] = useState(false);
   const [releaseConfig, setReleaseConfig] = useState(EMPTY_RELEASE_CONFIG);
   const [releaseNotification, setReleaseNotification] = useState(EMPTY_RELEASE_NOTIFICATION);
   const [savingRelease, setSavingRelease] = useState(false);
@@ -109,23 +110,18 @@ export default function DashboardPage() {
     const { data: fData } = await supabase.from('feedback').select('*').order('id', { ascending: false });
     if (fData) setFeedbacks(fData);
 
-    const [{ data: agencyData }, { data: visitData }] = await Promise.all([
+    const [{ data: agencyData }, { data: analyticsData, error: analyticsQueryError }] = await Promise.all([
       supabase.from('tourism_agencies').select('*').order('created_at', { ascending: false }),
-      supabase.from('web_page_views').select('path, visitor_key, created_at').order('created_at', { ascending: false }).limit(5000),
+      supabase.rpc('get_web_analytics_summary'),
     ]);
     if (agencyData) setAgencies(agencyData);
-    if (visitData) {
-      const today = new Date().toISOString().slice(0, 10);
-      const uniqueVisitors = new Set(visitData.map((visit) => visit.visitor_key).filter(Boolean));
-      const pages = visitData.reduce((acc, visit) => {
-        acc[visit.path] = (acc[visit.path] || 0) + 1;
-        return acc;
-      }, {});
+    setAnalyticsError(Boolean(analyticsQueryError));
+    if (analyticsData && !analyticsQueryError) {
       setAnalytics({
-        total: visitData.length,
-        unique: uniqueVisitors.size,
-        today: visitData.filter((visit) => visit.created_at?.slice(0, 10) === today).length,
-        topPages: Object.entries(pages).sort((a, b) => b[1] - a[1]).slice(0, 5),
+        total: Number(analyticsData.total || 0),
+        unique: Number(analyticsData.unique || 0),
+        today: Number(analyticsData.today || 0),
+        topPages: Array.isArray(analyticsData.topPages) ? analyticsData.topPages : [],
       });
     }
 
@@ -444,7 +440,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <p className="text-[#0F172A] font-black text-lg tracking-wide">منصة وادنا</p>
-            <p className="text-xs text-[#64748B] font-medium mt-0.5">لوحة التحكم الرقمية</p>
+            <p className="text-xs text-[#64748B] font-medium mt-0.5">لوحة وادنا الإدارية</p>
           </div>
           <button onClick={() => setMobileSidebarOpen(false)} className="mr-auto text-[#94A3B8] hover:text-[#0F172A] md:hidden p-2">✕</button>
         </div>
@@ -521,7 +517,7 @@ export default function DashboardPage() {
           <button onClick={() => setMobileSidebarOpen(true)} className="p-2 text-[#64748B] bg-[#F1F5F9] rounded-lg md:hidden">☰</button>
 
           <div className="hidden sm:flex flex-col">
-            <h2 className="text-lg font-black text-[#0F172A]">لوحة تحكم منصة وادنا</h2>
+            <h2 className="text-lg font-black text-[#0F172A]">لوحة وادنا الإدارية</h2>
             <p className="text-xs text-[#64748B] font-medium">الإصدار الرسمي للعرض التقديمي</p>
           </div>
 
@@ -559,8 +555,8 @@ export default function DashboardPage() {
             <div className="space-y-8 max-w-7xl mx-auto animate-fade-in">
               <div className="bg-gradient-to-r from-[#193F38] to-[#102D28] p-8 rounded-2xl border border-[#D4AF37]/30 shadow-md text-white flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
-                  <span className="bg-[#D4AF37] text-black font-black text-xs px-3 py-1 rounded-full">منصة وادنا • مركز الأداء والتحليلات</span>
-                  <h1 className="text-2xl font-black mt-3">المركز الإحصائي والتحليلات الوطنية لمنصة وادنا</h1>
+                  <span className="bg-[#D4AF37] text-black font-black text-xs px-3 py-1 rounded-full">منصة وادنا • لوحة الإدارة والتحليلات</span>
+                  <h1 className="text-2xl font-black mt-3">لوحة وادنا الإدارية والتحليلات</h1>
                   <p className="text-[#E2E8F0] text-sm mt-1 font-medium">متابعة فورية لمعالم منصة وادنا، مؤشرات الأداء، وحالة النظام المربوط بـ Supabase.</p>
                 </div>
                 <div className="bg-black/30 px-5 py-3 rounded-xl border border-white/10 text-center">
@@ -568,6 +564,12 @@ export default function DashboardPage() {
                   <span className="text-sm font-extrabold text-emerald-400">نشط ومرتبط (RAG AI)</span>
                 </div>
               </div>
+
+              {analyticsError && (
+                <div className="rounded-xl border border-[#FECACA] bg-[#FEF2F2] px-4 py-3 text-sm font-bold text-[#991B1B]">
+                  تعذر تحميل إحصاءات الزيارات حالياً. تأكد من جلسة دخول المدير ثم اضغط «تحديث البيانات».
+                </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[

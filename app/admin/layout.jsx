@@ -9,7 +9,7 @@ const cairo = Cairo({
 });
 
 export const metadata = {
-  title: 'لوحة تحكم منصة وادنا',
+  title: 'لوحة وادنا الإدارية',
 };
 
 export default function AdminLayout({ children }) {
