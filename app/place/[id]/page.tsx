@@ -22,7 +22,9 @@ async function getPlace(id: string) { const supabase = createClient(SUPABASE_URL
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const place = await getPlace(id);
-  if (!place) return { title: "المعلم غير موجود | وادنا", robots: { index: false, follow: false } };
+  if (!place) {
+    notFound();
+  }
   const title = `${place.name} | وادنا Ouedna`;
   const description = place.description || `اكتشف تفاصيل ${place.name} وموقعه ضمن دليل وادنا السياحي في ولاية الوادي.`;
   return {
