@@ -3,6 +3,14 @@ import { NextResponse, type NextRequest } from "next/server";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "./lib/supabase/config";
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/reset-password"];
+const EXCLUDED_PUBLIC_CATEGORIES = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
+
+function missingPlaceResponse() {
+  return new NextResponse(
+    `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><title>المعلم غير موجود | وادنا</title></head><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#0b121f;color:#fff;font-family:Arial,sans-serif;text-align:center"><main style="max-width:520px;padding:40px"><strong style="font-size:64px;color:#f59e0b">404</strong><h1>المعلم غير موجود</h1><p style="line-height:1.8;color:#cbd5e1">يبدو أن هذا المعلم غير منشور أو لم يعد متاحاً في دليل وادنا.</p><a href="/explore" style="display:inline-block;margin-top:18px;padding:13px 22px;border-radius:999px;background:#f59e0b;color:#0b121f;text-decoration:none;font-weight:700">العودة إلى الدليل</a></main></body></html>`,
+    { status: 404, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" } },
+  );
+}
 
 function hasDashboardPermission(profile: { role?: string | null; permissions?: unknown } | null) {
   if (!profile) return false;
@@ -46,6 +54,19 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
+  if (pathname.startsWith("/place/")) {
+    const rawId = pathname.split("/")[2] || "";
+    if (/^\d+$/.test(rawId)) {
+      const { data: place } = await supabase
+        .from("places")
+        .select("id,status,main_category,category")
+        .eq("id", Number(rawId))
+        .maybeSingle();
+      if (!place || place.status !== "منشور" || EXCLUDED_PUBLIC_CATEGORIES.has(place.main_category || place.category || "")) {
+        return missingPlaceResponse();
+      }
+    }
+  }
   const isAdminRoute = pathname.startsWith("/admin");
   const isLoginPath = PUBLIC_ADMIN_PATHS.includes(pathname);
   let hasAdminAccess = false;
