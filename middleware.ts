@@ -59,10 +59,10 @@ export async function middleware(request: NextRequest) {
     if (/^\d+$/.test(rawId)) {
       const { data: place } = await supabase
         .from("places")
-        .select("id,status,main_category,category")
+        .select("id,status,main_category")
         .eq("id", Number(rawId))
         .maybeSingle();
-      if (!place || place.status !== "منشور" || EXCLUDED_PUBLIC_CATEGORIES.has(place.main_category || place.category || "")) {
+      if (!place || place.status !== "منشور" || EXCLUDED_PUBLIC_CATEGORIES.has(place.main_category || "")) {
         return missingPlaceResponse();
       }
     }
