@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     images: [{ url: `${siteConfig.url}${siteConfig.ogImage}`, alt: "واحة وادي سوف عند الغروب" }],
   },
-  twitter: { card: "summary_large_image", title: "وادنا | اكتشف وادي سوف", description: "دليلك الرقمي لاكتشاف ولاية الوادي." },
+  twitter: { card: "summary_large_image", title: "وادنا | اكتشف وادي سوف", description: "دليلك الرقمي لاكتشاف ولاية الوادي.", images: [`${siteConfig.url}${siteConfig.ogImage}`] },
 };
 
 type FeaturedPlace = { id: number; name: string; description: string | null; category: string | null; municipality: string | null; image_url: unknown };

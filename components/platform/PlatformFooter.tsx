@@ -1,12 +1,13 @@
 "use client";
 
-import { Compass, Heart, MapPinned, MessageCircle, ShieldCheck, View } from "lucide-react";
+import { Compass, Heart, MapPinned, MessageCircle, Route, ShieldCheck, View } from "lucide-react";
 import Link from "next/link";
 import { useLanguage, type DictKey } from "@/lib/i18n";
 
 const links: readonly [string, DictKey, typeof Compass][] = [
   ["/explore", "explore", Compass],
   ["/map", "map", MapPinned],
+  ["/itinerary", "itinerary", Route],
   ["/community", "community", MessageCircle],
   ["/virtual-tour", "homeFeatVr", View],
   ["/favorites", "favorites", Heart],
