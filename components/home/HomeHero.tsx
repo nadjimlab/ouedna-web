@@ -63,7 +63,7 @@ export default function HomeHero() {
   return (
     <section className="hh" aria-label={t("homeTitle")}>
       <motion.div className="hh__bg" style={{ x: imgX, y: imgY }} aria-hidden="true">
-        <Image src="/ouedna/ouedna-hero-new.jpg" alt="" fill priority sizes="100vw" className="hh__img" />
+        <Image src="/ouedna/ouedna-hero-new.jpg" alt="واحة ونخيل من وادي سوف" fill priority sizes="100vw" className="hh__img" />
       </motion.div>
       <div className="hh__sun" aria-hidden="true" />
       <div className="hh__shade" aria-hidden="true" />

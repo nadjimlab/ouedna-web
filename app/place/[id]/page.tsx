@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowRight, Clock3, Globe2, MapPin, Phone, Star, View } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
@@ -130,7 +131,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          {gallery.length > 1 ? <div className="place-detail-gallery"><strong className="place-detail-gallery__title">صور {place.name} في وادي سوف</strong>{gallery.slice(1, 5).map((image) => <img key={image} src={image} alt={`${place.name} — ${place.municipality || place.address || "ولاية الوادي"}`} loading="lazy" />)}</div> : null}
+          {gallery.length > 1 ? <div className="place-detail-gallery"><strong className="place-detail-gallery__title">صور {place.name} في وادي سوف</strong>{gallery.slice(1, 5).map((image) => <Image key={image} src={image} alt={`${place.name} — ${place.municipality || place.address || "ولاية الوادي"}`} width={640} height={420} sizes="(max-width: 700px) 100vw, 25vw" loading="lazy" unoptimized />)}</div> : null}
           {place.virtual_tour_url ? <div className="place-detail-tour"><div className="place-detail-tour__label"><View size={15} /> جولة افتراضية 360° داخل <TranslatedText text={place.name} /></div><LazyPano360 src={place.virtual_tour_url} title={place.name} /></div> : null}
 
           <div className="place-detail-info-grid">
