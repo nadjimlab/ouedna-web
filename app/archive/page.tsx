@@ -2,8 +2,15 @@ import { createClient } from "@supabase/supabase-js";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import ArchiveClient from "./ArchiveClient";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
+import type { Metadata } from "next";
+import { pageMetadata } from "@/app/metadata";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = pageMetadata({
+  title: "تراث وتاريخ وادي سوف | أرشيف الوادي | وادنا",
+  description: "تصفح أرشيف وادنا للصور والذكريات والمواد التراثية المرتبطة بتاريخ وثقافة وعمارة وادي سوف.",
+  path: "/archive",
+});
 
 function imageList(value: unknown): string[] {
   if (Array.isArray(value)) return value.flatMap(imageList);

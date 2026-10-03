@@ -12,13 +12,11 @@ const publicRoutes = [
   ["/virtual-tour", "weekly", 0.8],
   ["/archive", "weekly", 0.7],
   ["/community", "weekly", 0.6],
-  ["/favorites", "weekly", 0.5],
   ["/about", "monthly", 0.5],
   ["/download", "monthly", 0.5],
   ["/guide", "monthly", 0.5],
   ["/itinerary", "monthly", 0.5],
   ["/privacy", "yearly", 0.2],
-  ["/suggest-place", "monthly", 0.4],
 ] as const;
 const excludedPublicCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
 

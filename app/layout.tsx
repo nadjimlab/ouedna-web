@@ -43,7 +43,6 @@ export const metadata: Metadata = {
   icons: { icon: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }, { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" }, { url: "/icons/icon-maskable-512.png", sizes: "512x512", type: "image/png" }], apple: "/icons/apple-touch-icon.png" },
   alternates: {
     canonical: siteUrl,
-    languages: { "ar-DZ": siteUrl, "fr-FR": siteUrl, "en-US": siteUrl },
   }, openGraph: { type: "website", locale: "ar_DZ", url: siteUrl, siteName, title: siteTitle, description: siteDescription, images: [{ url: panoramicOgImage, width: 1600, height: 900, alt: "واحة وادي سوف - وادنا" }] },
   twitter: { card: "summary_large_image", title: siteTitle, description: siteDescription, images: [panoramicOgImage] },
 };

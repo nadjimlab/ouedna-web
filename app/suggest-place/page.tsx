@@ -2,6 +2,13 @@ import { ArrowLeft, ArrowRight, Check, Compass, MapPin, ShieldCheck, Sparkles, U
 import Link from "next/link";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import SuggestPlaceClient from "./SuggestPlaceClient";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "اقترح معلماً في وادي سوف | وادنا",
+  description: "ساهم في توثيق معلم حقيقي في وادي سوف ليُراجع قبل إضافته إلى دليل وادنا.",
+  robots: { index: false, follow: true },
+};
 
 const reviewSteps = [
   { number: "01", title: "أرسل التفاصيل", text: "أخبرنا باسم المكان وموقعه وما يجعله مميزاً." },

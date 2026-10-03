@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "اكتشف وادي سوف | وادنا Ouedna",
   description: "اكتشف معالم وادي سوف وواحاتها وأسواقها وتراثها عبر دليل وادنا السياحي التفاعلي.",
-  alternates: { canonical: `${siteConfig.url}/explore`, languages: { "ar-DZ": `${siteConfig.url}/explore`, "fr-FR": `${siteConfig.url}/explore`, "en-US": `${siteConfig.url}/explore` } },
+  alternates: { canonical: `${siteConfig.url}/explore` },
   openGraph: {
     title: "اكتشف وادي سوف | وادنا Ouedna",
     description: "معالم وواحات وتجارب محلية حقيقية في دليل سياحي واحد.",

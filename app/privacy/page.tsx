@@ -5,7 +5,7 @@ import { ShieldCheck } from "lucide-react";
 export const metadata: Metadata = {
   title: "سياسة الخصوصية | سوف 360",
   description: "سياسة الخصوصية الخاصة بمنصة سوف 360 وكيفية التعامل مع بيانات الموقع الجغرافي وبيانات الزوار.",
-  alternates: { canonical: "/privacy" },
+  alternates: { canonical: "https://myeloued.com/privacy" },
 };
 
 const sections = [

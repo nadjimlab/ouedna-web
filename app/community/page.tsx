@@ -3,8 +3,15 @@ import PlatformFrame from "@/components/platform/PlatformFrame";
 import CommunityClient from "./CommunityClient";
 import PageHero from "@/components/platform/PageHero";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
+import type { Metadata } from "next";
+import { pageMetadata } from "@/app/metadata";
 
 export const dynamic = "force-dynamic";
+export const metadata: Metadata = pageMetadata({
+  title: "تجارب زوار وادي سوف | مجتمع وادنا",
+  description: "اقرأ تجارب زوار وادنا المنشورة بعد المراجعة، وشارك تجربتك الحقيقية من معالم وادي سوف.",
+  path: "/community",
+});
 
 async function getExperiences() {
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

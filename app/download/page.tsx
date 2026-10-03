@@ -8,6 +8,14 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import PlatformFrame from "@/components/platform/PlatformFrame";
+import type { Metadata } from "next";
+import { pageMetadata } from "@/app/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "تحميل تطبيق وادنا | دليل الوادي وخريطة وادي سوف",
+  description: "حمّل تحديث تطبيق وادنا الرسمي لأندرويد للوصول إلى خريطة الوادي وخط الرحلة والمعالم المنشورة.",
+  path: "/download",
+});
 
 const APP_VERSION = "2.1.5";
 const APK_URL =

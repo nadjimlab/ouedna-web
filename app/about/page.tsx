@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "من نحن | وادنا Ouedna",
   description:
     "تعرّف على وادنا، المنصة السياحية الرقمية لاكتشاف معالم واحات وتراث ولاية الوادي.",
-  alternates: { canonical: "/about" },
+  alternates: { canonical: `${siteConfig.url}/about` },
   openGraph: { title: "من نحن | وادنا Ouedna", description: "رؤية وادنا لدعم اكتشاف السياحة المحلية في وادي سوف.", url: `${siteConfig.url}/about` },
 };
 
