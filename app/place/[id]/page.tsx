@@ -122,7 +122,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
               <h1><TranslatedText text={place.name} /></h1>
               <p className="place-detail-location"><MapPin size={16} /> <TranslatedText text={place.municipality || place.address} fallback="ولاية الوادي" /></p>
               <p className="place-detail-description"><TranslatedText text={place.description} fallback="المعلومة قيد التحديث من دليل Ouedna المحلي." /></p>
-              <div className="place-detail-rating">{place.rating ? <><Star size={17} fill="currentColor" /> {Number(place.rating).toFixed(1)} <span>تقييم موثّق</span></> : <span>لا توجد تقييمات بعد</span>}</div>
+              <div className="place-detail-rating">{place.rating ? <><Star size={17} fill="currentColor" /> {Number(place.rating).toFixed(1)} <span>التقييم المتاح</span></> : <span>لا توجد تقييمات بعد</span>}</div>
               <PlaceDetailActions id={String(place.id)} name={place.name} />
               <div className="flex flex-wrap gap-2">
                 <Link className="platform-button platform-button--green place-start-route" href={`/map?placeId=${place.id}&destination=${encodeURIComponent(place.name || "")}`}><MapPin size={17} /> شاهد الموقع على خريطة الوادي</Link>

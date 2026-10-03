@@ -12,10 +12,9 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "وادنا | اكتشف وادي سوف",
-  description: "المنصة السياحية الرسمية لاكتشاف معالم واحات وتراث ولاية الوادي.",
+  description: "دليل سياحي محلي لاكتشاف معالم واحات وتراث ولاية الوادي.",
   alternates: {
     canonical: siteConfig.url,
-    languages: { "ar-DZ": siteConfig.url, "fr-FR": siteConfig.url, "en-US": siteConfig.url },
   },
   openGraph: {
     type: "website",
