@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: `${siteConfig.url}/explore`,
     images: [{ url: `${siteConfig.url}/ouedna/hero-oasis.jpg`, width: 2560, height: 1440, alt: "واحة وادي سوف عند الغروب" }],
   },
-  twitter: { card: "summary_large_image", title: "اكتشف وادي سوف | وادنا Ouedna", description: "دليل وادنا التفاعلي لاكتشاف ولاية الوادي." },
+  twitter: { card: "summary_large_image", title: "اكتشف وادي سوف | وادنا Ouedna", description: "دليل وادنا التفاعلي لاكتشاف ولاية الوادي.", images: [`${siteConfig.url}/ouedna/hero-oasis.jpg`] },
 };
 
 const EMPTY_RESULT = { places: [], error: "تعذر تحميل الأماكن الآن. يمكنك إعادة المحاولة دون مغادرة الصفحة." };

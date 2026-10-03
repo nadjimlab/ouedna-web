@@ -56,6 +56,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!place) notFound();
   const title = `${place.name} | وادنا Ouedna — وادي سوف`;
   const description = place.description || `اكتشف تفاصيل ${place.name} وموقعه ضمن دليل وادنا السياحي في ولاية الوادي.`;
+  const image = images(place.image_url)[0] || place.gallery[0] || `${siteConfig.url}/ouedna/local-architecture.webp`;
+  const imageUrl = image.startsWith("http") ? image : `${siteConfig.url}${image.startsWith("/") ? image : `/${image}`}`;
   return {
     title,
     description,
@@ -66,9 +68,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       description,
       url: `${siteConfig.url}/place/${place.id}`,
       siteName: siteConfig.siteName,
-      images: [{ url: `${siteConfig.url}/ouedna/local-architecture.webp`, alt: String(place.name) }],
+      images: [{ url: imageUrl, alt: String(place.name) }],
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: { card: "summary_large_image", title, description, images: [imageUrl] },
   };
 }
 

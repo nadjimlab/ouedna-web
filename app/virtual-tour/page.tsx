@@ -3,15 +3,15 @@ import { createClient } from "@supabase/supabase-js";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import VirtualTour, { type Stop } from "@/components/vr/VirtualTour";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
-import { siteConfig } from "@/app/metadata";
+import { pageMetadata } from "@/app/metadata";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "زيارة افتراضية VR لمعالم وادي سوف | وادنا",
   description: "تجوّل افتراضياً بين معالم ولاية الوادي بصور المعالم الحقيقية، وبوضع نظارة VR أو جولة 360° حيثما توفرت.",
-  alternates: { canonical: `${siteConfig.url}/virtual-tour` },
-};
+  path: "/virtual-tour",
+});
 
 const excluded = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
 

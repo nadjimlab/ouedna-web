@@ -15,16 +15,13 @@ const publicRoutes = [
   ["/about", "monthly", 0.5],
   ["/download", "monthly", 0.5],
   ["/guide", "monthly", 0.5],
-  ["/itinerary", "monthly", 0.5],
   ["/privacy", "yearly", 0.2],
 ] as const;
 const excludedPublicCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date();
   const staticRoutes: MetadataRoute.Sitemap = publicRoutes.map(([path, changeFrequency, priority]) => ({
     url: `${siteConfig.url}${path}`,
-    lastModified: now,
     changeFrequency,
     priority,
   }));
@@ -42,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...staticRoutes,
       ...places.filter((place) => !excludedPublicCategories.has(place.main_category || "")).map((place) => ({
         url: `${siteConfig.url}/place/${place.id}`,
-        lastModified: place.created_at ? new Date(place.created_at) : now,
+        ...(place.created_at ? { lastModified: new Date(place.created_at) } : {}),
         changeFrequency: "monthly" as const,
         priority: 0.6,
       })),
