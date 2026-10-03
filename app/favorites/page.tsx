@@ -2,10 +2,12 @@ import { Heart } from "lucide-react";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import FavoritesClient from "./FavoritesClient";
 import type { Metadata } from "next";
+import { siteConfig } from "@/app/metadata";
 
 export const metadata: Metadata = {
   title: "محفوظاتك | وادنا",
   description: "قائمة المعالم التي حفظتها محلياً على جهازك.",
+  alternates: { canonical: `${siteConfig.url}/favorites` },
   robots: { index: false, follow: true },
 };
 

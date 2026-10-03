@@ -18,6 +18,11 @@
   flex: 0 0 auto;
   z-index: 1100;
 }
+.app-map-page{position:relative}
+.app-map-seo-intro{position:absolute;top:86px;right:18px;z-index:1200;width:min(430px,calc(100% - 36px));padding:14px 18px;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(7,31,28,.88);box-shadow:0 14px 34px rgba(0,0,0,.18);backdrop-filter:blur(12px);pointer-events:none}
+.app-map-seo-intro span{color:#e4bd70;font-size:10px;font-weight:900;letter-spacing:.08em}
+.app-map-seo-intro h1{margin:3px 0 3px;font:900 18px/1.35 "Noto Kufi Arabic",sans-serif}
+.app-map-seo-intro p{margin:0;color:rgba(255,255,255,.78);font-size:11px;line-height:1.7}
 .app-map-canvas {
   position: relative;
   z-index: 0;
@@ -39,5 +44,5 @@
 @media (max-width: 700px) {
   .app-map-shell { min-height: 100svh; height: 100svh; }
   .app-map-canvas { padding-bottom: 0; }
+  .app-map-seo-intro{top:76px;right:10px;width:calc(100% - 20px);padding:11px 14px}.app-map-seo-intro h1{font-size:15px}.app-map-seo-intro p{font-size:10px}
 }
-

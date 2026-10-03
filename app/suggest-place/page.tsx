@@ -3,10 +3,12 @@ import Link from "next/link";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import SuggestPlaceClient from "./SuggestPlaceClient";
 import type { Metadata } from "next";
+import { siteConfig } from "@/app/metadata";
 
 export const metadata: Metadata = {
   title: "اقترح معلماً في وادي سوف | وادنا",
   description: "ساهم في توثيق معلم حقيقي في وادي سوف ليُراجع قبل إضافته إلى دليل وادنا.",
+  alternates: { canonical: `${siteConfig.url}/suggest-place` },
   robots: { index: false, follow: true },
 };
 
