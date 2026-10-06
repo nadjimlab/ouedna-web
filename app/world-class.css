@@ -170,3 +170,33 @@ html{background:var(--wc-cream)}body{background:var(--wc-cream);color:var(--wc-i
 .suggest-hero-v2__image { border-color: rgba(255,255,255,.82); }
 @keyframes suggestHeroKenBurns { from { transform: scale(1); } to { transform: scale(1.07); } }
 @media (prefers-reduced-motion: reduce) { .suggest-hero-v2::before { animation: none; } }
+
+
+/* Cinematic destination surfaces — discover and individual landmark pages. */
+.app-explore-redesign { position: relative; isolation: isolate; overflow: hidden; background: #0b2b25; }
+.app-explore-redesign::before { position: absolute; z-index: -1; inset: 0; content: ""; pointer-events: none; background: radial-gradient(circle at 15% 22%, rgba(214,166,83,.16), transparent 25%), linear-gradient(180deg, #092a24 0%, #f3f0e7 43%, #f7f5ee 100%); }
+.app-explore-welcome { min-height: min(900px, calc(100svh - 12px)) !important; border-bottom: 1px solid rgba(255,255,255,.14); box-shadow: 0 24px 70px rgba(7,35,30,.28); }
+.app-explore-welcome__image { transform: scale(1.08); filter: saturate(1.14) contrast(1.05); animation: exploreHeroBreath 18s ease-in-out infinite alternate !important; }
+.app-explore-welcome__veil { background: linear-gradient(90deg, rgba(7,30,26,.94), rgba(14,48,40,.55) 48%, rgba(13,29,24,.15)), linear-gradient(180deg, rgba(10,20,17,.22), rgba(5,30,25,.92)); }
+.app-explore-welcome__content { min-height: min(900px, calc(100svh - 12px)) !important; justify-content: flex-end; padding-bottom: clamp(84px, 12vh, 150px); }
+.app-explore-welcome__content::after { position: absolute; right: 8%; bottom: 14%; width: 180px; height: 180px; border: 1px solid rgba(245,210,125,.3); border-radius: 50%; content: ""; opacity: .6; box-shadow: 0 0 0 18px rgba(245,210,125,.04), 0 0 0 36px rgba(245,210,125,.025); pointer-events: none; }
+.app-explore-welcome h1 { max-width: 800px; font-size: clamp(48px, 8vw, 104px) !important; text-shadow: 0 12px 38px rgba(0,0,0,.42); }
+.app-explore-welcome p { max-width: 590px; color: rgba(255,245,224,.86); font-size: clamp(14px, 1.5vw, 18px); }
+.app-explore-quick { position: relative; z-index: 2; margin-top: -58px; }
+.app-explore-quick-card { box-shadow: 0 18px 38px rgba(13,60,51,.13); backdrop-filter: blur(14px); }
+.place-detail-page--immersive { position: relative; isolation: isolate; overflow: hidden; background: #eef2ed !important; }
+.place-detail-page--immersive::before { position: absolute; z-index: -2; inset: 0 0 auto; height: min(820px, 88svh); content: ""; background-image: linear-gradient(180deg, rgba(5,28,24,.78) 0%, rgba(7,38,31,.58) 38%, rgba(238,242,237,.97) 100%), var(--place-image); background-position: center, center; background-size: cover; background-attachment: scroll; filter: saturate(1.08); }
+.place-detail-page--immersive::after { position: absolute; z-index: -1; top: 0; right: 9%; width: 1px; height: min(620px, 72svh); content: ""; background: linear-gradient(180deg, rgba(238,195,106,.7), transparent); opacity: .7; }
+.place-detail-page--immersive .place-detail-breadcrumbs,
+.place-detail-page--immersive .place-detail-page > .platform-container > .platform-back-link { color: rgba(255,255,255,.82); }
+.place-detail-page--immersive .place-detail-breadcrumbs a:hover,
+.place-detail-page--immersive .platform-back-link:hover { color: #fff; }
+.place-detail-page--immersive .place-detail-hero { margin-top: 18px; border-color: rgba(255,255,255,.2) !important; background: rgba(255,255,255,.14) !important; box-shadow: 0 28px 70px rgba(3,25,21,.3) !important; backdrop-filter: blur(16px); }
+.place-detail-page--immersive .place-detail-hero__copy { color: #fff; }
+.place-detail-page--immersive .place-detail-hero__copy h1 { color: #fff !important; text-shadow: 0 8px 28px rgba(0,0,0,.26); }
+.place-detail-page--immersive .place-detail-description { color: rgba(255,255,255,.82) !important; }
+.place-detail-page--immersive .place-detail-location { color: #f4cc72; }
+.place-detail-page--immersive .place-detail-rating { color: #f7d481; }
+@keyframes exploreHeroBreath { from { transform: scale(1.05); } to { transform: scale(1.11); } }
+@media (max-width: 700px) { .app-explore-welcome, .app-explore-welcome__content { min-height: 760px !important; }.app-explore-welcome__content { padding-bottom: 92px; }.app-explore-welcome__content::after { right: -40px; bottom: 17%; width: 130px; height: 130px; }.app-explore-quick { margin-top: -34px; }.place-detail-page--immersive::before { height: 760px; }.place-detail-page--immersive .place-detail-hero { margin-top: 12px; }.place-detail-page--immersive::after { right: 5%; height: 520px; } }
+@media (prefers-reduced-motion: reduce) { .app-explore-welcome__image { animation: none !important; transform: scale(1.05); } }

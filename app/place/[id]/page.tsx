@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { ArrowRight, Clock3, Globe2, MapPin, Phone, Star, View } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
@@ -81,6 +82,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
 
   const gallery = [...new Set([...images(place.image_url), ...images(place.gallery)])];
   const hero = gallery[0] || "/ouedna/local-architecture.webp";
+  const placeBackground = hero.replace(/"/g, '\\"');
   const relatedPlaces = (Array.isArray(place.related) ? place.related : []) as RelatedPlace[];
   const placeUrl = `${siteConfig.url}/place/${place.id}`;
   const schema = {
@@ -109,7 +111,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
 
   return (
     <PlatformFrame active="/explore">
-      <section className="place-detail-page">
+      <section className="place-detail-page place-detail-page--immersive" style={{ "--place-image": `url("${placeBackground}")` } as CSSProperties}>
         <div className="platform-container">
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
           <nav className="place-detail-breadcrumbs" aria-label="مسار التنقل">
