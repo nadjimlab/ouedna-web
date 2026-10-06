@@ -2,9 +2,24 @@
   --admin-ink: #102d28;
   --admin-gold: #d4af37;
   --admin-border: #e2e8f0;
-  background: #f7f8f6;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f4f7f2 0%, #eef4ef 47%, #fff8e9 100%);
   font-family: var(--font-cairo), "Cairo", system-ui, sans-serif;
 }
+
+#admin-root::before {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: .42;
+  background: radial-gradient(circle at 8% 8%, rgba(212, 175, 55, .16), transparent 24%), radial-gradient(circle at 92% 78%, rgba(25, 63, 56, .12), transparent 28%), repeating-linear-gradient(135deg, rgba(16, 45, 40, .018) 0 1px, transparent 1px 9px);
+}
+
+#admin-root > * { position: relative; z-index: 1; }
 
 #admin-root .admin-hero-panel {
   background: radial-gradient(circle at 12% 10%, rgba(212, 175, 55, .24), transparent 32%), linear-gradient(135deg, #193f38 0%, #102d28 72%);

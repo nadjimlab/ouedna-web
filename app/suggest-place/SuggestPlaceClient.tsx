@@ -51,6 +51,14 @@ export default function SuggestPlaceClient() {
     }
   }
 
+  function getMapPreviewUrl() {
+    if (!mapLink.trim()) return "";
+    if (coordinates.latitude && coordinates.longitude) {
+      return `https://www.google.com/maps?q=${coordinates.latitude},${coordinates.longitude}&z=15&output=embed`;
+    }
+    return `https://www.google.com/maps?q=${encodeURIComponent(mapLink.trim())}&output=embed`;
+  }
+
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
@@ -104,7 +112,7 @@ export default function SuggestPlaceClient() {
         <p className="suggest-place-identity__hint">اكتب المعلومات كما يعرفها السكان والزوار. الحقول المعلّمة بـ <strong>*</strong> مطلوبة لإرسال الاقتراح.</p>
         <div className="platform-form-grid">
           <label><span className="suggest-field-label">اسم المعلم <em>* مطلوب</em></span><input name="name" required minLength={2} placeholder="مثال: واحة أو سوق أو قصر" /></label>
-          <label><span className="suggest-field-label">التصنيف الرئيسي <em>* مطلوب</em></span><input name="main_category" required placeholder="معلم تراثي، سوق، طبيعة..." /></label>
+          <label><span className="suggest-field-label">التصنيف الرئيسي <em>* مطلوب</em></span><input name="main_category" required placeholder="معلم تراثي، سوق، طبيعة، مرافق عمومية..." /></label>
           <label><span className="suggest-field-label">التصنيف الفرعي <small>اختياري</small></span><input name="sub_category" placeholder="مثال: قصر تاريخي أو واحة" /></label>
           <label><span className="suggest-field-label">البلدية <small>اختياري</small></span><input name="municipality" placeholder="بلدية الوادي" /></label>
           <label><span className="suggest-field-label">العنوان <small>اختياري</small></span><input name="address" placeholder="الحي أو الشارع" /></label>
@@ -120,6 +128,7 @@ export default function SuggestPlaceClient() {
         <label className="platform-form-wide suggest-map-link-field"><span className="suggest-map-link-field__label">رابط Google Maps <small>مطلوب لتحديد الموقع بدقة</small></span><input name="map_link" type="url" value={mapLink} onChange={(event) => handleMapLinkChange(event.target.value)} placeholder="الصق هنا: https://maps.google.com/..." dir="ltr" inputMode="url" /></label>
         <div className="suggest-map-link-actions"><span><Link2 size={14} /> الصق رابط المشاركة من تطبيق خرائط Google</span>{mapLink && <button type="button" onClick={() => window.open(mapLink, "_blank", "noopener,noreferrer")}><ExternalLink size={14} /> فتح الرابط</button>}</div>
         {coordinatesDetected && <p className="suggest-coordinates-detected"><CheckCircle2 size={15} /> تم استخراج الإحداثيات تلقائياً من الرابط، ويمكنك تعديلها عند الحاجة.</p>}
+        {mapLink && <div className="suggest-map-preview"><div className="suggest-map-preview__label"><MapPin size={14} /> معاينة فورية للموقع</div><iframe src={getMapPreviewUrl()} title="معاينة موقع المعلم على خرائط Google" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>}
         <div className="platform-form-grid suggest-coordinate-grid"><label>خط العرض<input name="latitude" type="number" step="any" value={coordinates.latitude} onChange={(event) => { setCoordinates((current) => ({ ...current, latitude: event.target.value })); setCoordinatesDetected(false); }} placeholder="33.36" /></label><label>خط الطول<input name="longitude" type="number" step="any" value={coordinates.longitude} onChange={(event) => { setCoordinates((current) => ({ ...current, longitude: event.target.value })); setCoordinatesDetected(false); }} placeholder="6.86" /></label></div>
       </div>
 
