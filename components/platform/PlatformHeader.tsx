@@ -1,7 +1,7 @@
 "use client";
 
 // Ouedna platform header: language and direction are driven by the shared provider.
-import { ArrowRight, Compass, Download, Globe2, History, Home, MapPinned, MessageCircle, Route, View } from "lucide-react";
+import { ArrowRight, Compass, Globe2, History, Home, MapPinned, MessageCircle, Route, View } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { type DictKey, useLanguage } from "@/lib/i18n";
@@ -43,7 +43,6 @@ export default function PlatformHeader({ active }: { active?: string }) {
               </select>
             </label>
             <PwaInstallButton />
-            <Link className="platform-download-link" href="/download"><Download size={15} /> {t("downloadApp")}</Link>
           </div>
         </div>
       </header>
