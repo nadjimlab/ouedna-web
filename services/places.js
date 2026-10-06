@@ -1,14 +1,15 @@
 import { supabase } from "@/lib/supabase/client";
+import { imageUploadPath } from "@/lib/validation/upload";
 
 export const IMAGES_BUCKET = "images";
 
 export async function uploadPlaceImages(files) {
   const urls = [];
   for (const file of files) {
-    const ext = file.name.split(".").pop();
-    const path = `public/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const path = imageUploadPath("public", file);
+    if (!path) throw new Error(`نوع أو حجم الصورة "${file.name}" غير مسموح به.`);
 
-    const { error } = await supabase.storage.from(IMAGES_BUCKET).upload(path, file);
+    const { error } = await supabase.storage.from(IMAGES_BUCKET).upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
     if (error) throw new Error(`فشل رفع الصورة "${file.name}": ${error.message}`);
 
     const { data } = supabase.storage.from(IMAGES_BUCKET).getPublicUrl(path);

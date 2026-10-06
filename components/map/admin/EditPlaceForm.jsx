@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { OpenLocationCode } from 'open-location-code';
 import { supabase } from '@/lib/supabase/client'; // عدّل هذا المسار إذا كان ملف supabase عندك في مكان مختلف
+import { imageUploadPath, validateImageFile } from '@/lib/validation/upload';
 // ملاحظة: خاصية Plus Code تحتاج تثبيت المكتبة أولاً:  npm install open-location-code
 
 const olc = new OpenLocationCode();
@@ -225,13 +226,13 @@ export default function EditPlaceForm({ place, onCancel, onSaved, onDeleted }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.lat, formData.lng, mapReady]);
 
-  const applyCoords = (lat, lng) => {
+  function applyCoords(lat, lng) {
     setFormData(prev => ({
       ...prev,
       lat: lat.toFixed(6),
       lng: lng.toFixed(6),
     }));
-  };
+  }
 
   // ===================================================================
   // Plus Code (نفس منطق فورم الإضافة تمامًا)
@@ -308,7 +309,7 @@ export default function EditPlaceForm({ place, onCancel, onSaved, onDeleted }) {
   // كلاهما يُعرضان معًا في نفس شبكة الصور، مع إمكانية الحذف والترتيب وتحديد الغلاف
   // ===================================================================
   const addFiles = (fileList) => {
-    const files = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+    const files = Array.from(fileList).filter((file) => !validateImageFile(file).error);
     const mapped = files.map(file => ({
       file,
       preview: URL.createObjectURL(file),
@@ -401,8 +402,8 @@ export default function EditPlaceForm({ place, onCancel, onSaved, onDeleted }) {
       const uploadedNew = [];
       for (let i = 0; i < newImages.length; i++) {
         const { file, id } = newImages[i];
-        const ext = file.name.split('.').pop();
-        const path = `places/${Date.now()}-${i}-${Math.random().toString(36).slice(2)}.${ext}`;
+        const path = imageUploadPath('places', file, `${Date.now()}-${i}`);
+        if (!path) throw new Error('نوع أو حجم إحدى الصور غير مسموح به.');
 
         const { error: uploadError } = await supabase.storage
           .from('images')

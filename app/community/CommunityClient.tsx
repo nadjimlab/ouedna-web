@@ -4,6 +4,7 @@ import { Camera, CheckCircle2, Image as ImageIcon, LoaderCircle, MessageSquareHe
 import { useRef, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { useLanguage } from "@/lib/i18n";
+import { imageUploadPath, validateImageFile } from "@/lib/validation/upload";
 
 type Experience = { id: string | number; name?: string | null; message: string; photos?: unknown; created_at?: string };
 function images(value: unknown) { if (Array.isArray(value)) return value.map(String).filter(Boolean); if (typeof value === "string") return value.replace(/[\[\]"']/g, "").split(",").map((item) => item.trim()).filter(Boolean); return []; }
@@ -17,9 +18,9 @@ export default function CommunityClient({ experiences }: { experiences: Experien
     setSending(true); setError("");
     try {
       const selected = files.slice(0, 5);
-      if (selected.some((file) => !file.type.startsWith("image/") || file.size > 8 * 1024 * 1024)) throw new Error(t("sendError"));
+      if (selected.some((file) => Boolean(validateImageFile(file).error))) throw new Error(t("sendError"));
       const photoUrls: string[] = [];
-      for (const file of selected) { const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_"); const path = `testimonials/${Date.now()}-${safeName}`; const upload = await supabase.storage.from("testimonials-photos").upload(path, file, { cacheControl: "3600", upsert: false }); if (upload.error) throw upload.error; photoUrls.push(supabase.storage.from("testimonials-photos").getPublicUrl(path).data.publicUrl); }
+      for (const file of selected) { const path = imageUploadPath("testimonials", file); if (!path) throw new Error(t("sendError")); const upload = await supabase.storage.from("testimonials-photos").upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type }); if (upload.error) throw upload.error; photoUrls.push(supabase.storage.from("testimonials-photos").getPublicUrl(path).data.publicUrl); }
       const insert = await supabase.from("testimonials").insert({ name: name.trim() || null, message: message.trim(), photos: photoUrls, status: "pending" }); if (insert.error) throw insert.error;
       setDone(true); setName(""); setMessage(""); setFiles([]); if (fileRef.current) fileRef.current.value = "";
     } catch (caught) { setError(caught instanceof Error && caught.message === t("sendError") ? caught.message : t("sendError")); } finally { setSending(false); }

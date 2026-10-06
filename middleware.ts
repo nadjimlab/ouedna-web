@@ -14,9 +14,14 @@ function missingPlaceResponse() {
 
 function hasDashboardPermission(profile: { role?: string | null; permissions?: unknown } | null) {
   if (!profile) return false;
-  if (profile.role === "admin") return true;
+  if (profile.role === "admin" || profile.role === "supervisor") return true;
   if (!profile.permissions || typeof profile.permissions !== "object") return false;
-  return Object.values(profile.permissions as Record<string, unknown>).some((value) => value === true);
+  const permissions = profile.permissions as Record<string, unknown>;
+  // A feature permission such as add_place must not grant access to the
+  // entire dashboard. Require an explicit dashboard capability instead.
+  return ["dashboard", "dashboard_access", "admin", "manage_dashboard", "add_place", "maintenance", "manage_places", "manage_content"].some(
+    (key) => permissions[key] === true,
+  );
 }
 
 export async function middleware(request: NextRequest) {

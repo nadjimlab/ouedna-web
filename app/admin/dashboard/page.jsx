@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '../../../lib/supabase/client';
 import AddPlaceForm from '@/components/map/admin/AddPlaceForm';
 import EditPlaceForm from '@/components/map/admin/EditPlaceForm';
+import { imageUploadPath, validateImageFile } from '@/lib/validation/upload';
 
 /* غيّر هذا المسار إذا كانت صفحة تسجيل الدخول عندك في مكان آخر */
 const LOGIN_PATH = '/login';
@@ -95,23 +96,23 @@ export default function DashboardPage() {
 
   async function fetchAllData() {
     setIsLoading(true);
-    const { data: pData, error: pErr } = await supabase.from('places').select('*').order('id', { ascending: false });
+    const { data: pData, error: pErr } = await supabase.from('places').select('*').order('id', { ascending: false }).limit(500);
     if (!pErr) { setPlaces(pData || []); setDbOnline(true); } else { setDbOnline(false); }
 
-    const { data: aData } = await supabase.from('admins').select('*');
+    const { data: aData } = await supabase.from('admins').select('*').limit(200);
     if (aData) setAdmins(aData);
 
-    const { data: hData } = await supabase.from('heritage').select('*').order('id', { ascending: false });
+    const { data: hData } = await supabase.from('heritage').select('*').order('id', { ascending: false }).limit(200);
     if (hData) setHeritageItems(hData);
 
-    const { data: mData } = await supabase.from('memories').select('*').order('id', { ascending: false });
+    const { data: mData } = await supabase.from('memories').select('*').order('id', { ascending: false }).limit(200);
     if (mData) setMemories(mData);
 
-    const { data: fData } = await supabase.from('feedback').select('*').order('id', { ascending: false });
+    const { data: fData } = await supabase.from('feedback').select('*').order('id', { ascending: false }).limit(200);
     if (fData) setFeedbacks(fData);
 
     const [{ data: agencyData }, { data: analyticsData, error: analyticsQueryError }] = await Promise.all([
-      supabase.from('tourism_agencies').select('*').order('created_at', { ascending: false }),
+      supabase.from('tourism_agencies').select('*').order('created_at', { ascending: false }).limit(200),
       supabase.rpc('get_web_analytics_summary'),
     ]);
     if (agencyData) setAgencies(agencyData);
@@ -315,6 +316,11 @@ export default function DashboardPage() {
   function handleHeritageImageChange(e) {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (validateImageFile(file).error) {
+      showToast('يرجى اختيار صورة JPG أو PNG أو WebP أو AVIF بحجم لا يتجاوز 8MB.');
+      e.target.value = '';
+      return;
+    }
     setHeritageImageFile(file);
     setHeritageImagePreview(URL.createObjectURL(file));
   }
@@ -333,9 +339,9 @@ export default function DashboardPage() {
     let imageUrl = 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=400';
 
     if (heritageImageFile) {
-      const fileExt = heritageImageFile.name.split('.').pop();
-      const filePath = `heritage/${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
-      const { error: uploadError } = await supabase.storage.from(IMAGES_BUCKET).upload(filePath, heritageImageFile);
+      const filePath = imageUploadPath('heritage', heritageImageFile);
+      if (!filePath) throw new Error('نوع أو حجم الصورة غير مسموح به.');
+      const { error: uploadError } = await supabase.storage.from(IMAGES_BUCKET).upload(filePath, heritageImageFile, { cacheControl: '3600', upsert: false, contentType: heritageImageFile.type });
       if (uploadError) {
         showToast('تعذر رفع الصورة، حاول مجدداً');
         setUploadingImage(false);

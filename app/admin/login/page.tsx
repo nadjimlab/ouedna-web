@@ -34,9 +34,11 @@ export default function LoginPage() {
         .eq("id", data.user.id)
         .maybeSingle();
       const permissions = profile?.permissions;
-      const hasPermission = profile?.role === "admin" || (
+      const hasPermission = profile?.role === "admin" || profile?.role === "supervisor" || (
         permissions && typeof permissions === "object" &&
-        Object.values(permissions as Record<string, unknown>).some((value) => value === true)
+        ["dashboard", "dashboard_access", "admin", "manage_dashboard", "add_place", "maintenance", "manage_places", "manage_content"].some(
+          (key) => (permissions as Record<string, unknown>)[key] === true,
+        )
       );
 
       if (profileError || !hasPermission) {
