@@ -112,7 +112,7 @@ export const dict = {
 
   // ------- التذييل -------
   footerDesc: {
-    ar: 'المنصة السياحية الرسمية لوادي سوف — دليلك الرقمي لاكتشاف مدينة الألف قبة وقبة.',
+    ar: 'المنصة الرقمية للسياحة بالوادي — دليلك الرقمي لاكتشاف مدينة الألف قبة وقبة.',
     en: 'The official tourism platform for Souf — your digital guide to the City of a Thousand Domes.',
     fr: 'La plateforme touristique officielle de Souf — votre guide numérique de la ville aux mille coupoles.',
   },
@@ -223,7 +223,7 @@ export const dict = {
   kmShort: { ar: 'كم', en: 'km', fr: 'km' },
 
   // ------- الصفحة الرئيسية (Hero) -------
-  homeBadge: { ar: 'المنصة السياحية الرسمية', en: 'The official tourism platform', fr: 'La plateforme touristique officielle' },
+  homeBadge: { ar: 'المنصة الرقمية للسياحة بالوادي', en: 'El Oued Digital Tourism Platform', fr: 'La plateforme numérique du tourisme d’El Oued' },
   homeTitle: { ar: 'وادنا', en: 'Ouedna', fr: 'Ouedna' },
   homeTagline: { ar: 'قلب الصحراء ينبض هنا', en: 'The desert’s heart beats here', fr: 'Ici bat le cœur du désert' },
   homeIntro: {

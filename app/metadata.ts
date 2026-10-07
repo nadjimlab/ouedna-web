@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const siteConfig = {
   title: "وادنا Ouedna | الدليل السياحي الذكي لوادي سوف",
   description:
-    "وادنا منصة سياحية ذكية لاكتشاف معالم ولاية الوادي وواحاتها وأسواقها وتراثها عبر خريطة تفاعلية متكاملة.",
+    "وادنا هو المنصة الرقمية للسياحة بالوادي لاكتشاف معالم الولاية وواحاتها وأسواقها وتراثها عبر خريطة تفاعلية متكاملة.",
   url: "https://myeloued.com",
   ogImage: "/ouedna/ouedna-hero-new.jpg",
   siteName: "وادنا Ouedna",

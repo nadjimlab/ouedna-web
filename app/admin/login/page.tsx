@@ -69,7 +69,7 @@ export default function LoginPage() {
 
       <section className={styles.loginLayout} aria-labelledby="login-title">
         <div className={styles.loginWelcome}>
-          <span className={styles.loginEyebrow}><i /> المنصة السياحية الرسمية</span>
+          <span className={styles.loginEyebrow}><i /> المنصة الرقمية للسياحة بالوادي</span>
           <h1>وادنا<br /><em>قلب الصحراء ينبض هنا.</em></h1>
           <p>مرحباً بك في وادنا، منصتك لاكتشاف كنوز وادي سوف؛ من القباب التاريخية إلى الواحات الخضراء وسط الرمال الذهبية.</p>
           <div className={styles.loginValues}>

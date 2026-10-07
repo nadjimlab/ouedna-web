@@ -20,10 +20,6 @@ const SoufMap = dynamic(() => import('@/components/map/SoufMap'), {
   ),
 });
 
-function MapSeoIntro() {
-  return <header className="app-map-seo-intro"><span>دليل وادنا التفاعلي</span><h1>خريطة الوادي السياحية</h1><p>استكشف معالم الوادي ووادي سوف على الخريطة، ثم افتح تفاصيل المكان أو أضفه إلى خط رحلتك.</p></header>;
-}
-
 function MapContent() {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
@@ -55,7 +51,7 @@ function MapContent() {
 
   if (loading) {
     return (
-      <main className="app-map-page text-white"><MapSeoIntro /><div className="app-map-loading">
+      <main className="app-map-page text-white"><div className="app-map-loading">
         <div className="text-center px-4">
           <div className="w-10 h-10 sm:w-12 sm:h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-sm sm:text-lg">{t('mapLoading')}</p>
@@ -66,7 +62,7 @@ function MapContent() {
 
   return (
     <main className="app-map-page text-white flex flex-col overflow-hidden">
-      <MapSeoIntro /><div className="app-map-shell"><PlatformHeader active="/map" /><div className="app-map-canvas"><SoufMap places={places} embedded initialDestinationQuery={destinationParam} initialPlaceId={placeIdParam} initialLat={Number.isFinite(latParam) ? latParam : null} initialLng={Number.isFinite(lngParam) ? lngParam : null} /></div></div>
+      <div className="app-map-shell"><PlatformHeader active="/map" /><div className="app-map-canvas"><SoufMap places={places} embedded initialDestinationQuery={destinationParam} initialPlaceId={placeIdParam} initialLat={Number.isFinite(latParam) ? latParam : null} initialLng={Number.isFinite(lngParam) ? lngParam : null} /></div></div>
       {error && <div role="alert" className="platform-error-state"><span>{t('mapLoadError')}</span><button type="button" onClick={() => window.location.reload()}>{t('retry')}</button></div>}
     </main>
   );
@@ -77,7 +73,7 @@ export default function MapPage() {
   return (
     <Suspense
       fallback={
-        <main className="app-map-page text-white"><MapSeoIntro /><div className="app-map-loading">{t('mapLoadingShort')}</div></main>
+        <main className="app-map-page text-white"><div className="app-map-loading">{t('mapLoadingShort')}</div></main>
       }
     >
       <MapContent />

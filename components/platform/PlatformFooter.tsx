@@ -29,7 +29,7 @@ export default function PlatformFooter() {
           <a href="mailto:hello@ouedna.dz">{t("contactUs")}</a>
         </nav>
       </div>
-      <div className="platform-footer__bottom"><small>Ouedna · Wadi Souf</small><small>© {new Date().getFullYear()} وادنا. {t("allRightsReserved")}</small></div>
+      <div className="platform-footer__bottom"><small>المنصة الرقمية للسياحة بالوادي</small><small>© {new Date().getFullYear()} وادنا. {t("allRightsReserved")}</small></div>
     </footer>
   );
 }

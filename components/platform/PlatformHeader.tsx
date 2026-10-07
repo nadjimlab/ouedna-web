@@ -30,7 +30,7 @@ export default function PlatformHeader({ active }: { active?: string }) {
           {showBack && <button type="button" className="platform-back-button" onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.href = "/"; }} aria-label={t("back")}><ArrowRight size={18} /></button>}
           <Link href="/" className="platform-brand">
             <span className="platform-brand__mark"><Image src="/ouedna/ouedna-mark-new.png" alt="" width={31} height={31} /></span>
-            <span><strong>وادنا</strong><small>Ouedna · Wadi Souf</small></span>
+            <span><strong>وادنا</strong><small>المنصة الرقمية للسياحة بالوادي</small></span>
           </Link>
           <nav className="platform-nav" aria-label={t("primaryNavigation")}>
             {items.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={active === href ? "is-active" : ""} aria-current={active === href ? "page" : undefined}><Icon size={16} />{t(labelKey)}</Link>)}
