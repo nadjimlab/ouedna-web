@@ -7,11 +7,14 @@ import {
   Marker,
   Tooltip,
   Polyline,
+  ImageOverlay,
+  CircleMarker,
+  Popup,
   useMap,
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Compass, Plus, Minus, LocateFixed, Maximize, Minimize } from 'lucide-react';
+import { Compass, Plus, Minus, LocateFixed, Maximize, Minimize, Layers3, Route as RouteIcon, MapPinned } from 'lucide-react';
 import { Place } from '@/data/places';
 
 /* ============================================================
@@ -233,10 +236,22 @@ function MapControls({
   onLocateUser,
   routeCoordinates,
   defaultCenter,
+  showOfficialMap,
+  showOfficialRoutes,
+  showOfficialPlaces,
+  onToggleOfficialMap,
+  onToggleOfficialRoutes,
+  onToggleOfficialPlaces,
 }: {
   onLocateUser: () => void;
   routeCoordinates: [number, number][];
   defaultCenter: [number, number];
+  showOfficialMap: boolean;
+  showOfficialRoutes: boolean;
+  showOfficialPlaces: boolean;
+  onToggleOfficialMap: () => void;
+  onToggleOfficialRoutes: () => void;
+  onToggleOfficialPlaces: () => void;
 }) {
   const map = useMap();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -314,6 +329,12 @@ function MapControls({
       <button type="button" onClick={handleFullscreen} aria-label="ملء الشاشة" className={ctrlBtnClass}>
         {isFullscreen ? <Minimize size={17} /> : <Maximize size={17} />}
       </button>
+      <div className="soufmap-official-controls" role="group" aria-label="طبقات الخريطة السياحية الرسمية">
+        <div className="soufmap-official-controls__title"><Layers3 size={14} /> طبقات PDF</div>
+        <button type="button" className={showOfficialMap ? 'is-active' : ''} onClick={onToggleOfficialMap}><MapPinned size={13} /> الخريطة الأصلية</button>
+        <button type="button" className={showOfficialRoutes ? 'is-active' : ''} onClick={onToggleOfficialRoutes}><RouteIcon size={13} /> المسارات</button>
+        <button type="button" className={showOfficialPlaces ? 'is-active' : ''} onClick={onToggleOfficialPlaces}><MapPinned size={13} /> الأماكن التقريبية</button>
+      </div>
     </div>
   );
 }
@@ -347,9 +368,48 @@ interface MapProps {
   onRouteStatusChange?: (status: { loading: boolean; error: string | null }) => void;
   onLocateUser?: () => void;
   isNavigating?: boolean;
+  showOfficialMap?: boolean;
+  showOfficialRoutes?: boolean;
+  showOfficialPlaces?: boolean;
+  onToggleOfficialMap?: () => void;
+  onToggleOfficialRoutes?: () => void;
+  onToggleOfficialPlaces?: () => void;
 }
 
 const DEFAULT_CENTER: [number, number] = [33.3683, 6.8667]; // وادي سوف
+
+
+/**
+ * الطبقة الأصلية من الخريطة السياحية الرسمية المرفقة.
+ * الإحداثيات التالية نطاق تقريبي للصورة فقط لأن ملف PDF لا يحتوي على GeoReference.
+ * كل النقاط والمسارات المضافة من مفتاح الخريطة تحمل وسم «تقريبي».
+ */
+const OFFICIAL_MAP_BOUNDS: L.LatLngBoundsExpression = [[33.00, 5.02], [34.18, 7.90]];
+const OFFICIAL_POINTS = [
+  { name: 'مدينة الوادي', position: [33.3683, 6.8667] as [number, number], detail: 'مركز التجمع العمراني الظاهر في الخريطة الأصلية.' },
+  { name: 'قمار', position: [33.49, 6.20] as [number, number], detail: 'موضع تقريبي كما يظهر في الخريطة السياحية.' },
+  { name: 'الرباح', position: [33.20, 6.92] as [number, number], detail: 'موضع تقريبي كما يظهر في الخريطة السياحية.' },
+  { name: 'البياضة', position: [33.25, 6.78] as [number, number], detail: 'موضع تقريبي كما يظهر في الخريطة السياحية.' },
+  { name: 'النخلة', position: [33.26, 6.65] as [number, number], detail: 'موضع تقريبي كما يظهر في الخريطة السياحية.' },
+  { name: 'حاسي خليفة', position: [33.68, 7.23] as [number, number], detail: 'موضع تقريبي كما يظهر في الخريطة السياحية.' },
+];
+const OFFICIAL_ROUTES = [
+  { name: 'المسار الأحمر', color: '#dc2626', positions: [[33.18, 6.02], [33.40, 6.55], [33.36, 6.87], [33.55, 7.10], [33.86, 7.18]] as [number, number][] },
+  { name: 'المسار الأخضر', color: '#16a34a', positions: [[33.18, 6.92], [33.28, 6.84], [33.37, 6.87], [33.55, 7.05], [33.86, 7.45]] as [number, number][] },
+  { name: 'المسار البنفسجي', color: '#a21caf', positions: [[33.05, 5.40], [33.34, 6.05], [33.52, 6.20], [33.83, 6.28], [34.08, 6.12]] as [number, number][] },
+];
+
+function OfficialTouristLayer({ showMap, showRoutes, showPlaces }: { showMap: boolean; showRoutes: boolean; showPlaces: boolean }) {
+  return <>
+    {showMap && <ImageOverlay url="/map/carte-touristique-el-oued-page-2.jpg" bounds={OFFICIAL_MAP_BOUNDS} opacity={0.78} interactive zIndex={1} />}
+    {showRoutes && OFFICIAL_ROUTES.map((route) => <Polyline key={route.name} positions={route.positions} pathOptions={{ color: route.color, weight: 5, opacity: 0.88, dashArray: '10 7' }}>
+      <Popup><strong>{route.name}</strong><br /><small>مسار تقريبي مستخرج من الخريطة الرسمية — ليس مسار ملاحة.</small></Popup>
+    </Polyline>)}
+    {showPlaces && OFFICIAL_POINTS.map((point) => <CircleMarker key={point.name} center={point.position} radius={7} pathOptions={{ color: '#fff', weight: 2, fillColor: '#d49b45', fillOpacity: 1 }}>
+      <Popup><strong>{point.name}</strong><br /><small>{point.detail}</small><br /><small>الإحداثيات تقريبية</small></Popup>
+    </CircleMarker>)}
+  </>;
+}
 
 export default function Map({
   places,
@@ -363,6 +423,12 @@ export default function Map({
   onRouteStatusChange,
   onLocateUser,
   isNavigating = false,
+  showOfficialMap = true,
+  showOfficialRoutes = true,
+  showOfficialPlaces = true,
+  onToggleOfficialMap,
+  onToggleOfficialRoutes,
+  onToggleOfficialPlaces,
 }: MapProps) {
   const [routeCoordinates, setRouteCoordinates] = useState<[number, number][]>([]);
   const routeCacheRef = useRef(new globalThis.Map<string, { coordinates: [number, number][]; info: RouteInfo }>());
@@ -472,6 +538,8 @@ export default function Map({
       attributionControl={true}
     >
       <ApplyMapTheme theme={mapTheme} />
+      <OfficialTouristLayer showMap={showOfficialMap} showRoutes={showOfficialRoutes} showPlaces={showOfficialPlaces} />
+
       <TileLayer
         key={mapTheme}
         attribution={tileAttribution}
@@ -494,6 +562,12 @@ export default function Map({
         onLocateUser={() => onLocateUser && onLocateUser()}
         routeCoordinates={routeCoordinates}
         defaultCenter={defaultCenter}
+        showOfficialMap={showOfficialMap}
+        showOfficialRoutes={showOfficialRoutes}
+        showOfficialPlaces={showOfficialPlaces}
+        onToggleOfficialMap={onToggleOfficialMap || (() => {})}
+        onToggleOfficialRoutes={onToggleOfficialRoutes || (() => {})}
+        onToggleOfficialPlaces={onToggleOfficialPlaces || (() => {})}
       />
 
       {/* خط المسار: طبقة تبطين داكنة + خط أزرق علوي بأسلوب تطبيقات الملاحة */}
