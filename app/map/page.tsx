@@ -21,7 +21,7 @@ const SoufMap = dynamic(() => import('@/components/map/SoufMap'), {
 });
 
 function MapSeoIntro() {
-  return <header className="app-map-seo-intro"><span>دليل وادنا التفاعلي</span><h1>خريطة الوادي السياحية</h1><p>استكشف معالم الوادي ووادي سوف على الخريطة، ثم افتح تفاصيل المكان أو أضفه إلى خط رحلتك.</p><small className="app-map-source-note">الطبقة الأساسية مأخوذة من الخريطة السياحية الرسمية المرفقة. العلامات والمسارات المضافة فوقها تقريبية لعدم توفر إحداثيات جغرافية في ملف PDF.</small><a className="app-map-source-link" href="/map/CarteTouristiqueEl-Oued12-2024_001.pdf" target="_blank" rel="noreferrer">فتح ملف الخريطة الأصلي PDF</a></header>;
+  return <header className="app-map-seo-intro"><span>دليل وادنا التفاعلي</span><h1>خريطة الوادي السياحية</h1><p>استكشف معالم الوادي ووادي سوف على الخريطة، ثم افتح تفاصيل المكان أو أضفه إلى خط رحلتك.</p></header>;
 }
 
 function MapContent() {

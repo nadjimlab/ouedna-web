@@ -136,9 +136,6 @@ function SoufMapInner({
 }) {
   const { dir, t } = useLanguage();
   const [mapTheme, setMapTheme] = useState<'day' | 'night'>('day');
-  const [showOfficialMap, setShowOfficialMap] = useState(true);
-  const [showOfficialRoutes, setShowOfficialRoutes] = useState(true);
-  const [showOfficialPlaces, setShowOfficialPlaces] = useState(true);
   const [travelMode, setTravelMode] = useState<'car' | 'walk' | 'motorcycle'>('car');
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [searchQuery, setSearchQuery] = useState(initialDestinationQuery || '');
@@ -495,12 +492,6 @@ function SoufMapInner({
           onRouteStatusChange={handleRouteStatusChange}
           onLocateUser={handleLocateUser}
           isNavigating={isNavigating}
-          showOfficialMap={showOfficialMap}
-          showOfficialRoutes={showOfficialRoutes}
-          showOfficialPlaces={showOfficialPlaces}
-          onToggleOfficialMap={() => setShowOfficialMap((value) => !value)}
-          onToggleOfficialRoutes={() => setShowOfficialRoutes((value) => !value)}
-          onToggleOfficialPlaces={() => setShowOfficialPlaces((value) => !value)}
         />
 
         {/* ===================== لوحة المسار (يمين على الحاسوب / لوحة سفلية على الجوال) ===================== */}

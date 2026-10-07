@@ -281,18 +281,3 @@
 /* Ouedna premium map layer: preserve Leaflet behavior, unify only the visual chrome. */
 .soufmap-controls,.soufmap-ctrl-group,.soufmap-ctrl-btn{background:rgba(11,61,53,.92);border-color:rgba(214,166,83,.24);color:#fff;box-shadow:0 10px 24px rgba(5,34,30,.25)}.soufmap-ctrl-btn:hover{background:#173b35}.soufmap-tag,.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#0b3d35!important}.soufmap-tag{border-color:rgba(214,166,83,.4)!important}.soufmap-tag::before{border-top-color:#0b3d35!important}.soufmap-user-dot{background:#d6a653}.soufmap-user-car{background:#173b35}.soufmap-user-pulse{background:rgba(214,166,83,.3)}.soufmap-pin{background:#b7772d}.leaflet-control-attribution{background:rgba(11,61,53,.82)!important;color:rgba(255,255,255,.72)!important}.leaflet-control-attribution a{color:#f0c875!important}
 @media(max-width:767px){.soufmap-controls{top:max(12px,env(safe-area-inset-top));bottom:auto}.soufmap-container{padding-bottom:max(84px,env(safe-area-inset-bottom))}}
-
-/* طبقات الخريطة السياحية الأصلية من PDF */
-.soufmap-official-controls { min-width: 184px; margin-top: 2px; padding: 7px; border: 1px solid rgba(214,166,83,.28); border-radius: 14px; color: #fff; background: rgba(11,61,53,.94); box-shadow: 0 10px 24px rgba(5,34,30,.28); backdrop-filter: blur(10px); direction: rtl; }
-.soufmap-official-controls__title { display: flex; align-items: center; gap: 6px; padding: 3px 5px 7px; color: #f0c875; font-size: 10px; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,.1); }
-.soufmap-official-controls button { display: flex; align-items: center; gap: 6px; width: 100%; min-height: 32px; margin-top: 4px; padding: 0 7px; border: 1px solid transparent; border-radius: 8px; color: rgba(255,255,255,.72); background: transparent; font-size: 10px; font-weight: 800; cursor: pointer; text-align: right; }
-.soufmap-official-controls button:hover, .soufmap-official-controls button.is-active { color: #173b35; border-color: rgba(240,200,117,.52); background: #f0c875; }
-.soufmap-official-controls button svg { flex: 0 0 auto; }
-.leaflet-popup-content-wrapper, .leaflet-popup-tip { direction: rtl; }
-.leaflet-popup-content strong { color: #f0c875; }
-@media (max-width: 767px) {
-  .soufmap-official-controls { min-width: 164px; }
-  .soufmap-official-controls button { min-height: 36px; font-size: 9px; }
-}
-.app-map-source-note { display: block; max-width: 760px; margin-top: 12px; color: rgba(255,255,255,.64); font-size: 10px; line-height: 1.8; }
-.app-map-source-link { display: inline-flex; margin-top: 8px; color: #f0c875; font-size: 10px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
