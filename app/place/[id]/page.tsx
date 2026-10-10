@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
+import { cache, type CSSProperties } from "react";
 import Image from "next/image";
 import { ArrowRight, Clock3, Globe2, MapPin, Phone, Star, View } from "lucide-react";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/supabase/public";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import LazyPano360 from "@/components/platform/LazyPano360";
 import LandmarkFrame from "@/components/platform/LandmarkFrame";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 import PlaceDetailActions from "./PlaceDetailActions";
+import ContactActions from "@/components/business/ContactActions";
 import { siteConfig } from "@/app/metadata";
 import TranslatedText from "@/components/platform/TranslatedText";
 
@@ -24,8 +24,8 @@ function images(value: unknown): string[] {
   return [];
 }
 
-async function getPlace(id: string) {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const getPlace = cache(async function getPlace(id: string) {
+  const supabase = createPublicClient(300);
   const { data } = await supabase
     .from("places")
     .select("*")
@@ -49,7 +49,7 @@ async function getPlace(id: string) {
     gallery: (gallery ?? []).map((image) => image.image_url).filter(Boolean),
     related,
   };
-}
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -128,6 +128,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
               <p className="place-detail-description"><TranslatedText text={place.description} fallback="المعلومة قيد التحديث من دليل Ouedna المحلي." /></p>
               <div className="place-detail-rating">{place.rating ? <><Star size={17} fill="currentColor" /> {Number(place.rating).toFixed(1)} <span>التقييم المتاح</span></> : <span>لا توجد تقييمات بعد</span>}</div>
               <PlaceDetailActions id={String(place.id)} name={place.name} />
+              <ContactActions target={{ type: "place", id: place.id }} name={place.name} phone={place.phone} whatsapp={place.whatsapp} website={place.website} lat={typeof place.lat === "number" ? place.lat : null} lng={typeof place.lng === "number" ? place.lng : null} />
               <div className="flex flex-wrap gap-2">
                 <Link className="platform-button platform-button--green place-start-route" href={`/map?placeId=${place.id}&destination=${encodeURIComponent(place.name || "")}`}><MapPin size={17} /> شاهد الموقع على خريطة الوادي</Link>
                 <Link className="platform-button platform-button--outline" href={`/itinerary?placeId=${place.id}`}>أضف المكان إلى خط رحلتك</Link>

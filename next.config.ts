@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
     ],
   },
   async headers() {
+    const ads = Boolean(process.env.NEXT_PUBLIC_ADSENSE_CLIENT);
+    const adScripts = ads ? ' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://www.googletagservices.com' : '';
+    const adFrames = ads ? 'https://googleads.g.doubleclick.net https://*.googlesyndication.com https://tpc.googlesyndication.com' : '';
     const contentSecurityPolicy = [
       "default-src 'self'",
       "base-uri 'self'",
@@ -20,11 +23,12 @@ const nextConfig: NextConfig = {
       "frame-ancestors 'none'",
       "form-action 'self'",
       "img-src 'self' data: blob: https://cwbenhuiextfoiyfboxo.supabase.co https://images.unsplash.com https://*.tile.openstreetmap.org https://*.basemaps.cartocdn.com https://*.arcgisonline.com https://*.tile.openstreetmap.de",
-      "script-src 'self' 'unsafe-inline'",
+      `script-src 'self' 'unsafe-inline'${adScripts}`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "connect-src 'self' https://cwbenhuiextfoiyfboxo.supabase.co https://routing.openstreetmap.de https://router.project-osrm.org https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://*.tile.openstreetmap.org",
       "worker-src 'self' blob:",
+      ...(ads ? [`frame-src ${adFrames}`] : []),
       "manifest-src 'self'",
       'upgrade-insecure-requests',
     ].join('; ');

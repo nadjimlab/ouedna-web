@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, MapPin, Route, Sparkles } from "lucide-react";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/supabase/public";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import HomeHero from "@/components/home/HomeHero";
 import { siteConfig } from "@/app/metadata";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 
 export const dynamic = "force-dynamic";
 
@@ -36,7 +35,7 @@ function firstImage(value: unknown) {
 
 async function getFeaturedPlaces(): Promise<FeaturedPlace[]> {
   try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = createPublicClient(300);
     const { data } = await supabase
       .from("places")
       .select("id,name,description,main_category,municipality,address,image_url")

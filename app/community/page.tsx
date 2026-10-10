@@ -1,8 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/supabase/public";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import CommunityClient from "./CommunityClient";
 import PageHero from "@/components/platform/PageHero";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/app/metadata";
 
@@ -14,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 async function getExperiences() {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabase = createPublicClient(60);
   const { data } = await supabase.from("testimonials").select("id,name,message,photos,created_at").eq("status", "approved").order("created_at", { ascending: false }).limit(30);
   return data || [];
 }

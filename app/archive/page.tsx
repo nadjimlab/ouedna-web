@@ -1,7 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/supabase/public";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import ArchiveClient from "./ArchiveClient";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/app/metadata";
 
@@ -25,7 +24,7 @@ function imageList(value: unknown): string[] {
 function uniqueImages(...values: unknown[]) { return Array.from(new Set(values.flatMap(imageList))); }
 
 async function getMemories() {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabase = createPublicClient(600);
   const [{ data: memories, error: memoriesError }, { data: heritage, error: heritageError }] = await Promise.all([
     supabase.from("old_memories").select("id,image_url,gallery,caption,year,created_at").order("created_at", { ascending: false }),
     supabase.from("heritage").select("id,image,gallery,title,text,year,created_at").order("created_at", { ascending: false }),

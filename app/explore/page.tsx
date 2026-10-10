@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/supabase/public";
 import AppExploreClient from "./AppExploreClient";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import { siteConfig } from "@/app/metadata";
 
@@ -25,7 +24,7 @@ const excludedPublicCategories = new Set(["مرافق صحية", "صحي", "طب
 
 export default async function ExplorePage() {
   const loadPlaces = async () => {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = createPublicClient(300);
     const { data, error } = await supabase
       .from("places")
       // The public schema uses main_category; category is not a column in places.

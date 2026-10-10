@@ -36,7 +36,7 @@ const EMPTY_RELEASE_CONFIG = {
   release_notes: '',
 };
 const EMPTY_RELEASE_NOTIFICATION = { title: '', body: '' };
-const EMPTY_AGENCY_FORM = { name: '', description: '', municipality: '', address: '', phone: '', website: '', map_link: '', image_url: '', status: 'active' };
+const EMPTY_AGENCY_FORM = { name: '', description: '', municipality: '', address: '', phone: '', whatsapp: '', website: '', map_link: '', image_url: '', status: 'active' };
 
 const IconChevron = ({ open }) => (
   <svg className={`mr-auto transition-transform duration-300 ${open ? 'rotate-180' : ''}`} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -389,7 +389,8 @@ export default function DashboardPage() {
       showToast('أدخل اسم الوكالة أولاً');
       return;
     }
-    const payload = Object.fromEntries(Object.entries(agencyForm).map(([key, value]) => [key, value.trim ? value.trim() : value]));
+    const payload = Object.fromEntries(Object.entries(agencyForm).map(([key, value]) => [key, value && value.trim ? value.trim() : value]));
+    if (!payload.whatsapp) delete payload.whatsapp; // column is added by supabase/monetization.sql
     const query = editingAgencyId
       ? supabase.from('tourism_agencies').update(payload).eq('id', editingAgencyId).select().single()
       : supabase.from('tourism_agencies').insert(payload).select().single();
@@ -623,7 +624,7 @@ export default function DashboardPage() {
               <div className="grid grid-cols-1 xl:grid-cols-[0.85fr_1.4fr] gap-6 items-start">
                 <form onSubmit={saveAgency} className="admin-surface rounded-2xl p-6 space-y-4">
                   <div><h2 className="text-lg font-black text-[#0F172A]">{editingAgencyId ? 'تعديل الوكالة' : 'إضافة وكالة جديدة'}</h2><p className="text-xs text-[#64748B] mt-1">الحقول الأساسية تكفي للبدء، ويمكن استكمال الروابط لاحقاً.</p></div>
-                  {[['name', 'اسم الوكالة', true], ['municipality', 'البلدية'], ['address', 'العنوان'], ['phone', 'رقم الهاتف'], ['website', 'الموقع الإلكتروني'], ['map_link', 'رابط خرائط Google'], ['image_url', 'رابط الصورة']].map(([key, label, required]) => <label key={key} className="block"><span className="mb-1.5 block text-xs font-black text-[#64748B]">{label}</span><input required={required} value={agencyForm[key]} onChange={(e) => setAgencyForm((current) => ({ ...current, [key]: e.target.value }))} className="admin-input" /></label>)}
+                  {[['name', 'اسم الوكالة', true], ['municipality', 'البلدية'], ['address', 'العنوان'], ['phone', 'رقم الهاتف'], ['whatsapp', 'رقم واتساب (اختياري)'], ['website', 'الموقع الإلكتروني'], ['map_link', 'رابط خرائط Google'], ['image_url', 'رابط الصورة']].map(([key, label, required]) => <label key={key} className="block"><span className="mb-1.5 block text-xs font-black text-[#64748B]">{label}</span><input required={required} value={agencyForm[key]} onChange={(e) => setAgencyForm((current) => ({ ...current, [key]: e.target.value }))} className="admin-input" /></label>)}
                   <label className="block"><span className="mb-1.5 block text-xs font-black text-[#64748B]">وصف مختصر</span><textarea rows="3" value={agencyForm.description} onChange={(e) => setAgencyForm((current) => ({ ...current, description: e.target.value }))} className="admin-input resize-y" /></label>
                   <label className="block"><span className="mb-1.5 block text-xs font-black text-[#64748B]">الحالة</span><select value={agencyForm.status} onChange={(e) => setAgencyForm((current) => ({ ...current, status: e.target.value }))} className="admin-input"><option value="active">نشطة ومنشورة</option><option value="draft">مسودة</option><option value="archived">مؤرشفة</option></select></label>
                   <div className="flex gap-3 pt-2"><button type="submit" className="admin-primary-button flex-1">{editingAgencyId ? 'حفظ التعديلات' : 'إضافة الوكالة'}</button>{editingAgencyId && <button type="button" onClick={resetAgencyForm} className="admin-secondary-button">إلغاء</button>}</div>

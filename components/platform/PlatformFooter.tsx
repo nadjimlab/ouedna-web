@@ -25,6 +25,8 @@ export default function PlatformFooter() {
         </div>
         <nav className="platform-footer__links" aria-label={t("footerNavigation")}>
           {links.map(([href, labelKey, Icon]) => <Link href={href} key={href}><Icon size={15} />{t(labelKey)}</Link>)}
+          <Link href="/agencies">الوكالات والشركاء</Link>
+          <Link href="/advertise">أعلن معنا</Link>
           <Link href="/privacy">{t("privacy")}</Link>
           <a href="mailto:hello@ouedna.dz">{t("contactUs")}</a>
         </nav>

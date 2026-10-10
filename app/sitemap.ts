@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/supabase/public";
 import { siteConfig } from "@/app/metadata";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 
 export const revalidate = 3600;
 
@@ -15,6 +14,8 @@ const publicRoutes = [
   ["/about", "monthly", 0.5],
   ["/download", "monthly", 0.5],
   ["/guide", "monthly", 0.5],
+  ["/agencies", "weekly", 0.6],
+  ["/advertise", "monthly", 0.4],
   ["/privacy", "yearly", 0.2],
 ] as const;
 const excludedPublicCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
@@ -27,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   try {
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = createPublicClient(3600);
     const { data: places, error } = await supabase
       .from("places")
       .select("id,created_at,main_category")

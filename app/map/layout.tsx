@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/supabase/public";
 import { pageMetadata } from "@/app/metadata";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 
 export const metadata: Metadata = pageMetadata({
   title: "خريطة الوادي السياحية | خريطة وادي سوف | وادنا",
@@ -13,7 +12,7 @@ export const metadata: Metadata = pageMetadata({
 export const revalidate = 3600;
 
 async function getMapPlaces() {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabase = createPublicClient(3600);
   const { data } = await supabase.from("places").select("id,name,municipality,main_category").eq("status", "منشور").order("id", { ascending: false }).limit(12);
   return data ?? [];
 }

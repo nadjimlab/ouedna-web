@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicClient } from "@/lib/supabase/public";
 import PlatformFrame from "@/components/platform/PlatformFrame";
 import VirtualTour, { type Stop } from "@/components/vr/VirtualTour";
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 import { pageMetadata } from "@/app/metadata";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +21,7 @@ function urls(value: unknown): string[] {
 }
 
 async function loadStops(): Promise<Stop[]> {
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabase = createPublicClient(300);
   const { data } = await supabase
     .from("places")
     .select("id,name,description,main_category,municipality,address,image_url,virtual_tour_url")
