@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Compass, MapPinned, Route } from "lucide-react";
 import PlatformFrame from "@/components/platform/PlatformFrame";
+import { LanguageProvider } from "@/lib/i18n";
 
 const quickLinks = [
   ["/explore", "استكشف المعالم"],
@@ -11,7 +12,8 @@ const quickLinks = [
 
 export default function NotFound() {
   return (
-    <PlatformFrame>
+    <LanguageProvider>
+      <PlatformFrame>
       <section className="platform-not-found" aria-labelledby="not-found-title">
         <div className="platform-not-found__inner">
           <div className="platform-not-found__mark" aria-hidden="true">⌁</div>
@@ -29,6 +31,7 @@ export default function NotFound() {
           </nav>
         </div>
       </section>
-    </PlatformFrame>
+      </PlatformFrame>
+    </LanguageProvider>
   );
 }

@@ -2,13 +2,16 @@
 import type { ReactNode } from "react";
 import PlatformFooter from "./PlatformFooter";
 import PlatformHeader from "./PlatformHeader";
+import { LanguageProvider } from "@/lib/i18n";
 
 export default function PlatformFrame({ children, active, immersive = false }: { children: ReactNode; active?: string; immersive?: boolean }) {
   return (
-    <div className={`platform-shell${immersive ? " platform-shell--immersive" : ""}`}>
-      {!immersive && <PlatformHeader active={active} />}
-      <main className="platform-main">{children}</main>
-      {!immersive && <PlatformFooter />}
-    </div>
+    <LanguageProvider>
+      <div className={`platform-shell${immersive ? " platform-shell--immersive" : ""}`}>
+        {!immersive && <PlatformHeader active={active} />}
+        <main className="platform-main">{children}</main>
+        {!immersive && <PlatformFooter />}
+      </div>
+    </LanguageProvider>
   );
 }
