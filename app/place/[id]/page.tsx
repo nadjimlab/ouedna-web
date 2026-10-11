@@ -40,14 +40,7 @@ async function getPlace(id: string) {
     .eq("id", Number(id))
     .eq("status", "منشور")
     .maybeSingle();
-  if (!data || excludedPublicCategories.has(data.category || data.main_category || "")) return null;
-  const { data: gallery } = await supabase
-    .from("gallery")
-    .select("image_url,is_cover")
-    .eq("place_id", data.id)
-    .order("is_cover", { ascending: false })
-    .limit(30);
-  return { ...data, gallery: (gallery || []).map((item) => item.image_url).filter(Boolean) };
+  return data && !excludedPublicCategories.has(data.category || data.main_category || "") ? data : null;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
