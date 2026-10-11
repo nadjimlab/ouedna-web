@@ -78,23 +78,20 @@ async function RelatedPlaces({ id, mainCategory, municipality }: { id: number; m
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const place = await getPlace(id);
-  if (!place) notFound();
-  const title = `${place.name} | وادنا Ouedna — وادي سوف`;
-  const description = place.description || `اكتشف تفاصيل ${place.name} وموقعه ضمن دليل وادنا السياحي في ولاية الوادي.`;
-  const image = images(place.image_url)[0] || place.gallery[0] || `${siteConfig.url}/ouedna/local-architecture.webp`;
-  const imageUrl = image.startsWith("http") ? image : `${siteConfig.url}${image.startsWith("/") ? image : `/${image}`}`;
+  const title = `تفاصيل المعلم ${id} | وادنا Ouedna — وادي سوف`;
+  const description = "اكتشف تفاصيل المعالم السياحية المنشورة في ولاية الوادي عبر منصة وادنا الرقمية.";
+  const imageUrl = `${siteConfig.url}/ouedna/local-architecture.webp`;
   return {
     title,
     description,
-    alternates: { canonical: `${siteConfig.url}/place/${place.id}` },
+    alternates: { canonical: `${siteConfig.url}/place/${id}` },
     openGraph: {
       type: "article",
       title,
       description,
-      url: `${siteConfig.url}/place/${place.id}`,
+      url: `${siteConfig.url}/place/${id}`,
       siteName: siteConfig.siteName,
-      images: [{ url: imageUrl, alt: String(place.name) }],
+      images: [{ url: imageUrl, alt: "منصة وادنا الرقمية للسياحة بالوادي" }],
     },
     twitter: { card: "summary_large_image", title, description, images: [imageUrl] },
   };
