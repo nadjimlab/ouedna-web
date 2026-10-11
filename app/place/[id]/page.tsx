@@ -15,12 +15,17 @@ import TranslatedText from "@/components/platform/TranslatedText";
 
 export const dynamic = "force-dynamic";
 
-const excludedPublicCategories = new Set(["مرافق صحية", "صحي", "طبي", "مستشفيات"]);
 type RelatedPlace = { id: number; name: string; main_category?: string | null; municipality?: string | null; image_url?: unknown };
 
 function images(value: unknown): string[] {
   if (Array.isArray(value)) return value.map(String).filter(Boolean);
-  if (typeof value === "string") return value.replace(/[\[\]"']/g, "").split(",").map((item) => item.trim()).filter(Boolean);
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) return parsed.map(String).filter(Boolean);
+    } catch { /* Legacy comma-separated values are handled below. */ }
+    return value.replace(/[\[\]"']/g, "").split(",").map((item) => item.trim()).filter(Boolean);
+  }
   return [];
 }
 
@@ -39,7 +44,7 @@ const getPlace = cache(async function getPlace(id: string) {
     console.error("تعذر تحميل المعلم من Supabase:", error.message);
     return null;
   }
-  if (!data || excludedPublicCategories.has(data.main_category || "")) return null;
+  if (!data) return null;
 
   const { data: gallery } = await supabase
     .from("gallery")
@@ -65,7 +70,6 @@ const getRelatedPlaces = cache(async function getRelatedPlaces(id: number, mainC
     .limit(40);
 
   return ((candidates ?? []) as RelatedPlace[])
-    .filter((candidate) => !excludedPublicCategories.has(candidate.main_category || ""))
     .filter((candidate) => candidate.main_category === mainCategory || candidate.municipality === municipality)
     .slice(0, 4);
 });
@@ -73,14 +77,15 @@ const getRelatedPlaces = cache(async function getRelatedPlaces(id: number, mainC
 async function RelatedPlaces({ id, mainCategory, municipality }: { id: number; mainCategory?: string | null; municipality?: string | null }) {
   const relatedPlaces = await getRelatedPlaces(id, mainCategory, municipality);
   if (!relatedPlaces.length) return null;
-  return <section className="mt-12" aria-labelledby="related-places-title"><div className="platform-section-heading"><span className="platform-eyebrow"><i />اكتشاف قريب</span><h2 id="related-places-title">أماكن مرتبطة في وادي سوف</h2><p>استكشف معالم أخرى منشورة تشترك في الموقع أو التصنيف مع هذا المكان.</p></div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{relatedPlaces.map((related) => <Link href={`/place/${related.id}`} key={related.id} className="platform-place-card"><div className="platform-place-card__body"><strong>{related.name}</strong><small>{related.municipality || related.main_category || "ولاية الوادي"}</small><span>عرض تفاصيل المعلم <ArrowRight size={14} /></span></div></Link>)}</div></section>;
+  return <section className="place-related-section" aria-labelledby="related-places-title"><div className="platform-section-heading"><span className="platform-eyebrow"><i />اكتشاف قريب</span><h2 id="related-places-title">أماكن مرتبطة في وادي سوف</h2><p>استكشف أماكن أخرى منشورة تشترك في الموقع أو التصنيف مع هذا المكان.</p></div><div className="place-related-grid">{relatedPlaces.map((related) => { const relatedImage = images(related.image_url)[0]; return <Link href={`/place/${related.id}`} key={related.id} className="place-related-card"><div className="place-related-card__image">{relatedImage ? <Image src={relatedImage} alt="" fill sizes="(max-width: 700px) 50vw, 25vw" unoptimized /> : <div className="place-related-card__fallback" aria-hidden="true" />}</div><div className="place-related-card__body"><strong>{related.name}</strong><small>{related.municipality || related.main_category || "ولاية الوادي"}</small><span>عرض التفاصيل <ArrowRight size={14} /></span></div></Link>; })}</div></section>;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const title = `تفاصيل المعلم ${id} | وادنا Ouedna — وادي سوف`;
-  const description = "اكتشف تفاصيل المعالم السياحية المنشورة في ولاية الوادي عبر منصة وادنا الرقمية.";
-  const imageUrl = `${siteConfig.url}/ouedna/local-architecture.webp`;
+  const place = await getPlace(id);
+  const title = place ? `${place.name} | وادنا Ouedna — وادي سوف` : `تفاصيل المعلم ${id} | وادنا Ouedna — وادي سوف`;
+  const description = place?.description || "اكتشف تفاصيل المعالم والأماكن المنشورة في ولاية الوادي عبر منصة وادنا الرقمية.";
+  const imageUrl = place ? (images(place.image_url)[0] || `${siteConfig.url}/ouedna/local-architecture.webp`) : `${siteConfig.url}/ouedna/local-architecture.webp`;
   return {
     title,
     description,
@@ -157,7 +162,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          {gallery.length > 1 ? <div className="place-detail-gallery"><strong className="place-detail-gallery__title">صور {place.name} في وادي سوف</strong>{gallery.slice(1, 5).map((image) => <Image key={image} src={image} alt={`${place.name} — ${place.municipality || place.address || "ولاية الوادي"}`} width={640} height={420} sizes="(max-width: 700px) 100vw, 25vw" loading="lazy" unoptimized />)}</div> : null}
+          {gallery.length > 1 ? <div className="place-detail-gallery"><strong className="place-detail-gallery__title">صور {place.name} في وادي سوف</strong>{gallery.slice(1, 5).map((image) => <a className="place-detail-gallery__item" key={image} href={image} target="_blank" rel="noopener noreferrer"><Image src={image} alt={`${place.name} — ${place.municipality || place.address || "ولاية الوادي"}`} width={640} height={420} sizes="(max-width: 700px) 100vw, 25vw" loading="lazy" unoptimized /></a>)}</div> : null}
           {place.virtual_tour_url ? <div className="place-detail-tour"><div className="place-detail-tour__label"><View size={15} /> جولة افتراضية 360° داخل <TranslatedText text={place.name} /></div><LazyPano360 src={place.virtual_tour_url} title={place.name} /></div> : null}
 
           <div className="place-detail-info-grid">

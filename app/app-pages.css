@@ -315,3 +315,36 @@
   .place-detail-page--immersive .place-detail-info-grid strong{font-size:10px}
   .place-detail-page--immersive .place-detail-info-grid p{font-size:9px;line-height:1.65}
 }
+
+
+/* Shared related-place cards: real imagery when available, calm fallback when not. */
+.place-detail-gallery__item{display:block;min-width:0;overflow:hidden;border-radius:14px;background:#e8eee6;outline:none}
+.place-detail-gallery__item:focus-visible{box-shadow:0 0 0 3px #f0c976}
+.place-detail-gallery__item img{display:block;width:100%;height:150px;object-fit:cover}
+.place-related-section{margin-top:48px;padding-top:42px;border-top:1px solid rgba(224,190,116,.2)}
+.place-related-section .platform-section-heading{display:block;margin-bottom:22px}
+.place-related-section .platform-section-heading h2{margin:10px 0 8px;color:#f5d483;font:900 clamp(25px,3vw,42px)/1.3 "Noto Kufi Arabic",sans-serif}
+.place-related-section .platform-section-heading p{max-width:560px;margin:0;color:rgba(239,246,236,.68);font-size:13px;line-height:1.9}
+.place-related-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.place-related-card{min-width:0;overflow:hidden;border:1px solid rgba(224,190,116,.2);border-radius:18px;color:#fff;background:rgba(255,255,255,.07);transition:transform .25s ease,border-color .25s ease,background .25s ease}
+.place-related-card:hover{transform:translateY(-5px);border-color:rgba(240,201,118,.65);background:rgba(255,255,255,.11)}
+.place-related-card__image{position:relative;height:145px;overflow:hidden;background:#0b3029}
+.place-related-card__image img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+.place-related-card:hover .place-related-card__image img{transform:scale(1.06)}
+.place-related-card__fallback{width:100%;height:100%;background:radial-gradient(circle at 25% 25%,rgba(240,201,118,.5),transparent 2px),linear-gradient(145deg,#17483d,#071f1b);background-size:34px 34px,auto}
+.place-related-card__body{padding:14px}
+.place-related-card__body strong,.place-related-card__body small,.place-related-card__body span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.place-related-card__body strong{color:#fff;font:800 13px/1.6 "Noto Kufi Arabic",sans-serif}
+.place-related-card__body small{margin-top:4px;color:rgba(239,246,236,.64);font-size:10px}
+.place-related-card__body span{display:flex;align-items:center;gap:5px;margin-top:13px;color:#f0c976;font-size:10px;font-weight:800}
+@media(max-width:900px){.place-related-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+  .place-detail-page--immersive .place-detail-gallery__item img{height:105px}
+  .place-related-section{margin-top:32px;padding-top:28px}
+  .place-related-grid{gap:8px}
+  .place-related-card{border-radius:14px}
+  .place-related-card__image{height:112px}
+  .place-related-card__body{padding:10px}
+  .place-related-card__body strong{font-size:10px}
+  .place-related-card__body span{margin-top:9px;font-size:9px}
+}
