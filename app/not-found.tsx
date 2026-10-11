@@ -1,23 +1,34 @@
 import Link from "next/link";
+import { ArrowLeft, Compass, MapPinned, Route } from "lucide-react";
+import PlatformFrame from "@/components/platform/PlatformFrame";
+
+const quickLinks = [
+  ["/explore", "استكشف المعالم"],
+  ["/map", "الخريطة التفاعلية"],
+  ["/itinerary", "خطط رحلتك"],
+  ["/archive", "ذاكرة الوادي"],
+] as const;
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0b121f] px-4 text-center">
-      <div className="w-full max-w-md rounded-[28px] border border-white/10 bg-[#141c2c]/90 p-8 shadow-2xl">
-        <h2 className="text-4xl font-black text-orange-500">404</h2>
-        <p className="mt-2 text-lg font-semibold text-white">الصفحة غير موجودة</p>
-        <p className="mt-3 text-sm leading-6 text-gray-300">
-          يبدو أن الصفحة التي تبحث عنها غير موجودة أو تم نقلها. يمكنك العودة إلى الصفحة الرئيسية لاستكشاف المزيد.
-        </p>
-        <div className="mt-8">
-          <Link
-            href="/"
-            className="inline-flex rounded-full bg-orange-500 px-6 py-3 text-sm font-bold text-[#0b121f] transition hover:bg-orange-600"
-          >
-            العودة للرئيسية
-          </Link>
+    <PlatformFrame>
+      <section className="platform-not-found" aria-labelledby="not-found-title">
+        <div className="platform-not-found__inner">
+          <div className="platform-not-found__mark" aria-hidden="true">⌁</div>
+          <span className="platform-not-found__code">404 · OUEDNA</span>
+          <h1 id="not-found-title">هذه الصفحة لم تعد على الخريطة</h1>
+          <p>يبدو أن الرابط تغيّر أو أن المكان الذي تبحث عنه غير متاح حالياً. ابدأ من إحدى الوجهات الأساسية واكتشف وادي سوف من جديد.</p>
+          <div className="platform-not-found__actions">
+            <Link href="/" className="platform-button platform-button--green"><ArrowLeft size={17} /> العودة للرئيسية</Link>
+            <Link href="/explore" className="platform-button platform-button--outline"><Compass size={17} /> ابدأ الاستكشاف</Link>
+          </div>
+          <nav className="platform-not-found__links" aria-label="مسارات سريعة">
+            <Link href="/map"><MapPinned size={14} /> الخريطة</Link>
+            <Link href="/itinerary"><Route size={14} /> خط الرحلة</Link>
+            {quickLinks.slice(3).map(([href, label]) => <Link href={href} key={href}>{label}</Link>)}
+          </nav>
         </div>
-      </div>
-    </div>
+      </section>
+    </PlatformFrame>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
-// Ouedna platform header: language and direction are driven by the shared provider.
-import { ArrowRight, Compass, Globe2, History, Home, MapPinned, MessageCircle, Route, View } from "lucide-react";
+import { ArrowRight, ChevronDown, Compass, Globe2, History, Home, MapPinned, MessageCircle, Route, View, Heart, BookOpen, Download, Info } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { type DictKey, useLanguage } from "@/lib/i18n";
@@ -9,19 +8,32 @@ import PwaInstallButton from "./PwaInstallButton";
 
 type NavItem = readonly [href: string, labelKey: DictKey, icon: typeof Compass];
 
+const primaryItems: NavItem[] = [
+  ["/", "home", Home],
+  ["/explore", "explore", Compass],
+  ["/map", "map", MapPinned],
+  ["/itinerary", "itinerary", Route],
+];
+
+const moreItems: NavItem[] = [
+  ["/archive", "archive", History],
+  ["/community", "community", MessageCircle],
+  ["/virtual-tour", "vrTour", View],
+  ["/favorites", "favorites", Heart],
+  ["/guide", "guide", BookOpen],
+  ["/about", "about", Info],
+  ["/download", "downloadApp", Download],
+];
+
+function isActivePath(active: string | undefined, href: string) {
+  return active === href || (href !== "/" && Boolean(active?.startsWith(`${href}/`)));
+}
+
 export default function PlatformHeader({ active }: { active?: string }) {
   const { lang, setLang, t } = useLanguage();
   const showBack = Boolean(active && active !== "/");
-  const items: NavItem[] = [
-    ["/", "home", Home],
-    ["/explore", "explore", Compass],
-    ["/map", "map", MapPinned],
-    ["/itinerary", "itinerary", Route],
-    ["/archive", "archive", History],
-    ["/community", "community", MessageCircle],
-    ["/virtual-tour", "vrTour", View],
-  ];
-  const mobileItems: NavItem[] = items.filter(([href]) => ["/", "/explore", "/map", "/itinerary", "/community"].includes(href));
+  const moreIsActive = moreItems.some(([href]) => isActivePath(active, href));
+  const mobileItems: NavItem[] = [...primaryItems, ["/archive", "archive", History]];
 
   return (
     <>
@@ -33,7 +45,13 @@ export default function PlatformHeader({ active }: { active?: string }) {
             <span><strong>وادنا</strong><small>المنصة الرقمية للسياحة بالوادي</small></span>
           </Link>
           <nav className="platform-nav" aria-label={t("primaryNavigation")}>
-            {items.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={active === href ? "is-active" : ""} aria-current={active === href ? "page" : undefined}><Icon size={16} />{t(labelKey)}</Link>)}
+            {primaryItems.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={isActivePath(active, href) ? "is-active" : ""} aria-current={isActivePath(active, href) ? "page" : undefined}><Icon size={16} />{t(labelKey)}</Link>)}
+            <details className={`platform-nav-more${moreIsActive ? " is-active" : ""}`}>
+              <summary><ChevronDown size={15} />المزيد</summary>
+              <div className="platform-nav-more__menu">
+                {moreItems.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={isActivePath(active, href) ? "is-active" : ""} aria-current={isActivePath(active, href) ? "page" : undefined}><Icon size={15} />{t(labelKey)}</Link>)}
+              </div>
+            </details>
           </nav>
           <div className="platform-header__actions">
             <label className="platform-language" aria-label={t("language")}>
@@ -47,7 +65,7 @@ export default function PlatformHeader({ active }: { active?: string }) {
         </div>
       </header>
       <nav className="platform-mobile-nav" aria-label={t("primaryNavigation")}>
-        {mobileItems.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={active === href ? "is-active" : ""} aria-current={active === href ? "page" : undefined}><Icon size={19} /><span>{t(labelKey)}</span></Link>)}
+        {mobileItems.map(([href, labelKey, Icon]) => <Link key={href} href={href} className={isActivePath(active, href) ? "is-active" : ""} aria-current={isActivePath(active, href) ? "page" : undefined}><Icon size={19} /><span>{t(labelKey)}</span></Link>)}
       </nav>
     </>
   );

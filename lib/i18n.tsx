@@ -30,6 +30,8 @@ export const dict = {
   community: { ar: 'المجتمع', en: 'Community', fr: 'Communauté' },
   favorites: { ar: 'المفضلة', en: 'Favorites', fr: 'Favoris' },
   downloadApp: { ar: 'حمّل التطبيق', en: 'Download app', fr: "Télécharger l'application" },
+  guide: { ar: 'الدليل السياحي', en: 'Travel guide', fr: 'Guide touristique' },
+  about: { ar: 'عن وادنا', en: 'About Ouedna', fr: 'À propos de Ouedna' },
   events: { ar: 'الفعاليات', en: 'Events', fr: 'Événements' },
   restaurants: { ar: 'المطاعم', en: 'Restaurants', fr: 'Restaurants' },
   hotels: { ar: 'الفنادق', en: 'Hotels', fr: 'Hôtels' },

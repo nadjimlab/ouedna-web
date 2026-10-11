@@ -143,3 +143,29 @@
 .suggest-place-identity .platform-form-grid input::placeholder { color: #a4afa7; }
 .suggest-place-identity .platform-form-grid input:focus { border-color: var(--amber); background: #fff; }
 @media (max-width: 700px) { .suggest-place-identity { margin-inline: -2px; padding: 16px 13px; }.suggest-place-identity .platform-form-section-heading > b { display: none; }.suggest-place-identity__hint { font-size: 10px; } }
+
+
+/* Navigation grouping: keep the first visit focused on discovery, map, and planning. */
+.platform-nav-more { position: relative; }
+.platform-nav-more > summary { display: inline-flex; align-items: center; gap: 6px; padding: 10px 13px; border-radius: 11px; color: var(--muted); font-size: 12px; font-weight: 800; cursor: pointer; list-style: none; transition: color .2s ease, background .2s ease; }
+.platform-nav-more > summary::-webkit-details-marker { display: none; }
+.platform-nav-more > summary:hover, .platform-nav-more.is-active > summary { color: var(--green); background: #fff; }
+.platform-nav-more[open] > summary svg { transform: rotate(180deg); }
+.platform-nav-more__menu { position: absolute; z-index: 20; top: calc(100% + 9px); inset-inline-end: 0; display: grid; min-width: 190px; padding: 7px; border: 1px solid rgba(14,75,66,.11); border-radius: 15px; background: rgba(255,255,255,.98); box-shadow: 0 18px 36px rgba(14,75,66,.14); }
+.platform-nav-more__menu a { display: flex; align-items: center; gap: 8px; padding: 10px 11px; border-radius: 10px; color: var(--muted); font-size: 11px; font-weight: 800; }
+.platform-nav-more__menu a:hover, .platform-nav-more__menu a.is-active { color: var(--green); background: var(--green-soft); }
+.platform-nav-more__menu a.is-active { box-shadow: inset 3px 0 var(--amber); }
+
+/* A calm, useful 404 instead of a detached generic error card. */
+.platform-not-found { min-height: calc(100vh - 82px); display: grid; place-items: center; padding: 70px 24px 110px; background: radial-gradient(circle at 18% 18%, #e6f0e8 0 17%, transparent 38%), linear-gradient(135deg, #fbf5e9, var(--ivory)); }
+.platform-not-found__inner { width: min(760px, 100%); text-align: center; }
+.platform-not-found__mark { display: grid; place-items: center; width: 86px; height: 86px; margin: 0 auto 24px; border: 1px solid #cddfce; border-radius: 28px 28px 28px 44px; color: var(--green); background: #e7f0e8; font: 900 26px "DM Sans", sans-serif; transform: rotate(-6deg); box-shadow: 0 16px 30px rgba(14,75,66,.08); }
+.platform-not-found__code { display: block; color: var(--amber); font: 800 12px "DM Sans", sans-serif; letter-spacing: .18em; direction: ltr; }
+.platform-not-found h1 { margin: 14px 0 14px; color: var(--green); font: 900 clamp(34px, 5vw, 56px)/1.3 "Noto Kufi Arabic", sans-serif; letter-spacing: -.06em; }
+.platform-not-found p { max-width: 500px; margin: 0 auto; color: var(--muted); font-size: 15px; line-height: 2; }
+.platform-not-found__actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 11px; margin-top: 30px; }
+.platform-not-found__links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 20px; margin-top: 38px; padding-top: 20px; border-top: 1px solid var(--line); }
+.platform-not-found__links a { display: inline-flex; align-items: center; gap: 5px; color: var(--green); font-size: 12px; font-weight: 800; }
+.platform-not-found__links a:hover { color: var(--amber); }
+@media(max-width:900px) { .platform-nav { gap: 0; } .platform-nav > a, .platform-nav-more > summary { padding-inline: 9px; } }
+@media(max-width:700px) { .platform-not-found { min-height: calc(100vh - 70px); padding: 55px 20px 100px; } .platform-not-found__mark { width: 72px; height: 72px; border-radius: 23px 23px 23px 37px; } .platform-not-found h1 { font-size: 34px; } .platform-not-found p { font-size: 14px; } }
