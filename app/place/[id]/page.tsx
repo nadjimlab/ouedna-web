@@ -31,7 +31,7 @@ const getPlace = cache(async function getPlace(id: string) {
   const supabase = createPublicClient(0);
   const { data, error } = await supabase
     .from("places")
-    .select("id,name,description,main_category,municipality,address,image_url,rating,lat,lng,phone,whatsapp,website,opening_hours,virtual_tour_url")
+    .select("id,name,description,main_category,municipality,address,image_url,rating,lat,lng,phone,website,opening_hours,virtual_tour_url")
     .eq("id", numericId)
     .eq("status", "منشور")
     .maybeSingle();
@@ -152,7 +152,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
               <p className="place-detail-description"><TranslatedText text={place.description} fallback="المعلومة قيد التحديث من دليل Ouedna المحلي." /></p>
               <div className="place-detail-rating">{place.rating ? <><Star size={17} fill="currentColor" /> {Number(place.rating).toFixed(1)} <span>التقييم المتاح</span></> : <span>لا توجد تقييمات بعد</span>}</div>
               <PlaceDetailActions id={String(place.id)} name={place.name} />
-              <ContactActions target={{ type: "place", id: place.id }} name={place.name} phone={place.phone} whatsapp={place.whatsapp} website={place.website} lat={typeof place.lat === "number" ? place.lat : null} lng={typeof place.lng === "number" ? place.lng : null} />
+              <ContactActions target={{ type: "place", id: place.id }} name={place.name} phone={place.phone} whatsapp={null} website={place.website} lat={typeof place.lat === "number" ? place.lat : null} lng={typeof place.lng === "number" ? place.lng : null} />
               <div className="flex flex-wrap gap-2">
                 <Link className="platform-button platform-button--green place-start-route" href={`/map?placeId=${place.id}&destination=${encodeURIComponent(place.name || "")}`}><MapPin size={17} /> شاهد الموقع على خريطة الوادي</Link>
                 <Link className="platform-button platform-button--outline" href={`/itinerary?placeId=${place.id}`}>أضف المكان إلى خط رحلتك</Link>
