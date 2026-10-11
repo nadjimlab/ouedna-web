@@ -2,20 +2,21 @@ import { createClient } from "@supabase/supabase-js";
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from "./config";
 
 /**
- * Anonymous Supabase client for Server Components that read PUBLIC data.
+ * Anonymous Supabase client for Server Components that read public data.
  *
- * The root layout reads a language cookie, which makes every page dynamic, so
- * route-level ISR is not available. Instead each Supabase REST call goes
- * through Next's data cache: identical queries are served from cache for
- * `revalidate` seconds, which removes most database traffic on busy pages.
- * Call `revalidateTag("supabase")` (e.g. from an admin route) to purge it.
+ * Public landmark data must remain fresh after an admin publishes or edits a
+ * place. Positive values use Next's data cache; zero disables it completely.
  */
 export function createPublicClient(revalidate = 300) {
   return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: {
-      fetch: (input, init) =>
-        fetch(input, { ...init, next: { revalidate, tags: ["supabase"] } } as RequestInit),
+      fetch: (input, init) => {
+        const cacheOptions = revalidate > 0
+          ? { next: { revalidate, tags: ["supabase"] } }
+          : { cache: "no-store" as const };
+        return fetch(input, { ...init, ...cacheOptions } as RequestInit);
+      },
     },
   });
 }

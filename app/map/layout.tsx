@@ -9,10 +9,11 @@ export const metadata: Metadata = pageMetadata({
   path: "/map",
 });
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 async function getMapPlaces() {
-  const supabase = createPublicClient(3600);
+  const supabase = createPublicClient(0);
   const { data } = await supabase.from("places").select("id,name,municipality,main_category").eq("status", "منشور").order("id", { ascending: false }).limit(12);
   return data ?? [];
 }

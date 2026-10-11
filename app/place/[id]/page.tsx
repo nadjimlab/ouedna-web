@@ -25,13 +25,20 @@ function images(value: unknown): string[] {
 }
 
 const getPlace = cache(async function getPlace(id: string) {
-  const supabase = createPublicClient(300);
-  const { data } = await supabase
+  const numericId = Number(id);
+  if (!Number.isInteger(numericId) || numericId <= 0) return null;
+
+  const supabase = createPublicClient(0);
+  const { data, error } = await supabase
     .from("places")
-    .select("id,name,description,category,main_category,municipality,address,image_url,rating,lat,lng,phone,whatsapp,website,opening_hours,virtual_tour_url")
-    .eq("id", Number(id))
+.select("id,name,description,category,main_category,municipality,address,image_url,rating,lat,lng,phone,whatsapp,website,opening_hours,virtual_tour_url")
+    .eq("id", numericId)
     .eq("status", "منشور")
     .maybeSingle();
+  if (error) {
+    console.error("تعذر تحميل المعلم من Supabase:", error.message);
+    return null;
+  }
   if (!data || excludedPublicCategories.has(data.category || data.main_category || "")) return null;
 
   const { data: gallery } = await supabase
