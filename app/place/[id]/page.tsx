@@ -23,6 +23,15 @@ function images(value: unknown) {
   return Array.from(new Set(values.filter(Boolean)));
 }
 
+function placeImages(place: Record<string, unknown>) {
+  return Array.from(new Set([
+    ...images(place.image_url),
+    ...images(place.gallery),
+    ...images(place.images),
+    ...images(place.photos),
+  ]));
+}
+
 async function getPlace(id: string) {
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const { data } = await supabase
@@ -44,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     title,
     description,
     alternates: { canonical: `${siteConfig.url}/place/${place.id}` },
-    openGraph: { type: "article", title, description, url: `${siteConfig.url}/place/${place.id}`, images: [{ url: images(place.image_url)[0] || `${siteConfig.url}/ouedna/local-architecture.webp`, alt: String(place.name) }] },
+    openGraph: { type: "article", title, description, url: `${siteConfig.url}/place/${place.id}`, images: [{ url: placeImages(place)[0] || `${siteConfig.url}/ouedna/local-architecture.webp`, alt: String(place.name) }] },
     twitter: { card: "summary_large_image", title, description },
   };
 }
@@ -54,7 +63,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
   const place = await getPlace(id);
   if (!place) notFound();
 
-  const gallery = images(place.image_url);
+  const gallery = placeImages(place);
   const hero = gallery[0] || "/ouedna/local-architecture.webp";
   const location = place.municipality || place.address || "ولاية الوادي";
   const mapUrl = `/map?placeId=${place.id}&destination=${encodeURIComponent(place.name || "")}`;
