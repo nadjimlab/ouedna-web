@@ -14,8 +14,16 @@ export async function GET(
     return new NextResponse('Invalid tile coordinates', { status: 400 });
   }
 
+  const zoom = Number(z);
+  const tileX = Number(x);
+  const tileY = Number(cleanY);
+  const maxTile = 2 ** zoom - 1;
+  if (zoom > 19 || tileX > maxTile || tileY > maxTile) {
+    return new NextResponse('Invalid tile coordinates', { status: 400 });
+  }
+
   const subdomains = ['a', 'b', 'c'];
-  const sub = subdomains[Math.abs(parseInt(cleanY, 10)) % subdomains.length];
+  const sub = subdomains[tileY % subdomains.length];
   const osmUrl = `https://${sub}.tile.openstreetmap.org/${z}/${x}/${cleanY}.png`;
 
   try {

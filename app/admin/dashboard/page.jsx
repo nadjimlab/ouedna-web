@@ -9,8 +9,7 @@ import AddPlaceForm from '@/components/map/admin/AddPlaceForm';
 import EditPlaceForm from '@/components/map/admin/EditPlaceForm';
 import { imageUploadPath, validateImageFile } from '@/lib/validation/upload';
 
-/* غيّر هذا المسار إذا كانت صفحة تسجيل الدخول عندك في مكان آخر */
-const LOGIN_PATH = '/login';
+const LOGIN_PATH = '/admin/login';
 /* اسم bucket تخزين الصور في Supabase Storage */
 const IMAGES_BUCKET = 'images';
 
@@ -25,7 +24,7 @@ const SITE_STATUS_MAP = {
   maintenance: { text: 'تحت الصيانة', badge: 'bg-[#FFFBEB] text-[#B45309] border border-[#FDE68A]' },
 };
 
-const EMPTY_ADMIN_FORM = { name: '', email: '', role: 'مشرف', active: true };
+const EMPTY_ADMIN_FORM = { name: '', email: '', role: 'supervisor', active: true };
 const EMPTY_HERITAGE_FORM = { title: '', image: '', text: '' };
 const EMPTY_RELEASE_CONFIG = {
   latest_version: '',
@@ -99,8 +98,14 @@ export default function DashboardPage() {
     const { data: pData, error: pErr } = await supabase.from('places').select('*').order('id', { ascending: false }).limit(500);
     if (!pErr) { setPlaces(pData || []); setDbOnline(true); } else { setDbOnline(false); }
 
-    const { data: aData } = await supabase.from('admins').select('*').limit(200);
-    if (aData) setAdmins(aData);
+    const { data: aData } = await supabase.from('admin_profiles').select('id,email,full_name,role').order('created_at', { ascending: false }).limit(200);
+    if (aData) setAdmins(aData.map((profile) => ({
+      id: profile.id,
+      name: profile.full_name || 'مشرف Ouedna',
+      email: profile.email,
+      role: profile.role === 'admin' ? 'مدير' : 'مشرف',
+      active: true,
+    })));
 
     const { data: hData } = await supabase.from('heritage').select('*').order('id', { ascending: false }).limit(200);
     if (hData) setHeritageItems(hData);
@@ -304,13 +309,40 @@ export default function DashboardPage() {
 
   async function submitAdminForm(e) {
     e.preventDefault();
-    const { data, error } = await supabase.from('admins').insert([adminForm]).select();
-    if (!error && data) {
-      setAdmins(prev => [...prev, data[0]]);
+    const response = await fetch('/api/admin/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(adminForm),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (response.ok && result?.id) {
+      setAdmins(prev => [...prev, {
+        id: result.id,
+        name: result.name,
+        email: result.email,
+        role: result.role === 'admin' ? 'مدير' : 'مشرف',
+        active: result.active !== false,
+      }]);
       showToast('تم اعتماد المشرف الجديد بنجاح');
       setShowAdminForm(false);
       setAdminForm(EMPTY_ADMIN_FORM);
-    } else showToast('خطأ في النظام أثناء الإضافة');
+    } else showToast(result?.error || 'خطأ في النظام أثناء الإضافة');
+  }
+
+  async function deleteAdmin(admin) {
+    if (!window.confirm(`سيتم تعطيل حساب ${admin.name || admin.email}. هل تريد المتابعة؟`)) return;
+    const response = await fetch('/api/admin/users', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: admin.id }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (response.ok) {
+      setAdmins(prev => prev.filter((item) => item.id !== admin.id));
+      showToast('تم تعطيل حساب المشرف وإزالة صلاحياته');
+    } else {
+      showToast(result?.error || 'تعذر تعطيل حساب المشرف');
+    }
   }
 
   function handleHeritageImageChange(e) {
@@ -956,7 +988,7 @@ export default function DashboardPage() {
                             <span className={`px-4 py-1.5 rounded-md text-xs font-black border ${a.active ? 'bg-[#ECFDF5] text-[#065F46] border-[#A7F3D0]' : 'bg-[#F1F5F9] text-[#64748B] border-[#E2E8F0]'}`}>{a.active ? 'نشط' : 'موقوف'}</span>
                           </td>
                           <td className="p-5 text-left">
-                            <button onClick={() => deleteItem('admins', a.id, setAdmins)} className="text-[#DC2626] bg-[#FEF2F2] hover:bg-[#FEE2E2] px-4 py-1.5 rounded-md text-xs font-bold transition-colors">إزالة</button>
+                            <button onClick={() => deleteAdmin(a)} className="text-[#DC2626] bg-[#FEF2F2] hover:bg-[#FEE2E2] px-4 py-1.5 rounded-md text-xs font-bold transition-colors">تعطيل</button>
                           </td>
                         </tr>
                       ))}
@@ -983,9 +1015,8 @@ export default function DashboardPage() {
                     <div>
                       <label className="block text-xs font-bold text-[#64748B] mb-1.5">الصلاحية</label>
                       <select value={adminForm.role} onChange={(e) => setAdminForm(f => ({ ...f, role: e.target.value }))} className="w-full border border-[#E2E8F0] rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4AF37]">
-                        <option value="مشرف">مشرف</option>
-                        <option value="محرر">محرر</option>
-                        <option value="مدير">مدير</option>
+                        <option value="supervisor">مشرف</option>
+                        <option value="admin">مدير</option>
                       </select>
                     </div>
 

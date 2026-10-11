@@ -13,7 +13,7 @@ const PRECACHE = [
 ];
 
 function isPrivatePath(pathname) {
-  return /^\/(admin|api|auth|account|profile|settings|login|logout)(\/|$)/i.test(pathname)
+  return /^\/(admin|api|auth|account|profile|settings|login|logout|_next)(\/|$)/i.test(pathname)
     || pathname === "/maintenance";
 }
 
