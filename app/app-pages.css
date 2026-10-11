@@ -348,3 +348,62 @@
   .place-related-card__body strong{font-size:10px}
   .place-related-card__body span{margin-top:9px;font-size:9px}
 }
+
+
+/* Accessibility contrast fix — scoped to landmark detail pages only. */
+.place-detail-page--immersive{
+  --detail-bg:#F8FAF7;
+  --detail-card:#FFFFFF;
+  --detail-title:#123C32;
+  --detail-body:#26332F;
+  --detail-muted:#58665F;
+  --detail-button:#176B50;
+  --detail-gold:#C49A35;
+}
+/* Keep the hero cinematic: white text is used only over its guaranteed dark overlay. */
+.place-detail-page--immersive .place-detail-hero__image:before{background:linear-gradient(90deg,rgba(7,31,27,.98) 0%,rgba(7,31,27,.86) 35%,rgba(7,31,27,.38) 72%,rgba(7,31,27,.18) 100%)}
+.place-detail-page--immersive .place-detail-hero__image:after{background:linear-gradient(0deg,rgba(3,19,16,.96) 0%,rgba(3,19,16,.08) 54%,rgba(3,19,16,.18) 100%)}
+.place-detail-page--immersive .place-detail-hero__copy h1{color:#fff!important}
+.place-detail-page--immersive .place-detail-hero__copy .platform-eyebrow{color:#f8d889}
+.place-detail-page--immersive .place-detail-location{color:#f4dfad}
+.place-detail-page--immersive .place-detail-description{color:#f4f7f1}
+.place-detail-page--immersive .place-detail-rating{color:#5b4310;background:#fff5d7;border-color:#d9b85f}
+.place-detail-page--immersive .place-detail-rating span{color:#58665F}
+.place-detail-page--immersive .place-detail-actions .place-share-button,.place-detail-page--immersive .place-detail-actions .platform-button--outline{color:#fff;border-color:rgba(255,255,255,.58);background:rgba(7,31,27,.72)}
+.place-detail-page--immersive .place-start-route{background:#176B50!important;color:#fff!important;border-color:#176B50!important}
+.place-detail-page--immersive .place-start-route svg{color:#fff}
+/* All content cards below the hero use a light surface with dark readable text. */
+.place-detail-page--immersive .place-detail-gallery,
+.place-detail-page--immersive .place-detail-tour,
+.place-detail-page--immersive .place-detail-info-grid article,
+.place-detail-page--immersive .place-detail-note{
+  border-color:#D9E5DF!important;
+  background:#FFFFFF!important;
+  color:#26332F;
+  box-shadow:0 14px 34px rgba(18,60,50,.09)!important;
+}
+.place-detail-page--immersive .place-detail-gallery__title,
+.place-detail-page--immersive .place-detail-tour__label{color:#123C32!important}
+.place-detail-page--immersive .place-detail-gallery__title::before{background:#C49A35;box-shadow:0 0 0 5px rgba(196,154,53,.16)}
+.place-detail-page--immersive .place-detail-gallery__item{background:#F8FAF7}
+.place-detail-page--immersive .place-detail-gallery img{border-color:#D9E5DF}
+.place-detail-page--immersive .place-detail-info-grid article>svg{color:#C49A35}
+.place-detail-page--immersive .place-detail-info-grid strong{color:#123C32!important}
+.place-detail-page--immersive .place-detail-info-grid p{color:#58665F!important}
+.place-detail-page--immersive .place-detail-info-grid a{color:#176B50!important;font-weight:800}
+.place-detail-page--immersive .place-detail-note strong{color:#123C32!important}
+.place-detail-page--immersive .place-detail-note p{color:#58665F!important}
+.place-detail-page--immersive .place-detail-note .platform-text-link{color:#176B50!important}
+/* Related places is a light editorial panel, so its typography never relies on opacity. */
+.place-detail-page--immersive .place-related-section{padding:30px;border:1px solid #D9E5DF;border-radius:24px;background:#F8FAF7}
+.place-detail-page--immersive .place-related-section .platform-section-heading h2{color:#123C32}
+.place-detail-page--immersive .place-related-section .platform-section-heading p{color:#58665F}
+.place-detail-page--immersive .place-related-card{border-color:#D9E5DF;color:#26332F;background:#FFFFFF;box-shadow:0 8px 20px rgba(18,60,50,.07)}
+.place-detail-page--immersive .place-related-card:hover{border-color:#C49A35;background:#FFFFFF}
+.place-detail-page--immersive .place-related-card__body strong{color:#123C32}
+.place-detail-page--immersive .place-related-card__body small{color:#58665F}
+.place-detail-page--immersive .place-related-card__body span{color:#176B50}
+@media(max-width:700px){
+  .place-detail-page--immersive .place-related-section{padding:18px;border-radius:18px}
+  .place-detail-page--immersive .place-detail-info-grid p{font-size:10px;line-height:1.75}
+}
