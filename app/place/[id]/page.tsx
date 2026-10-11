@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { cache, type CSSProperties } from "react";
+import { cache, Suspense, type CSSProperties } from "react";
 import Image from "next/image";
 import { ArrowRight, Clock3, Globe2, MapPin, Phone, Star, View } from "lucide-react";
 import { createPublicClient } from "@/lib/supabase/public";
@@ -28,28 +28,46 @@ const getPlace = cache(async function getPlace(id: string) {
   const supabase = createPublicClient(300);
   const { data } = await supabase
     .from("places")
-    .select("*")
+    .select("id,name,description,category,main_category,municipality,address,image_url,rating,lat,lng,phone,whatsapp,website,opening_hours,virtual_tour_url")
     .eq("id", Number(id))
     .eq("status", "منشور")
     .maybeSingle();
   if (!data || excludedPublicCategories.has(data.category || data.main_category || "")) return null;
 
-  const [{ data: gallery }, { data: candidates }] = await Promise.all([
-    supabase.from("gallery").select("image_url,is_cover").eq("place_id", data.id).order("is_cover", { ascending: false }).limit(12),
-    supabase.from("places").select("id,name,main_category,municipality,image_url").eq("status", "منشور").neq("id", data.id).order("id", { ascending: false }).limit(80),
-  ]);
-
-  const related: RelatedPlace[] = ((candidates ?? []) as RelatedPlace[])
-    .filter((candidate) => !excludedPublicCategories.has(candidate.main_category || ""))
-    .filter((candidate) => candidate.main_category === data.main_category || candidate.municipality === data.municipality)
-    .slice(0, 4);
+  const { data: gallery } = await supabase
+    .from("gallery")
+    .select("image_url,is_cover")
+    .eq("place_id", data.id)
+    .order("is_cover", { ascending: false })
+    .limit(8);
 
   return {
     ...data,
     gallery: (gallery ?? []).map((image) => image.image_url).filter(Boolean),
-    related,
   };
 });
+
+const getRelatedPlaces = cache(async function getRelatedPlaces(id: number, mainCategory?: string | null, municipality?: string | null) {
+  const supabase = createPublicClient(300);
+  const { data: candidates } = await supabase
+    .from("places")
+    .select("id,name,main_category,municipality,image_url")
+    .eq("status", "منشور")
+    .neq("id", id)
+    .order("id", { ascending: false })
+    .limit(40);
+
+  return ((candidates ?? []) as RelatedPlace[])
+    .filter((candidate) => !excludedPublicCategories.has(candidate.main_category || ""))
+    .filter((candidate) => candidate.main_category === mainCategory || candidate.municipality === municipality)
+    .slice(0, 4);
+});
+
+async function RelatedPlaces({ id, mainCategory, municipality }: { id: number; mainCategory?: string | null; municipality?: string | null }) {
+  const relatedPlaces = await getRelatedPlaces(id, mainCategory, municipality);
+  if (!relatedPlaces.length) return null;
+  return <section className="mt-12" aria-labelledby="related-places-title"><div className="platform-section-heading"><span className="platform-eyebrow"><i />اكتشاف قريب</span><h2 id="related-places-title">أماكن مرتبطة في وادي سوف</h2><p>استكشف معالم أخرى منشورة تشترك في الموقع أو التصنيف مع هذا المكان.</p></div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{relatedPlaces.map((related) => <Link href={`/place/${related.id}`} key={related.id} className="platform-place-card"><div className="platform-place-card__body"><strong>{related.name}</strong><small>{related.municipality || related.main_category || "ولاية الوادي"}</small><span>عرض تفاصيل المعلم <ArrowRight size={14} /></span></div></Link>)}</div></section>;
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -83,7 +101,6 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
   const gallery = [...new Set([...images(place.image_url), ...images(place.gallery)])];
   const hero = gallery[0] || "/ouedna/local-architecture.webp";
   const placeBackground = hero.replace(/"/g, '\\"');
-  const relatedPlaces = (Array.isArray(place.related) ? place.related : []) as RelatedPlace[];
   const placeUrl = `${siteConfig.url}/place/${place.id}`;
   const schema = {
     "@context": "https://schema.org",
@@ -146,7 +163,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
             <article><Globe2 size={20} /><div><strong>البيانات</strong><p>معلومة منشورة من قاعدة Ouedna</p></div></article>
           </div>
 
-          {relatedPlaces.length ? <section className="mt-12" aria-labelledby="related-places-title"><div className="platform-section-heading"><span className="platform-eyebrow"><i />اكتشاف قريب</span><h2 id="related-places-title">أماكن مرتبطة في وادي سوف</h2><p>استكشف معالم أخرى منشورة تشترك في الموقع أو التصنيف مع هذا المكان.</p></div><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{relatedPlaces.map((related) => <Link href={`/place/${related.id}`} key={related.id} className="platform-place-card"><div className="platform-place-card__body"><strong>{related.name}</strong><small>{related.municipality || related.main_category || "ولاية الوادي"}</small><span>عرض تفاصيل المعلم <ArrowRight size={14} /></span></div></Link>)}</div></section> : null}
+          <Suspense fallback={null}><RelatedPlaces id={place.id} mainCategory={place.main_category} municipality={place.municipality} /></Suspense>
 
           <div className="place-detail-note"><strong>تحتاج مساعدة؟</strong><p>شارك ملاحظة عن هذا المكان من صفحة المجتمع، أو اقترح تعديلاً لفريق الإدارة.</p><Link className="platform-text-link" href="/community">شارك تجربة حقيقية عن وادي سوف <ArrowRight size={14} /></Link></div>
         </div>

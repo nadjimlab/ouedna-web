@@ -2,6 +2,7 @@
 
 import { ArrowLeft, Archive, Compass, Heart, Images, MapPin, MapPinned, Plus, Search, SlidersHorizontal, Star, View, Route } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import LandmarkFrame from "@/components/platform/LandmarkFrame";
 import { useMemo, useState } from "react";
 import { useLanguage } from "@/lib/i18n";
@@ -52,7 +53,7 @@ export default function AppExploreClient({ places, dataError = "" }: { places: P
 
   return <main className="app-explore-redesign">
     <section className="app-explore-welcome">
-      <div className="app-explore-welcome__image" aria-hidden="true" />
+      <Image src="/ouedna/ouedna-hero-new.jpg" alt="" fill priority sizes="100vw" className="app-explore-welcome__image" />
       <div className="app-explore-welcome__veil" />
       <div className="platform-container app-explore-welcome__content">
         <span className="app-explore-welcome__brand"><span className="app-explore-welcome__mark">✦</span> {t("exploreBrand")}</span>

@@ -19,7 +19,7 @@ function FallbackArt({ hidden = false }: { hidden?: boolean }) {
 
 export default function LandmarkFrame({ src, alt, variant = "card", category, tour, index, children }: LandmarkFrameProps) {
   return <div className={`landmark-frame landmark-frame--${variant}`}>
-    <div className="landmark-frame__art">{src ? <img src={src} alt={alt} loading={variant === "feature" ? "eager" : "lazy"} onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.nextElementSibling?.classList.remove("is-hidden"); }} /> : null}<FallbackArt hidden={Boolean(src)} /><span className="landmark-frame__gold-line" /></div>
+    <div className="landmark-frame__art">{src ? <img src={src} alt={alt} width={640} height={420} loading={variant === "feature" ? "eager" : "lazy"} fetchPriority={variant === "feature" ? "high" : "auto"} decoding="async" onError={(event) => { event.currentTarget.style.display = "none"; event.currentTarget.nextElementSibling?.classList.remove("is-hidden"); }} /> : null}<FallbackArt hidden={Boolean(src)} /><span className="landmark-frame__gold-line" /></div>
     {category ? <span className="landmark-frame__category">{category}</span> : null}
     {tour ? <span className="landmark-frame__tour"><View size={12} /> 360°</span> : null}
     {typeof index === "number" ? <span className="landmark-frame__index">{String(index + 1).padStart(2, "0")}</span> : null}
