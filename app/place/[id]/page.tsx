@@ -31,7 +31,7 @@ const getPlace = cache(async function getPlace(id: string) {
   const supabase = createPublicClient(0);
   const { data, error } = await supabase
     .from("places")
-.select("id,name,description,category,main_category,municipality,address,image_url,rating,lat,lng,phone,whatsapp,website,opening_hours,virtual_tour_url")
+    .select("id,name,description,main_category,municipality,address,image_url,rating,lat,lng,phone,whatsapp,website,opening_hours,virtual_tour_url")
     .eq("id", numericId)
     .eq("status", "منشور")
     .maybeSingle();
@@ -39,7 +39,7 @@ const getPlace = cache(async function getPlace(id: string) {
     console.error("تعذر تحميل المعلم من Supabase:", error.message);
     return null;
   }
-  if (!data || excludedPublicCategories.has(data.category || data.main_category || "")) return null;
+  if (!data || excludedPublicCategories.has(data.main_category || "")) return null;
 
   const { data: gallery } = await supabase
     .from("gallery")
@@ -144,7 +144,7 @@ export default async function PlacePage({ params }: { params: Promise<{ id: stri
           <Link className="platform-back-link" href="/explore"><ArrowRight size={16} /> العودة إلى دليل المعالم</Link>
 
           <div className="place-detail-hero">
-            <div className="place-detail-hero__image"><LandmarkFrame src={hero} alt={`${place.name} — ${place.municipality || place.address || "ولاية الوادي"}`} variant="feature" category={place.category || place.main_category || "معلم سياحي"} tour={Boolean(place.virtual_tour_url)} /></div>
+            <div className="place-detail-hero__image"><LandmarkFrame src={hero} alt={`${place.name} — ${place.municipality || place.address || "ولاية الوادي"}`} variant="feature" category={place.main_category || "معلم سياحي"} tour={Boolean(place.virtual_tour_url)} /></div>
             <div className="place-detail-hero__copy">
               <span className="platform-eyebrow"><i />تفاصيل معلم في وادي سوف</span>
               <h1><TranslatedText text={place.name} /></h1>
